@@ -1,42 +1,75 @@
-<div class="dashboard">
-  <div class="dashboard__banner">
-    <h1>{{ "PAGES.DASHBOARD.YOUR_PROJECTS" | translate }}</h1>
-    <div>
-      <button mat-button (click)="openCreateModal()">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button
-        mat-button
-        [matBadge]="invitationNumber"
-        routerLink="/invitations"
-      >
-        <mat-icon>person</mat-icon>
-      </button>
+<div class="projects">
+  <ng-container *ngIf="projects$ | async as data; else loading">
+    <div class="projects__filters">
+      <span>Filtro</span>
+      <div class="projects__filters__section">
+        <span>Ordenado</span>
+        <div class="projects__filters__section__list">
+          <div class="projects__filters__section__list__option">
+            <app-checkbox></app-checkbox>
+            <span>Por fecha de creación</span>
+          </div>
+          <div class="projects__filters__section__list__option">
+            <app-checkbox></app-checkbox>
+            <span>Alfabético</span>
+          </div>
+          <div class="projects__filters__section__list__option">
+            <app-checkbox></app-checkbox>
+            <span>Reciente</span>
+          </div>
+        </div>
+      </div>
+      <div class="projects__filters__section">
+        <span>Tipo</span>
+        <div class="projects__filters__section__list">
+          <div class="projects__filters__section__list__option">
+            <app-checkbox></app-checkbox>
+            <span>Original</span>
+          </div>
+          <div class="projects__filters__section__list__option">
+            <app-checkbox></app-checkbox>
+            <span>Ramificación</span>
+          </div>
+        </div>
+      </div>
+      <div class="projects__filters__section">
+        <span>Seleccionar</span>
+        <div class="projects__filters__section__actions">
+          <button>Todo</button>
+          <button>Deselección</button>
+        </div>
+      </div>
+      <div class="projects__filters__section">
+        <span>Borrar</span>
+        <div class="projects__filters__section__actions">
+          <button>Selección</button>
+          <button>Filtros</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div
-    *ngIf="projects"
-    infiniteScroll
-    [maxItems]="maxProjects"
-    [itemsPerPage]="20"
-    [currentItems]="projects.length"
-    (newPageNeeded)="getProjects($event)"
-    class="dashboard__body"
-  >
-    <div class="dashboard__body__items" *ngIf="projects?.length">
-      <app-project-card
-        (delete)="openDeleteModal(project)"
-        (edit)="openCreateModal(project)"
-        (contract)="openContractPage(project)"
-        [project]="project"
-        *ngFor="let project of projects"
-      ></app-project-card>
-    </div>
-    <div class="dashboard__body__empty" *ngIf="projects?.length === 0">
-      <h4>{{ "PAGES.DASHBOARD.NO_PROJECTS" | translate }}</h4>
-      <button (click)="openCreateModal()" mat-button>
-        {{ "PAGES.DASHBOARD.CREATE_PROJECT" | translate }}
-      </button>
-    </div>
-  </div>
+    <ng-container *ngIf="data.total; else empty">
+      <div class="projects__list">
+        <div class="projects__list__grid">
+          <app-project-card
+            *ngFor="let project of data.projects"
+            [project]="project"
+            (edit)="openCreateModal(project)"
+            (delete)="openDeleteModal(project)"
+          ></app-project-card>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
 </div>
+
+<ng-template #empty>
+  <div class="empty">
+    <img alt="no projects" src="assets/images/no-projects.svg" />
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
+</ng-template>

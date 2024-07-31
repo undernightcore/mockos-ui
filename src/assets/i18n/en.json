@@ -32,6 +32,7 @@
   },
   "PAGES": {
     "HOME": {
+      "TITLE": "Home",
       "FOR_YOUR_API": "for your API",
       "NO_CODE_NO_CONF": "without code or config files",
       "DESCRIPTION": "Mockos is a useful and practical tool for developers looking to test their applications with custom API mocks, in a collaborative way and without the need to install anything on their computer.",

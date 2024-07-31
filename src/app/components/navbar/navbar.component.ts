@@ -3,34 +3,25 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import {AppManagerService} from "../../services/app/app-manager.service";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-  isLogged? = false;
+export class NavbarComponent {
+  isLogged$ = this.authService.isLogged;
+  headerData$ = this.appManager.headerData$;
+
   languages = this.translateService.getLangs();
-  subscription = new Subscription();
 
   constructor(
+    private appManager: AppManagerService,
     private authService: AuthService,
     private router: Router,
     public translateService: TranslateService
   ) {}
-
-  ngOnInit() {
-    this.subscription.add(
-      this.authService.isLogged.subscribe((status) => {
-        this.isLogged = status;
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   changeLanguage(language: string) {
     this.translateService.use(language);

@@ -5,6 +5,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #131218;
 }
 
 @media (max-width: 1000px) {
@@ -16,7 +17,7 @@ body {
 }
 
 .mat-progress-spinner circle, .mat-spinner circle {
-  stroke: var(--main-color) !important;
+  stroke: white !important;
 }
 
 .custom-tooltip {

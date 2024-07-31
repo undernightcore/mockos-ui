@@ -1,25 +1,17 @@
-<mat-toolbar class="navbar">
-  <div class="navbar__info">
-    <img src="assets/icons/drop.svg" /><span routerLink="/">mockos.</span>
-    <button mat-button [mat-menu-trigger-for]="menu">
-      <mat-icon>language</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button
-        *ngFor="let language of languages"
-        (click)="changeLanguage(language)"
-        mat-menu-item
-      >
-        {{ language }}
-      </button>
-    </mat-menu>
+<div class="navbar">
+  <div class="navbar__inner">
+    <img alt="mockos logo" src="assets/logo.svg" />
   </div>
-  <div *ngIf="isLogged !== undefined" class="navbar__actions">
-    <button *ngIf="isLogged" [routerLink]="'/user'" mat-button>
-      <mat-icon>person</mat-icon>
-    </button>
-    <button (click)=" isLogged ? logOut() : logIn()" mat-button>
-      <mat-icon>{{ isLogged ? "logout" : "login" }}</mat-icon>
-    </button>
+  <div *ngIf="headerData$ | async as data" class="navbar__breadcrumb">
+    <ng-container *ngFor="let item of data.breadcrumb; let last = last">
+      <span [class.link]="item.link" [routerLink]="item.link">{{
+        item.label | translate
+      }}</span>
+      <img
+        *ngIf="!last"
+        alt="left arrow"
+        src="assets/images/icons/left-arrow.svg"
+      />
+    </ng-container>
   </div>
-</mat-toolbar>
+</div>
