@@ -1,8 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 body {
-  --main-color: #00BFA6;
-  --alt-color: #F2D492;
+  --main-color: #00bfa6;
+  --alt-color: #f2d492;
   --main-font: "Helvetica Neue", sans-serif;
-  --disabled-color: #DCDCDC;
+  --disabled-color: #dcdcdc;
   --soft-gray: #f5f5f5;
   --featured-color: #046865;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-track {
+  background-color: #646464;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #000;
+}
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background-color: #666;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #646464;
+}
+::-webkit-resizer {
+  background-color: #666;
 }

@@ -18,6 +18,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { InfiniteScrollModule } from '../../directives/infinite-scroll/infinite-scroll.module';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CheckboxModule } from '../../components/checkbox/checkbox.module';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {CdkMenuModule} from "@angular/cdk/menu";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -41,6 +46,11 @@ import { MatChipsModule } from '@angular/material/chips';
     MatBadgeModule,
     InfiniteScrollModule,
     MatChipsModule,
+    MatCheckboxModule,
+    CheckboxModule,
+    MatProgressSpinnerModule,
+    CdkMenuModule,
+    MatMenuModule,
   ],
 })
 export class ProjectsModule {}
