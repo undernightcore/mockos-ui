@@ -17,7 +17,7 @@ export class ProjectModalComponent {
   constructor(
     public dialogRef: MatDialogRef<ProjectModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { message?: string; project?: ProjectInterface }
+    public data: { project?: ProjectInterface }
   ) {}
 
   handleSave() {

@@ -67,8 +67,10 @@
     "DASHBOARD": {
       "YOUR_PROJECTS": "Tus proyectos",
       "DESCRIPTION_NOT_FOUND": "No hay descripción disponible",
-      "DELETE_PROJECT": "¿Estás seguro de que quieres eliminar {{project}}?",
+      "DELETE_PROJECT": "Eliminar {{project}}",
+      "DELETE_PROJECT_MULTIPLE": "Eliminar proyectos seleccionados",
       "DELETE_PROJECT_MESSAGE": "Esta acción no se puede revertir",
+      "DELETE_PROJECT_MESSAGE_MULTIPLE": "Los proyectos seleccionados incluyen: {{projects}}. Esta acción es irreversible. ¿Estás seguro?",
       "CREATE_PROJECT": "Crear proyecto",
       "EDIT_PROJECT": "Editar proyecto",
       "PROJECT_CREATED": "Proyecto {{project}} creado correctamente",
@@ -177,5 +179,8 @@
     "MERGE_LATER": "Mergear luego",
     "COMPARE_CHANGES": "Comparar cambios",
     "ROLLBACK": "Rollback"
+  },
+  "ERRORS": {
+    "REQUIRED": "¡Este campo no puede estar vacío!"
   }
 }

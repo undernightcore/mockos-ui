@@ -1,1 +1,9 @@
-<button class="button" [ngClass]="{ small }"><ng-content></ng-content></button>
+<button
+  class="button"
+  [style.background-color]="backgroundColor"
+  [style.border-color]="borderColor"
+  [style.color]="color"
+  [ngClass]="{ small: size === 'small' }"
+>
+  <ng-content></ng-content>
+</button>

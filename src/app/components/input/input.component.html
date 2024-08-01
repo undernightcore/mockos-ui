@@ -1,0 +1,16 @@
+<div class="input">
+  <span class="input__label" [style.background-color]="backgroundColor"
+    >{{ label
+    }}<ng-container *ngIf="control.hasValidator(Validators.required)"
+      >*</ng-container
+    ></span
+  >
+  <input
+    [formControl]="control"
+    [style.background-color]="backgroundColor"
+    type="text"
+  />
+  <span *ngIf="control.touched && control.errors" class="input__error">
+    {{ control.errors | error | translate }}
+  </span>
+</div>

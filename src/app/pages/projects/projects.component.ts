@@ -7,7 +7,9 @@ import {
   exhaustMap,
   filter,
   finalize,
+  forkJoin,
   iif,
+  lastValueFrom,
   map,
   Observable,
   scan,
@@ -15,6 +17,8 @@ import {
   startWith,
   Subject,
   switchMap,
+  take,
+  tap,
 } from 'rxjs';
 import { ChoiceModalComponent } from '../../components/choice-modal/choice-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,10 +37,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
-  invitations$ = this.invitationsService
-    .getInvitations(1, 1)
-    .pipe(map((invitation) => invitation.meta.total));
-
   filters = new FormGroup({
     sort: new FormControl('created_at'),
     onlyBranches: new FormControl('false'),
@@ -53,6 +53,7 @@ export class ProjectsComponent implements OnInit {
           distinctUntilChanged(
             (previous, current) => previous === current && current !== 1
           ),
+          tap((page) => page === 1 && this.selectedProjects.clear()),
           switchMap((page) =>
             this.projectService.getProjects(
               page,
@@ -102,35 +103,99 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
+  openDeleteMultipleModal() {
+    this.projects$
+      .pipe(
+        map((data) =>
+          data.projects.filter((project) =>
+            this.selectedProjects.has(project.id)
+          )
+        ),
+        take(1),
+        filter((list) => Boolean(list.length)),
+        switchMap((projectList) =>
+          this.dialogService
+            .open(ChoiceModalComponent, {
+              data: {
+                title: this.translateService.instant(
+                  `PAGES.DASHBOARD.DELETE_PROJECT${
+                    projectList.length > 1 ? '_MULTIPLE' : ''
+                  }`,
+                  {
+                    project: projectList[0].name,
+                    projects: projectList
+                      .map((project) => project.name)
+                      .join(', '),
+                  }
+                ),
+                message: this.translateService.instant(
+                  `PAGES.DASHBOARD.DELETE_PROJECT_MESSAGE${
+                    projectList.length > 1 ? '_MULTIPLE' : ''
+                  }`,
+                  {
+                    project: projectList[0].name,
+                    projects: projectList
+                      .map((project) => project.name)
+                      .join(', '),
+                  }
+                ),
+              },
+              autoFocus: false,
+              minWidth: '450px',
+              maxWidth: '450px',
+            })
+            .afterClosed()
+            .pipe(
+              filter((confirmed) => confirmed),
+              switchMap(() =>
+                forkJoin(
+                  projectList.map((project) =>
+                    this.projectService.deleteProject(project.id)
+                  )
+                )
+              )
+            )
+        )
+      )
+      .subscribe(() => {
+        this.triggerNewPage$.next(1);
+      });
+  }
+
   openDeleteModal(project: ForkedProjectInterface) {
     this.dialogService
       .open(ChoiceModalComponent, {
         data: {
           title: this.translateService.instant(
-            'PAGES.DASHBOARD.DELETE_PROJECT',
-            { project: project.name }
+            `PAGES.DASHBOARD.DELETE_PROJECT`,
+            {
+              project: project.name,
+            }
           ),
           message: this.translateService.instant(
-            'PAGES.DASHBOARD.DELETE_PROJECT_MESSAGE',
-            { project: project.name }
+            `PAGES.DASHBOARD.DELETE_PROJECT_MESSAGE`,
+            {
+              project: project.name,
+            }
           ),
         },
         autoFocus: false,
+        minWidth: '450px',
       })
       .afterClosed()
       .pipe(
         filter((confirmed) => confirmed),
         switchMap(() => this.projectService.deleteProject(project.id))
-      )
-      .subscribe((message) => {
-        openToast(message.message, 'success');
-        this.triggerNewPage$.next(1);
-      });
+      );
   }
 
   openCreateModal(project?: ForkedProjectInterface) {
     this.dialogService
-      .open(ProjectModalComponent, { data: { project }, autoFocus: false })
+      .open(ProjectModalComponent, {
+        data: { project },
+        autoFocus: false,
+        minWidth: '450px',
+      })
       .afterClosed()
       .pipe(
         filter((data) => Boolean(data)),

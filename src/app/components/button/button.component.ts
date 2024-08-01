@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ButtonSizeInterface } from './interfaces/button.interfaces';
 
 @Component({
   selector: 'app-button',
@@ -6,5 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
-  @Input() small = false;
+  @Input() size: ButtonSizeInterface = 'medium';
+  @Input() backgroundColor = 'transparent';
+  @Input() borderColor = '#cac4d0';
+  @Input() color = '#cac4d0';
 }
