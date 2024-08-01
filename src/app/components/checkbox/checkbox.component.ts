@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: CheckboxComponent,
+    },
+  ],
 })
 export class CheckboxComponent implements ControlValueAccessor {
+  @Input() value = '';
+
   protected checked = false;
   protected onChange?: (value: boolean) => void;
   protected onTouched?: () => void;

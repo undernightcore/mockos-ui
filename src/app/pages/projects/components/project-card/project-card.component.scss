@@ -83,7 +83,15 @@
         font-weight: 300;
         font-size: 16px;
         letter-spacing: 0.1px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
+    }
+
+    &__actions {
+      display: flex;
+      gap: 12px;
     }
   }
 }
