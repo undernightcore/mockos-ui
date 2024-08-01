@@ -29,13 +29,13 @@ import { TokensComponent } from './components/tokens/tokens.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouteInfoComponent } from './components/route-info/route-info.component';
 import { EditHeadersResponseComponent } from './components/edit-headers-response/edit-headers-response.component';
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DuplicateResponseComponent } from './components/duplicate-response/duplicate-response.component';
-import { ClipboardModule } from "@angular/cdk/clipboard";
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DeleteTokenComponent } from './components/delete-token/delete-token.component';
 import { CreateTokenComponent } from './components/create-token/create-token.component';
 import { FolderListItemComponent } from './components/folder-list-item/folder-list-item.component';
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [

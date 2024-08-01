@@ -20,11 +20,13 @@ import { InfiniteScrollModule } from '../../directives/infinite-scroll/infinite-
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CheckboxModule } from '../../components/checkbox/checkbox.module';
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {CdkMenuModule} from "@angular/cdk/menu";
-import {MatMenuModule} from "@angular/material/menu";
-import {ButtonModule} from "../../components/button/button.module";
-import {CheckboxGroupModule} from "../../components/checkbox-group/checkbox-group.module";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { ButtonModule } from '../../components/button/button.module';
+import { CheckboxGroupModule } from '../../components/checkbox-group/checkbox-group.module';
+import { DialogModule } from '../../components/dialog/dialog.module';
+import { InputModule } from '../../components/input/input.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import {CheckboxGroupModule} from "../../components/checkbox-group/checkbox-grou
     MatMenuModule,
     ButtonModule,
     CheckboxGroupModule,
+    DialogModule,
+    InputModule,
   ],
 })
 export class ProjectsModule {}
