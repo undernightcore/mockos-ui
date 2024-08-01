@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project/project.service';
 import { ForkedProjectInterface } from '../../interfaces/project.interface';
 import {
+  debounceTime,
   distinctUntilChanged,
   exhaustMap,
   filter,
@@ -24,6 +25,7 @@ import { CreateProjectInterface } from '../../interfaces/create-project.interfac
 import { InvitationsService } from '../../services/invitations/invitations.service';
 import { Router } from '@angular/router';
 import { AppManagerService } from '../../services/app/app-manager.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-projects',
@@ -35,25 +37,44 @@ export class ProjectsComponent implements OnInit {
     .getInvitations(1, 1)
     .pipe(map((invitation) => invitation.meta.total));
 
+  filters = new FormGroup({
+    sort: new FormControl('created_at'),
+    onlyBranches: new FormControl('false'),
+  });
+
   triggerNewPage$ = new Subject<number>();
   projects$: Observable<{ projects: ForkedProjectInterface[]; total: number }> =
-    this.triggerNewPage$.pipe(
-      startWith(1),
-      distinctUntilChanged(
-        (previous, current) => previous === current && current !== 1
-      ),
-      switchMap((page) => this.projectService.getProjects(page, 20)),
-      scan(
-        (acc, value) => ({
-          projects: value.meta.current_page !== 1
-            ? [...acc.projects, ...value.data]
-            : value.data,
-          total: value.meta.total,
-        }),
-        { projects: [], total: 0 } as {
-          projects: ForkedProjectInterface[];
-          total: number;
-        }
+    this.filters.valueChanges.pipe(
+      debounceTime(100),
+      startWith(this.filters.value),
+      switchMap((filters) =>
+        this.triggerNewPage$.pipe(
+          startWith(1),
+          distinctUntilChanged(
+            (previous, current) => previous === current && current !== 1
+          ),
+          switchMap((page) =>
+            this.projectService.getProjects(
+              page,
+              20,
+              filters.sort ?? 'created_at',
+              filters.onlyBranches ?? 'false'
+            )
+          ),
+          scan(
+            (acc, value) => ({
+              projects:
+                value.meta.current_page !== 1
+                  ? [...acc.projects, ...value.data]
+                  : value.data,
+              total: value.meta.total,
+            }),
+            { projects: [], total: 0 } as {
+              projects: ForkedProjectInterface[];
+              total: number;
+            }
+          )
+        )
       ),
       shareReplay(1)
     );
@@ -65,14 +86,20 @@ export class ProjectsComponent implements OnInit {
     private projectService: ProjectService,
     private dialogService: MatDialog,
     private translateService: TranslateService,
-    private invitationsService: InvitationsService,
-    private router: Router
+    private invitationsService: InvitationsService
   ) {}
 
   ngOnInit() {
     this.appManager.setHeaderData({
       breadcrumb: [{ label: 'PAGES.HOME.TITLE' }],
     });
+  }
+
+  selectProjects(projects: ForkedProjectInterface[]) {
+    this.selectedProjects.clear();
+    for (const project of projects) {
+      this.selectedProjects.add(project.id);
+    }
   }
 
   openDeleteModal(project: ForkedProjectInterface) {
@@ -131,7 +158,7 @@ export class ProjectsComponent implements OnInit {
       });
   }
 
-  openContractPage(project: ForkedProjectInterface) {
-    this.router.navigate(['/projects', project?.id, 'contracts']);
+  resetFilters() {
+    this.filters.setValue({ onlyBranches: 'false', sort: 'created_at' });
   }
 }

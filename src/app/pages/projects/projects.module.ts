@@ -23,6 +23,8 @@ import { CheckboxModule } from '../../components/checkbox/checkbox.module';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatMenuModule} from "@angular/material/menu";
+import {ButtonModule} from "../../components/button/button.module";
+import {CheckboxGroupModule} from "../../components/checkbox-group/checkbox-group.module";
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatProgressSpinnerModule,
     CdkMenuModule,
     MatMenuModule,
+    ButtonModule,
+    CheckboxGroupModule,
   ],
 })
 export class ProjectsModule {}

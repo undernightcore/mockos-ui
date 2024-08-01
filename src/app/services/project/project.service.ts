@@ -9,6 +9,7 @@ import { CreateProjectInterface } from '../../interfaces/create-project.interfac
 import { MessageInterface } from '../../interfaces/message.interface';
 import { MemberInterface } from '../../interfaces/member.interface';
 import { EnvService } from '../env/env.service';
+import { omitBy } from '../../utils/object.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,11 @@ import { EnvService } from '../env/env.service';
 export class ProjectService {
   constructor(private httpClient: HttpClient, private envService: EnvService) {}
 
-  getProjects(page = 1, perPage = 10) {
+  getProjects(page = 1, perPage = 10, sortBy?: string, onlyBranches?: string) {
     return this.httpClient.get<
       PaginatedResponseInterface<ForkedProjectInterface>
     >(`${this.envService.getEnv('apiUrl')}/projects`, {
-      params: { page, perPage },
+      params: omitBy({ page, perPage, sortBy, onlyBranches }, undefined),
     });
   }
 

@@ -4,46 +4,50 @@
       <span>Filtro</span>
       <div class="projects__filters__section">
         <span>Ordenado</span>
-        <div class="projects__filters__section__list">
-          <div class="projects__filters__section__list__option">
-            <app-checkbox></app-checkbox>
-            <span>Por fecha de creación</span>
+        <app-checkbox-group [formControl]="filters.controls.sort">
+          <div class="projects__filters__section__list">
+            <div class="projects__filters__section__list__option">
+              <app-checkbox value="created_at"></app-checkbox>
+              <span>Por fecha de creación</span>
+            </div>
+            <div class="projects__filters__section__list__option">
+              <app-checkbox value="name"></app-checkbox>
+              <span>Alfabético</span>
+            </div>
+            <div class="projects__filters__section__list__option">
+              <app-checkbox value="updated_at"></app-checkbox>
+              <span>Reciente</span>
+            </div>
           </div>
-          <div class="projects__filters__section__list__option">
-            <app-checkbox></app-checkbox>
-            <span>Alfabético</span>
-          </div>
-          <div class="projects__filters__section__list__option">
-            <app-checkbox></app-checkbox>
-            <span>Reciente</span>
-          </div>
-        </div>
+        </app-checkbox-group>
       </div>
       <div class="projects__filters__section">
         <span>Tipo</span>
-        <div class="projects__filters__section__list">
-          <div class="projects__filters__section__list__option">
-            <app-checkbox></app-checkbox>
-            <span>Original</span>
+        <app-checkbox-group [formControl]="filters.controls.onlyBranches">
+          <div class="projects__filters__section__list">
+            <div class="projects__filters__section__list__option">
+              <app-checkbox value="false"></app-checkbox>
+              <span>Original</span>
+            </div>
+            <div class="projects__filters__section__list__option">
+              <app-checkbox value="true"></app-checkbox>
+              <span>Ramificación</span>
+            </div>
           </div>
-          <div class="projects__filters__section__list__option">
-            <app-checkbox></app-checkbox>
-            <span>Ramificación</span>
-          </div>
-        </div>
+        </app-checkbox-group>
       </div>
       <div class="projects__filters__section">
         <span>Seleccionar</span>
         <div class="projects__filters__section__actions">
-          <button>Todo</button>
-          <button>Deselección</button>
+          <app-button (click)="selectProjects(data.projects)">Todo</app-button>
+          <app-button (click)="selectProjects([])">Deselección</app-button>
         </div>
       </div>
       <div class="projects__filters__section">
         <span>Borrar</span>
         <div class="projects__filters__section__actions">
-          <button>Selección</button>
-          <button>Filtros</button>
+          <app-button (click)="selectProjects([])">Selección</app-button>
+          <app-button (click)="resetFilters()">Filtros</app-button>
         </div>
       </div>
     </div>
@@ -55,6 +59,12 @@
             [project]="project"
             (edit)="openCreateModal(project)"
             (delete)="openDeleteModal(project)"
+            [isSelected]="selectedProjects.has(project.id)"
+            (selected)="
+              $event
+                ? selectedProjects.add(project.id)
+                : selectedProjects.delete(project.id)
+            "
           ></app-project-card>
         </div>
       </div>

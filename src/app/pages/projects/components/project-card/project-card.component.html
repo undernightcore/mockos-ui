@@ -1,6 +1,6 @@
 <div *ngIf="project" class="project">
   <div class="project__actions">
-    <app-checkbox></app-checkbox>
+    <app-checkbox [formControl]="selectedForm"></app-checkbox>
     <img
       [cdkMenuTriggerFor]="menu"
       (cdkMenuOpened)="listenOnScroll()"
@@ -38,6 +38,15 @@
         project.description ?? "No description"
       }}</span>
     </div>
-    <div class="project__info__actions"></div>
+    <div class="project__info__actions">
+      <app-button [routerLink]="['/projects', project.id]" [small]="true">
+        <img alt="code icon" src="assets/images/icons/code.svg"/>
+        <span>Endpoints</span>
+      </app-button>
+      <app-button [routerLink]="['/projects', project.id, 'contracts']" [small]="true">
+        <img alt="code icon" src="assets/images/icons/code.svg"/>
+        <span>Contracts</span>
+      </app-button>
+    </div>
   </div>
 </div>
