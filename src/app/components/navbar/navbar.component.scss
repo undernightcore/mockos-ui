@@ -5,12 +5,34 @@
   gap: 12px;
 
   &__inner {
-    padding: 28px 20px;
+    padding: 0 20px;
+    height: 80px;
     width: 100%;
     display: flex;
     background-color: #1D1B20;
     border-radius: 16px;
     box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+
+    &__actions {
+      display: flex;
+
+      &__notifications {
+        display: flex;
+        cursor: pointer;
+
+        &__list {
+          margin-top: 40px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          max-width: 294px;
+          max-height: 80vh;
+          overflow: auto;
+        }
+      }
+    }
 
     & > img {
       height: 24px;

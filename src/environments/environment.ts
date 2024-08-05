@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://api.mockos.io',
+  apiUrl: 'https://api.new.mockos.io',
   isVerificationDisabled: false,
 };

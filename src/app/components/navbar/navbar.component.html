@@ -1,6 +1,34 @@
 <div class="navbar">
   <div class="navbar__inner">
     <img alt="mockos logo" src="assets/logo.svg" />
+    <div class="navbar__inner__actions">
+      <div
+        [matBadge]="invitationNumber$ | async"
+        matBadgePosition="below before"
+        matBadgeSize="small"
+        matBadgeColor="warn"
+        *ngIf="isLogged$ | async"
+        class="navbar__inner__actions__notifications"
+      >
+        <img
+          [cdkMenuTriggerFor]="menu"
+          alt="notifications icon"
+          src="assets/images/icons/share.svg"
+        />
+        <ng-template #menu>
+          <div cdkMenu>
+            <div class="navbar__inner__actions__notifications__list">
+              <app-invitation-card
+                *ngFor="let invitation of invitations$ | async"
+                [project]="invitation.project"
+                (accept)="resolveInvitation(invitation.id, true)"
+                (reject)="resolveInvitation(invitation.id, false)"
+              ></app-invitation-card>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
   </div>
   <div *ngIf="headerData$ | async as data" class="navbar__breadcrumb">
     <ng-container *ngFor="let item of data.breadcrumb; let last = last">

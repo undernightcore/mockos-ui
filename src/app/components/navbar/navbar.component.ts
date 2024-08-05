@@ -1,9 +1,21 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
-import { Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+} from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import {AppManagerService} from "../../services/app/app-manager.service";
+import { AppManagerService } from '../../services/app/app-manager.service';
+import { RealtimeService } from '../../services/realtime/realtime.service';
+import { InvitationsService } from '../../services/invitations/invitations.service';
+import { InvitationInterface } from '../../interfaces/invitation.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -11,8 +23,32 @@ import {AppManagerService} from "../../services/app/app-manager.service";
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  isLogged$ = this.authService.isLogged;
+  isLogged$ = this.authService.isLogged.pipe(distinctUntilChanged());
   headerData$ = this.appManager.headerData$;
+
+  #reloadInvitations = new Subject<void>();
+  invitations$: Observable<InvitationInterface[]> =
+    this.authService.isLogged.pipe(
+      switchMap((logged) =>
+        logged
+          ? this.realtimeService.listenUserInvitations().pipe(
+              startWith(1),
+              switchMap(() =>
+                this.#reloadInvitations.pipe(
+                  startWith(true),
+                  switchMap(() => this.invitationsService.getInvitations())
+                )
+              ),
+              map((invitations) => invitations.data)
+            )
+          : of([])
+      ),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+  invitationNumber$ = this.invitations$.pipe(
+    map((invitation) => invitation.length || null),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
 
   languages = this.translateService.getLangs();
 
@@ -20,12 +56,20 @@ export class NavbarComponent {
     private appManager: AppManagerService,
     private authService: AuthService,
     private router: Router,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private realtimeService: RealtimeService,
+    private invitationsService: InvitationsService
   ) {}
 
   changeLanguage(language: string) {
     this.translateService.use(language);
     localStorage.setItem('lang', this.translateService.currentLang);
+  }
+
+  resolveInvitation(invitationId: number, accepted: boolean) {
+    this.invitationsService[accepted ? 'acceptInvitation' : 'rejectInvitation'](
+      invitationId
+    ).subscribe(() => this.#reloadInvitations.next());
   }
 
   logOut() {

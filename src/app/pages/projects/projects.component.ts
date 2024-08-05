@@ -30,6 +30,7 @@ import { InvitationsService } from '../../services/invitations/invitations.servi
 import { Router } from '@angular/router';
 import { AppManagerService } from '../../services/app/app-manager.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RealtimeService } from '../../services/realtime/realtime.service';
 
 @Component({
   selector: 'app-projects',
@@ -44,36 +45,42 @@ export class ProjectsComponent implements OnInit {
 
   triggerNewPage$ = new Subject<number>();
   projects$: Observable<{ projects: ForkedProjectInterface[]; total: number }> =
-    this.filters.valueChanges.pipe(
-      debounceTime(100),
-      startWith(this.filters.value),
-      switchMap((filters) =>
-        this.triggerNewPage$.pipe(
-          startWith(1),
-          distinctUntilChanged(
-            (previous, current) => previous === current && current !== 1
-          ),
-          tap((page) => page === 1 && this.selectedProjects.clear()),
-          switchMap((page) =>
-            this.projectService.getProjects(
-              page,
-              20,
-              filters.sort ?? 'created_at',
-              filters.onlyBranches ?? 'false'
+    this.realtimeService.listenUserProjects().pipe(
+      debounceTime(50),
+      startWith(true),
+      switchMap(() =>
+        this.filters.valueChanges.pipe(
+          startWith(this.filters.value),
+          switchMap((filters) =>
+            this.triggerNewPage$.pipe(
+              startWith(1),
+              distinctUntilChanged(
+                (previous, current) => previous === current && current !== 1
+              ),
+              tap((page) => page === 1 && this.selectedProjects.clear()),
+              switchMap((page) =>
+                this.projectService.getProjects(
+                  page,
+                  20,
+                  filters.sort ?? 'created_at',
+                  filters.sort === 'name' ? 'asc' : 'desc',
+                  filters.onlyBranches ?? 'false'
+                )
+              ),
+              scan(
+                (acc, value) => ({
+                  projects:
+                    value.meta.current_page !== 1
+                      ? [...acc.projects, ...value.data]
+                      : value.data,
+                  total: value.meta.total,
+                }),
+                { projects: [], total: 0 } as {
+                  projects: ForkedProjectInterface[];
+                  total: number;
+                }
+              )
             )
-          ),
-          scan(
-            (acc, value) => ({
-              projects:
-                value.meta.current_page !== 1
-                  ? [...acc.projects, ...value.data]
-                  : value.data,
-              total: value.meta.total,
-            }),
-            { projects: [], total: 0 } as {
-              projects: ForkedProjectInterface[];
-              total: number;
-            }
           )
         )
       ),
@@ -87,7 +94,7 @@ export class ProjectsComponent implements OnInit {
     private projectService: ProjectService,
     private dialogService: MatDialog,
     private translateService: TranslateService,
-    private invitationsService: InvitationsService
+    private realtimeService: RealtimeService
   ) {}
 
   ngOnInit() {
@@ -157,9 +164,7 @@ export class ProjectsComponent implements OnInit {
             )
         )
       )
-      .subscribe(() => {
-        this.triggerNewPage$.next(1);
-      });
+      .subscribe();
   }
 
   openDeleteModal(project: ForkedProjectInterface) {
@@ -181,12 +186,14 @@ export class ProjectsComponent implements OnInit {
         },
         autoFocus: false,
         minWidth: '450px',
+        maxWidth: '450px',
       })
       .afterClosed()
       .pipe(
         filter((confirmed) => confirmed),
         switchMap(() => this.projectService.deleteProject(project.id))
-      );
+      )
+      .subscribe();
   }
 
   openCreateModal(project?: ForkedProjectInterface) {
@@ -195,6 +202,7 @@ export class ProjectsComponent implements OnInit {
         data: { project },
         autoFocus: false,
         minWidth: '450px',
+        maxWidth: '450px',
       })
       .afterClosed()
       .pipe(
@@ -219,7 +227,6 @@ export class ProjectsComponent implements OnInit {
           ),
           'success'
         );
-        this.triggerNewPage$.next(1);
       });
   }
 
