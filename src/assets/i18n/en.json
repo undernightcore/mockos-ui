@@ -165,6 +165,7 @@
     "WITHOUT_ACCOUNT": "Don't have an account yet?",
     "LOG_OUT": "Log out",
     "ACCEPT": "Accept",
+    "REJECT": "Reject",
     "CANCEL": "Cancel",
     "CREATE": "Create",
     "INVITE": "Invite",

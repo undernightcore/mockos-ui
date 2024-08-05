@@ -17,11 +17,20 @@ import { omitBy } from '../../utils/object.utils';
 export class ProjectService {
   constructor(private httpClient: HttpClient, private envService: EnvService) {}
 
-  getProjects(page = 1, perPage = 10, sortBy?: string, onlyBranches?: string) {
+  getProjects(
+    page = 1,
+    perPage = 10,
+    sortBy?: string,
+    direction?: string,
+    onlyBranches?: string
+  ) {
     return this.httpClient.get<
       PaginatedResponseInterface<ForkedProjectInterface>
     >(`${this.envService.getEnv('apiUrl')}/projects`, {
-      params: omitBy({ page, perPage, sortBy, onlyBranches }, undefined),
+      params: omitBy(
+        { page, perPage, sortBy, onlyBranches, direction },
+        undefined
+      ),
     });
   }
 

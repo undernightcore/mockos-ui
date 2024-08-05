@@ -1,9 +1,10 @@
 <button
   class="button"
+  [disabled]="disabled"
   [style.background-color]="backgroundColor"
   [style.border-color]="borderColor"
   [style.color]="color"
-  [ngClass]="{ small: size === 'small' }"
+  [ngClass]="{ small: size === 'small', disabled }"
 >
   <ng-content></ng-content>
 </button>
