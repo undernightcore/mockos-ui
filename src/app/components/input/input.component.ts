@@ -10,5 +10,6 @@ export class InputComponent {
   @Input() control = new FormControl('');
   @Input() backgroundColor = '#1D1B20';
   @Input() label = '';
+  @Input() type: 'text' | 'password' = 'text';
   protected readonly Validators = Validators;
 }

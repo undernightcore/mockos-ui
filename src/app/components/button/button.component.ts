@@ -11,5 +11,6 @@ export class ButtonComponent {
   @Input() backgroundColor = 'transparent';
   @Input() borderColor = '#cac4d0';
   @Input() color = '#cac4d0';
+  @Input() compressed = false;
   @Input() disabled = false;
 }

@@ -8,9 +8,9 @@
   <input
     [formControl]="control"
     [style.background-color]="backgroundColor"
-    type="text"
+    [type]="type"
   />
   <span *ngIf="control.touched && control.errors" class="input__error">
-    {{ control.errors | error | translate }}
+    {{ control.errors | error }}
   </span>
 </div>
