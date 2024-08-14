@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ProjectService } from '../../services/project/project.service';
 import { ForkedProjectInterface } from '../../interfaces/project.interface';
 import {
@@ -37,7 +44,9 @@ import { RealtimeService } from '../../services/realtime/realtime.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements AfterViewInit {
+  @ViewChild('actions') private actions?: TemplateRef<HTMLDivElement>;
+
   filters = new FormGroup({
     sort: new FormControl('created_at'),
     onlyBranches: new FormControl('false'),
@@ -97,9 +106,10 @@ export class ProjectsComponent implements OnInit {
     private realtimeService: RealtimeService
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.appManager.setHeaderData({
       breadcrumb: [{ label: 'PAGES.HOME.TITLE' }],
+      actions: this.actions,
     });
   }
 
@@ -127,13 +137,7 @@ export class ProjectsComponent implements OnInit {
                 title: this.translateService.instant(
                   `PAGES.DASHBOARD.DELETE_PROJECT${
                     projectList.length > 1 ? '_MULTIPLE' : ''
-                  }`,
-                  {
-                    project: projectList[0].name,
-                    projects: projectList
-                      .map((project) => project.name)
-                      .join(', '),
-                  }
+                  }`
                 ),
                 message: this.translateService.instant(
                   `PAGES.DASHBOARD.DELETE_PROJECT_MESSAGE${
@@ -146,6 +150,8 @@ export class ProjectsComponent implements OnInit {
                       .join(', '),
                   }
                 ),
+                type: 'destructive',
+                confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
               },
               autoFocus: false,
               minWidth: '450px',
@@ -172,10 +178,7 @@ export class ProjectsComponent implements OnInit {
       .open(ChoiceModalComponent, {
         data: {
           title: this.translateService.instant(
-            `PAGES.DASHBOARD.DELETE_PROJECT`,
-            {
-              project: project.name,
-            }
+            `PAGES.DASHBOARD.DELETE_PROJECT`
           ),
           message: this.translateService.instant(
             `PAGES.DASHBOARD.DELETE_PROJECT_MESSAGE`,
@@ -183,6 +186,8 @@ export class ProjectsComponent implements OnInit {
               project: project.name,
             }
           ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
         },
         autoFocus: false,
         minWidth: '450px',

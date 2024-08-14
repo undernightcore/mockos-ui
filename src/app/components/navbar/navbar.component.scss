@@ -15,12 +15,22 @@
     align-items: center;
     justify-content: space-between;
 
+    & > img {
+      cursor: pointer;
+    }
+
     &__actions {
       display: flex;
+      gap: 48px;
 
       &__notifications {
         display: flex;
+        align-items: center;
         cursor: pointer;
+
+        & > img {
+          height: fit-content;
+        }
 
         &__list {
           margin-top: 40px;

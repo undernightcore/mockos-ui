@@ -6,7 +6,9 @@ import { HeaderInterface } from '../../interfaces/header.interface';
   providedIn: 'root',
 })
 export class AppManagerService {
-  #headerData = new BehaviorSubject<HeaderInterface | undefined>(undefined);
+  #headerData = new BehaviorSubject<HeaderInterface | undefined>({
+    hideHeader: true,
+  });
   headerData$ = this.#headerData.asObservable();
 
   setHeaderData(data?: HeaderInterface) {

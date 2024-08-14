@@ -10,14 +10,12 @@ import { AuthService } from '../auth/auth.service';
 })
 export class RealtimeService {
   user$ = this.authService.getUser().pipe(shareReplay(1));
-  socket: Socket;
+  socket = io(this.envService.getEnv('apiUrl'));
 
   constructor(
     private envService: EnvService,
     private authService: AuthService
-  ) {
-    this.socket = io(this.envService.getEnv('apiUrl'));
-  }
+  ) {}
 
   listenProject(projectId: number) {
     return new Observable<RealtimeType>((subscriber) => {

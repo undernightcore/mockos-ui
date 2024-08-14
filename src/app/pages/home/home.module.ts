@@ -5,6 +5,7 @@ import { NavbarModule } from '../../components/navbar/navbar.module';
 import { HomeComponent } from './home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { ButtonModule } from '../../components/button/button.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -14,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NavbarModule,
     MatButtonModule,
     TranslateModule,
+    ButtonModule,
   ],
 })
 export class HomeModule {}

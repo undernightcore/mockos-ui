@@ -46,7 +46,11 @@
       <div class="projects__filters__section">
         <span>Borrar</span>
         <div class="projects__filters__section__actions">
-          <app-button [disabled]="!selectedProjects.size" (click)="openDeleteMultipleModal()">Selección</app-button>
+          <app-button
+            [disabled]="!selectedProjects.size"
+            (click)="openDeleteMultipleModal()"
+            >Selección</app-button
+          >
           <app-button (click)="resetFilters()">Filtros</app-button>
         </div>
       </div>
@@ -75,11 +79,42 @@
 <ng-template #empty>
   <div class="empty">
     <img alt="no projects" src="assets/images/no-projects.svg" />
+    <span *ngIf="filters.controls.onlyBranches.value">
+      No hay ramas disponibles
+    </span>
+    <span *ngIf="!filters.controls.onlyBranches.value">
+      Aún no tienes ningún proyecto, es hora de crear uno
+    </span>
+    <app-button
+      *ngIf="!filters.controls.onlyBranches.value"
+      (click)="openCreateModal()"
+      size="small"
+      color="white"
+      borderColor="#4088FF"
+      backgroundColor="#4088FF"
+      >Crear proyecto</app-button
+    >
   </div>
 </ng-template>
 
 <ng-template #loading>
   <div class="loading">
     <mat-spinner color="primary"></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #actions>
+  <div>
+    <app-button
+      (click)="openCreateModal()"
+      size="small"
+      color="white"
+      borderColor="#4088FF"
+      backgroundColor="#4088FF"
+      >
+      <img src="/assets/images/icons/add.svg">
+      Nuevo
+    </app-button
+    >
   </div>
 </ng-template>

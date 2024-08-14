@@ -1,7 +1,10 @@
-<div class="navbar">
+<div *ngIf="showHeader$ | async" class="navbar">
   <div class="navbar__inner">
-    <img alt="mockos logo" src="assets/logo.svg" />
+    <img [routerLink]="['/projects']" alt="mockos logo" src="assets/logo.svg" />
     <div class="navbar__inner__actions">
+      <ng-container
+        [ngTemplateOutlet]="(actions$ | async) ?? null"
+      ></ng-container>
       <div
         [matBadge]="invitationNumber$ | async"
         matBadgePosition="below before"
@@ -30,8 +33,8 @@
       </div>
     </div>
   </div>
-  <div *ngIf="headerData$ | async as data" class="navbar__breadcrumb">
-    <ng-container *ngFor="let item of data.breadcrumb; let last = last">
+  <div *ngIf="breadcrumb$ | async as breadcrumb" class="navbar__breadcrumb">
+    <ng-container *ngFor="let item of breadcrumb; let last = last">
       <span [class.link]="item.link" [routerLink]="item.link">{{
         item.label | translate
       }}</span>

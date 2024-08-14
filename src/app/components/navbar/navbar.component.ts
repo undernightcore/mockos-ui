@@ -24,7 +24,19 @@ import { InvitationInterface } from '../../interfaces/invitation.interface';
 })
 export class NavbarComponent {
   isLogged$ = this.authService.isLogged.pipe(distinctUntilChanged());
-  headerData$ = this.appManager.headerData$;
+
+  showHeader$ = this.appManager.headerData$.pipe(
+    map((data) => !data?.hideHeader),
+    shareReplay(1)
+  );
+  breadcrumb$ = this.appManager.headerData$.pipe(
+    map((data) => data?.breadcrumb),
+    shareReplay(1)
+  );
+  actions$ = this.appManager.headerData$.pipe(
+    map((data) => data?.actions),
+    shareReplay(1)
+  );
 
   #reloadInvitations = new Subject<void>();
   invitations$: Observable<InvitationInterface[]> =
