@@ -7,6 +7,7 @@
         </div>
         <span
           [style.font-size.px]="registering.value ? 40 : ''"
+          [style.line-height.px]="registering.value ? 40 : ''"
           class="auth__box__title"
           >{{ registering.value ? "Regístrate ahora" : "Hola" }}</span
         >
@@ -35,14 +36,19 @@
           </div>
           <div class="auth__box__content__actions">
             <app-button
+              *ngIf="registering.value"
+              [routerLink]="['/auth', 'login']"
+              >Cancelar</app-button
+            >
+            <app-button
               (click)="handleSubmit()"
               backgroundColor="#4088FF"
               borderColor="#4088FF"
               color="white"
-              >Entrar</app-button
+              >{{ registering.value ? "Registrarse" : "Entrar" }}</app-button
             >
           </div>
-          <div class="auth__box__content__info">
+          <div *ngIf="!registering.value" class="auth__box__content__info">
             <span>¿Todavía no tienes cuenta?</span>
             <span [routerLink]="['/auth', 'register']">Crear ahora</span>
           </div>

@@ -23,7 +23,16 @@ import { InvitationInterface } from '../../interfaces/invitation.interface';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  isLogged$ = this.authService.isLogged.pipe(distinctUntilChanged());
+  isLogged$ = this.authService.isLogged.pipe(
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  currentUser$ = this.isLogged$.pipe(
+    switchMap((logged) =>
+      logged ? this.authService.getUser() : of(undefined)
+    ),
+    shareReplay(1)
+  );
 
   showHeader$ = this.appManager.headerData$.pipe(
     map((data) => !data?.hideHeader),
@@ -87,9 +96,5 @@ export class NavbarComponent {
   logOut() {
     this.authService.logout();
     this.router.navigate(['/']);
-  }
-
-  logIn() {
-    this.router.navigate(['/auth', 'login']);
   }
 }
