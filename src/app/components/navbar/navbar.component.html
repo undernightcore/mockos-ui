@@ -6,14 +6,15 @@
         [ngTemplateOutlet]="(actions$ | async) ?? null"
       ></ng-container>
       <div
+        class="navbar__inner__actions__notifications"
         [matBadge]="invitationNumber$ | async"
         matBadgePosition="below before"
         matBadgeSize="small"
         matBadgeColor="warn"
         *ngIf="isLogged$ | async"
-        class="navbar__inner__actions__notifications"
       >
         <img
+          [style.cursor]="(invitationNumber$ | async) ? 'pointer' : 'default'"
           [cdkMenuTriggerFor]="menu"
           alt="notifications icon"
           src="assets/images/icons/share.svg"
@@ -27,6 +28,44 @@
                 (accept)="resolveInvitation(invitation.id, true)"
                 (reject)="resolveInvitation(invitation.id, false)"
               ></app-invitation-card>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="navbar__inner__actions__language">
+        <img
+          #languageToggle="cdkMenuTriggerFor"
+          [cdkMenuTriggerFor]="menu"
+          alt="language"
+          src="assets/images/icons/planet.svg"
+        />
+        <ng-template #menu>
+          <div cdkMenu>
+            <div class="navbar__inner__actions__language__list">
+              <div
+                (click)="changeLanguage(language); languageToggle.close()"
+                *ngFor="let language of languages"
+              >
+                <span>{{ language }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div
+        class="navbar__inner__actions__user"
+        [cdkMenuTriggerFor]="menu"
+        #menuTrigger="cdkMenuTriggerFor"
+        *ngIf="currentUser$ | async as user"
+      >
+        <div>{{ user.name[0] | uppercase }}</div>
+        <img [class.rotated]="menuTrigger.isOpen()" alt="right arrow" src="assets/images/icons/right-arrow.svg" />
+        <ng-template #menu>
+          <div cdkMenu>
+            <div class="navbar__inner__actions__user__list">
+              <div (click)="logOut()">
+                <span>Cerrar sesión</span>
+              </div>
             </div>
           </div>
         </ng-template>

@@ -21,6 +21,16 @@
       background-color: #2D2B30;
       border-radius: 12px;
       padding: 8px 0;
+      animation: menu-in 100ms ease-in-out;
+
+      @keyframes menu-in {
+        0% {
+          transform: rotateX(270deg);
+        }
+        100% {
+          transform: rotateX(360deg);
+        }
+      }
 
       & > div {
         display: flex;
