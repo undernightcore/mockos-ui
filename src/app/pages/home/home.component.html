@@ -1,3 +1,57 @@
 <div class="home">
-  <app-button [routerLink]="['/auth', 'login']">Iniciar sesión</app-button>
+  <div
+    *ngIf="{ sticky: sticky$ | async } as status"
+    class="home__header"
+    [class.sticky]="status.sticky"
+  >
+    <div class="home__header__background"></div>
+    <div auto-animate class="home__header__content">
+      <img class="home__header__content__logo" src="/assets/logo.svg" alt="mockos logo" />
+      <img class="home__header__content__action" *ngIf="!status.sticky" src="/assets/images/icons/mouse.svg" alt="">
+    </div>
+  </div>
+  <div class="home__content">
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+    <app-button>Hiiiii</app-button>
+  </div>
 </div>
