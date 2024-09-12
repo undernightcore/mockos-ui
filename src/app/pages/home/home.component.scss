@@ -5,7 +5,7 @@
     height: 100vh;
     width: 100%;
     transition: all 300ms ease-in-out;
-    padding: 0 28px;
+    padding: 0 48px;
     box-sizing: border-box;
     overflow: hidden;
 
@@ -47,14 +47,14 @@
   }
 
   &__content {
-    padding: 0 28px;
+    padding: 0 48px;
 
     &__container {
       display: flex;
       flex-direction: column;
       width: 100%;
       max-width: 1440px;
-      gap: 25px;
+      gap: 18px;
       margin: 0 auto;
 
       &__hero {
@@ -105,12 +105,22 @@
         display: flex;
         align-items: center;
         gap: 56px;
+        padding: 24px 0;
+
+        @media (max-width: 1250px) {
+          flex-direction: column;
+          gap: 12px;
+        }
 
         & > div {
           display: flex;
           flex-direction: column;
           gap: 45px;
           width: 100%;
+
+          @media (max-width: 1250px) {
+            gap: 12px;
+          }
 
           & > h3 {
             margin: 0;
@@ -120,6 +130,12 @@
             font-weight: 700;
             letter-spacing: 0.1px;
             line-height: 32px;
+
+            @media (max-width: 1250px) {
+              font-size: 24px;
+              line-height: 24px;
+              text-align: center;
+            }
           }
 
           & > h4 {
@@ -129,12 +145,22 @@
             font-size: 16px;
             font-weight: 300;
             letter-spacing: 0.1px;
+
+            @media (max-width: 1250px) {
+              font-size: 14px;
+              text-align: center;
+            }
           }
         }
 
         & > img {
           max-height: 535px;
           max-width: 100%;
+
+          @media (max-width: 1250px) {
+            gap: 12px;
+            max-height: 435px;
+          }
         }
       }
     }
