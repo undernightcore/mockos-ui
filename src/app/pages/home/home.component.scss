@@ -1,10 +1,77 @@
 .home {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  &__header {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    transition: all 300ms ease-in-out;
+    padding: 0 28px;
+    box-sizing: border-box;
+    overflow: hidden;
 
-  & > h1 {
-    color: white;
+    &__background {
+      top: 0;
+      left: 0;
+      position: absolute;
+      background: url("/assets/images/background.webp");
+      background-position: center center;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      animation: 20s zoom ease-out;
+      animation-fill-mode: forwards;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      height: 100%;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+
+      &__logo {
+        max-width: 80vw;
+        width: 700px;
+      }
+
+      &__action {
+        width: 20%;
+        max-width: 96px;
+      }
+    }
+  }
+}
+
+.sticky {
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 0;
+  height: 70px;
+  position: sticky;
+  top: 0;
+
+  & .home__header__content {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 auto;
+  }
+
+  & .home__header__content__logo {
+    width: 140px;
+  }
+}
+
+
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.25);
   }
 }
