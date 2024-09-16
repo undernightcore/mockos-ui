@@ -47,21 +47,21 @@
   }
 
   &__content {
-    padding: 0 48px;
+    padding: 0 48px 48px 48px;
 
     &__container {
       display: flex;
       flex-direction: column;
       width: 100%;
       max-width: 1440px;
-      gap: 18px;
+      gap: 110px;
       margin: 0 auto;
 
       &__hero {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 115px 0;
+        padding: 100px 0 40px 0;
         gap: 73px;
 
         @media (max-width: 1250px) {
@@ -105,11 +105,23 @@
         display: flex;
         align-items: center;
         gap: 56px;
-        padding: 24px 0;
 
         @media (max-width: 1250px) {
           flex-direction: column;
           gap: 12px;
+        }
+
+        &:nth-child(odd) {
+          flex-direction: row-reverse;
+
+          @media (max-width: 1250px) {
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          & > div {
+            text-align: end;
+          }
         }
 
         & > div {
@@ -160,6 +172,73 @@
           @media (max-width: 1250px) {
             gap: 12px;
             max-height: 435px;
+          }
+        }
+      }
+
+      &__main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 35px;
+
+        @media (max-width: 1250px) {
+          gap: 12px;
+        }
+
+        & > h2 {
+          margin: 0;
+          text-align: center;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 700;
+          font-size: 32px;
+          letter-spacing: 0.1px;
+          line-height: 32px;
+          color: white;
+          max-width: 790px;
+
+          @media (max-width: 1250px) {
+            font-size: 24px;
+            line-height: 24px;
+          }
+        }
+
+        & > h3 {
+          margin: 0;
+          text-align: center;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 300;
+          font-size: 16px;
+          line-height: 19.2px;
+          letter-spacing: 0.1px;
+          color: white;
+          max-width: 557px;
+
+          @media (max-width: 1250px) {
+            font-size: 14px;
+            line-height: 24px;
+          }
+        }
+
+        & > img {
+          width: 100%;
+        }
+
+        & > div {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          @media (max-width: 750px) {
+            display: none;
+          }
+
+          & > span  {
+            font-size: 24px;
+            font-weight: 300;
+            line-height: 24px;
+            letter-spacing: 0.1px;
+            color: white;
           }
         }
       }

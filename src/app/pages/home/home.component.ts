@@ -1,19 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AppManagerService } from '../../services/app/app-manager.service';
 import {
-  debounce,
-  exhaustMap,
   fromEvent,
   map,
-  of,
   shareReplay,
-  switchMap,
   take,
-  tap,
-  throttle,
-  throttleTime,
-  timer,
 } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +22,12 @@ export class HomeComponent {
     shareReplay(1)
   );
 
-  constructor(appManager: AppManagerService) {
+  @HostListener('window:keydown.m')
+  onMPress() {
+    this.router.navigate(['/auth', 'login'])
+  }
+
+  constructor(appManager: AppManagerService, private router: Router) {
     appManager.setHeaderData({ hideHeader: true });
   }
 }

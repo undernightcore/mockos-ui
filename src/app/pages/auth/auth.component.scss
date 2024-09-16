@@ -3,6 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url("/assets/images/background-login.webp");
+  background-size: cover;
 
   &__box {
     display: flex;
