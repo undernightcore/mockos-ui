@@ -9,7 +9,10 @@
     [formControl]="control"
     [style.background-color]="backgroundColor"
     [type]="type"
-  />
+    [placeholder]="placeholder"
+    [style.padding-left.px]="icon ? 46 : 16"
+  >
+  <img *ngIf="icon" src="/assets/images/icons/{{icon}}.svg">
   <span *ngIf="control.touched && control.errors" class="input__error">
     {{ control.errors | error }}
   </span>

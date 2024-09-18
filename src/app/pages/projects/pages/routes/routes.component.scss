@@ -1,123 +1,44 @@
 .routes {
-  height: 100%;
-  display: flex;
-
-  &__list {
-    height: 100%;
-    width: 500px;
-    min-width: 500px;
-    border-right: 1px solid var(--disabled-color);
     display: flex;
-    flex-direction: column;
-
-    &__drop-zone {
-      background-color: var(--disabled-color);
-      cursor: pointer;
-      padding: 12px;
-
-      &__border {
-        border: 3px dashed black;
-        padding: 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    &__search {
-      top: 60px;
-      width: 100%;
-      background: white;
-      z-index: 2;
-      padding: 12px 24px;
-      box-sizing: border-box;
-
-      & > mat-form-field {
-        width: 100%;
-        margin-bottom: -1.25em;
-
-        mat-icon {
-          cursor: pointer;
-        }
-      }
-    }
-
-    &__folder {
-      padding: 12px 24px;
-      background-color: var(--alt-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      & > button {
-        color: white;
-        background-color: var(--featured-color);
-      }
-
-      & > div {
-        display: flex;
-        gap: 12px;
-
-        & > h4 {
-          margin: 0;
-        }
-      }
-    }
-
-    &__actions {
-      z-index: 1;
-      position: sticky;
-      top: 0;
-      background-color: var(--main-color);
-
-      &__wrapper {
-        display: flex;
-        gap: 12px;
-        padding: 12px;
-        overflow-x: auto;
-
-        & > button {
-          background-color: var(--alt-color);
-          img {
-            height: 18px;
-          }
-        }
-
-        & > a {
-          color: white;
-          background-color: var(--featured-color);
-        }
-      }
-    }
-
-    &__items {
-      overflow: auto;
-    }
-  }
-
-  &__info {
+    gap: 20px;
     height: 100%;
-    width: 100%;
-
-    &__missing {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-}
-
-.isMobileSelected {
-  .routes__info {
-    width: 100%;
-  }
-}
-
-.isMobileUnselected {
-  .routes__list {
-    width: 100%;
-    min-width: auto;
+    padding: 12px 28px 28px 28px;
     box-sizing: border-box;
-  }
+    
+    &__actions {
+        padding: 24px 0;
+        height: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 48px;
+        width: 82px;
+        background-color: #1D1B20;
+        border-radius: 16px;
+        box-sizing: border-box;
+
+        & > div {
+            cursor: pointer;
+
+            &:first-child {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #4088FF;
+                min-height: 34px;
+                width: 34px;
+                border-radius: 8px;
+            }
+        }
+    }
+
+    &__list {
+        padding: 24px;
+        height: 100%;
+        background-color: #1D1B20;
+        border-radius: 16px;
+        box-sizing: border-box;
+        width: 506px;
+    }
 }

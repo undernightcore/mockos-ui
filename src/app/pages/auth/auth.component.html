@@ -12,7 +12,7 @@
           >{{ registering.value ? "Regístrate ahora" : "Hola" }}</span
         >
         <div class="auth__box__content">
-          <div class="auth__box__content__form">
+          <div (keyup.enter)="handleSubmit()" class="auth__box__content__form">
             <app-input
               *ngIf="registering.value"
               label="Nombre"

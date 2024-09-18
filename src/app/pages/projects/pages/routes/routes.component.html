@@ -1,113 +1,29 @@
-<div
-  [ngClass]="{
-    isMobileSelected: isMobile && selectedRoute,
-    isMobileUnselected: isMobile && !selectedRoute
-  }"
-  class="routes"
->
-  <div *ngIf="!isMobile || (isMobile && !selectedRoute)" class="routes__list">
-    <div class="routes__list__actions">
-      <div class="routes__list__actions__wrapper">
-        <button (click)="openCreateModal(false)" mat-button>
-          <mat-icon>add</mat-icon>
-        </button>
-        <button [routerLink]="['/projects', projectId, 'members']" mat-button>
-          <mat-icon>person</mat-icon>
-        </button>
-        <button (click)="openForkModal()" mat-button>
-          <img src="assets/icons/source-control.svg" />
-        </button>
-        <button (click)="openTokensModal(projectId)" mat-button>
-          <mat-icon>key</mat-icon>
-        </button>
-        <a
-          href="https://docs.mockos.io/docs/projects/endpoint/"
-          target="_blank"
-          mat-button
-        >
-          <mat-icon>question_mark</mat-icon>
-        </a>
-      </div>
+<div class="routes">
+  <div class="routes__actions">
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/add.svg" alt="" />
     </div>
-    <div *ngIf="selectedFolder" class="routes__list__folder">
-      <button (click)="selectFolder()" mat-button>
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <div>
-        <mat-icon>folder_open</mat-icon>
-        <h4>{{ selectedFolder.name }}</h4>
-      </div>
-      <button (click)="deleteFolder(selectedFolder)" mat-button>
-        <mat-icon>delete</mat-icon>
-      </button>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/share.svg" alt="" />
     </div>
-    <div
-      *ngIf="selectedFolder && draggingIndex !== undefined"
-      class="routes__list__drop-zone"
-      (mouseenter)="hoveringIndex = { index: null, move: true }"
-      (mouseleave)="hoveringIndex = undefined"
-    >
-      <div class="routes__list__drop-zone__border">
-        <span>Drop here to leave folder</span>
-      </div>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/connect.svg" alt="" />
     </div>
-    <div class="routes__list__search">
-      <mat-form-field appearance="fill">
-        <mat-label>{{ "PAGES.ROUTES.SEARCH_ROUTES" | translate }}</mat-label>
-        <input [formControl]="search" matInput />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/key.svg" alt="" />
     </div>
-    <div
-      *ngIf="routes"
-      [cdkDropListSortingDisabled]="true"
-      [cdkDropListDisabled]="isMobile"
-      [maxItems]="maxRoutes"
-      [currentItems]="routes.length"
-      [itemsPerPage]="20"
-      (newPageNeeded)="
-        getRoutes($event, 20, this.selectedFolder?.id).subscribe()
-      "
-      cdkDropList
-      infiniteScroll
-      class="routes__list__items"
-    >
-      <div *ngFor="let route of routes; let i = index; trackBy: trackByRoute">
-        <app-route-list-item
-          *ngIf="!route.is_folder"
-          (click)="selectRoute(route)"
-          [route]="route"
-          (draggingStart)="draggingIndex = i"
-          (draggingEnd)="handleSort()"
-          [sortingMode]="draggingIndex !== undefined"
-          [isSelected]="route.id === selectedRoute?.id"
-          [showBackButton]="!!selectedFolder"
-          (dragging)="handleDraggingSort(i, $event)"
-        ></app-route-list-item>
-        <app-folder-list-item
-          *ngIf="route.is_folder"
-          (click)="selectFolder(route)"
-          (draggingStart)="draggingIndex = i"
-          (draggingEnd)="handleSort()"
-          [sortingMode]="draggingIndex !== undefined"
-          [folder]="route"
-          (dragging)="handleDraggingSort(i, $event)"
-          (dropping)="
-            hoveringIndex = $event ? { index: i, move: true } : undefined
-          "
-        ></app-folder-list-item>
-      </div>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/question-mark.svg" alt="" />
+    </div>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/pencil.svg" alt="" />
+    </div>
+    <div class="routes__actions__item">
+      <img src="/assets/images/icons/bin.svg" alt="" />
     </div>
   </div>
-  <div *ngIf="!isMobile || (isMobile && selectedRoute)" class="routes__info">
-    <app-route-info
-      *ngIf="selectedRoute"
-      (updatedRoute)="updateRoute($event)"
-      (back)="selectedRoute = undefined"
-      [route]="selectedRoute"
-    ></app-route-info>
-    <div *ngIf="!selectedRoute" class="routes__info__missing">
-      <h4>{{ "PAGES.ROUTES.SELECT_ROUTE" | translate }}</h4>
-    </div>
+  <div class="routes__list">
+    <app-route-list></app-route-list>
   </div>
+  <div class="routes__responses"></div>
 </div>

@@ -1,0 +1,4 @@
+<div class="routes">
+    <app-input icon="search" placeholder="Buscar endpoint"></app-input>
+    <div *ngIf="routes$ | async as routes" class="routes__list"></div>
+</div>

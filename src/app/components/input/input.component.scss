@@ -27,6 +27,12 @@
     color: #CAC4D0;
   }
 
+  & > img {
+    position: absolute;
+    top: 16px;
+    left: 12px;
+  }
+
   &__label {
     padding: 0 4px;
     left: 12px;
