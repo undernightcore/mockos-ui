@@ -42,23 +42,10 @@ export class RoutesService {
     );
   }
 
-  getRoutes(
-    projectId: number,
-    folderId?: number,
-    search?: string,
-    page = 1,
-    perPage = 50
-  ) {
-    return this.httpClient.get<
-      PaginatedResponseInterface<RouteInterface | FolderInterface>
-    >(`${this.envService.getEnv('apiUrl')}/projects/${projectId}/routes`, {
-      params: {
-        ...(search ? { search } : {}),
-        ...(folderId ? { folderId } : {}),
-        page,
-        perPage,
-      },
-    });
+  getRoutes(projectId: number) {
+    return this.httpClient.get<Array<RouteInterface | FolderInterface>>(
+      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/routes`
+    );
   }
 
   createRoute(projectId: number, data: CreateRouteInterface) {

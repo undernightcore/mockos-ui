@@ -36,6 +36,9 @@ import { DeleteTokenComponent } from './components/delete-token/delete-token.com
 import { CreateTokenComponent } from './components/create-token/create-token.component';
 import { FolderListItemComponent } from './components/folder-list-item/folder-list-item.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ButtonModule } from '../../../../components/button/button.module';
+import { RouteListComponent } from './components/route-list/route-list.component';
+import { InputModule } from '../../../../components/input/input.module';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DeleteTokenComponent,
     CreateTokenComponent,
     FolderListItemComponent,
+    RouteListComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +82,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTooltipModule,
     ClipboardModule,
     MatProgressSpinnerModule,
-  ],
+    ButtonModule,
+    InputModule,
+  ]
 })
 export class RoutesModule {}

@@ -19,7 +19,7 @@ export class ResponsesService {
 
   getResponses(routeId: number, page = 1, perPage = 10) {
     return this.httpClient.get<
-      PaginatedResponseInterface<SimpleResponseInterface>
+      Array<SimpleResponseInterface>
     >(`${this.envService.getEnv('apiUrl')}/routes/${routeId}/responses`, {
       params: { page, perPage },
     });

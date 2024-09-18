@@ -27,6 +27,7 @@ import { ButtonModule } from '../../components/button/button.module';
 import { CheckboxGroupModule } from '../../components/checkbox-group/checkbox-group.module';
 import { DialogModule } from '../../components/dialog/dialog.module';
 import { InputModule } from '../../components/input/input.module';
+import { ProjectManagerService } from './pages/routes/services/project.manager';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,6 @@ import { InputModule } from '../../components/input/input.module';
     CheckboxGroupModule,
     DialogModule,
     InputModule,
-  ],
+  ]
 })
 export class ProjectsModule {}
