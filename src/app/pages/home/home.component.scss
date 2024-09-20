@@ -1,4 +1,4 @@
-.home {
+.home {  
   &__header {
     position: sticky;
     top: 0;
@@ -105,10 +105,11 @@
         display: flex;
         align-items: center;
         gap: 56px;
+        max-height: 535px;
 
         @media (max-width: 1250px) {
           flex-direction: column;
-          gap: 12px;
+          gap: 70px;
         }
 
         &:nth-child(odd) {
@@ -122,6 +123,10 @@
           & > div {
             text-align: end;
           }
+        }
+
+        & > img {
+          max-height: 465px;
         }
 
         & > div {
@@ -172,6 +177,18 @@
           @media (max-width: 1250px) {
             gap: 12px;
             max-height: 435px;
+          }
+        }
+      }
+
+      &__section__special {
+        & > img {
+          transform: scale(1.5);
+          z-index: -1;
+          max-height: 844px;
+
+          @media (max-width: 1250px) {
+            max-height: 465px;
           }
         }
       }
