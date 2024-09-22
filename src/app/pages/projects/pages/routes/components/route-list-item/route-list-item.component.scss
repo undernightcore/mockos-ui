@@ -2,7 +2,6 @@
   position: relative;
   background-color: #2d2b30;
   cursor: pointer;
-  border-radius: 12px;
 
   &__divider {
     border-bottom: 2px solid white;
@@ -46,7 +45,8 @@
   }
 
   &__placeholder {
-    height: 68px;
+    height: 1px;
+    background-color: white;
   }
 
   &__drop {
@@ -68,5 +68,9 @@
 }
 
 .is-selected {
-  border-left: 5px solid var(--main-color) !important;
+  background-color: #4088FF;
+}
+
+.rounded {
+  border-radius: 12px;
 }

@@ -1,5 +1,6 @@
 <div
   *ngIf="route"
+  [class.rounded]="rounded"
   [class.is-selected]="isSelected"
   (cdkDragStarted)="draggingStart.emit()"
   (cdkDragEnded)="draggingEnd.emit()"
@@ -8,12 +9,12 @@
   class="route-list-item"
 >
   <div class="route-list-item__content">
-    <app-checkbox [formControl]="checkedForm"></app-checkbox>
+    <app-checkbox (click)="$event.stopPropagation()" [formControl]="checkedForm"></app-checkbox>
     <div class="route-list-item__content__info">
       <span>{{ route.name }}</span>
       <span>{{ route.endpoint }}</span>
     </div>
-    <app-http-chip [method]="route.method"></app-http-chip>
+    <app-http-chip [selected]="isSelected" [method]="route.method"></app-http-chip>
   </div>
-  <div class="route-list-item__placeholder" *cdkDragPlaceholder></div>
+  <div [class.disabled]="disablePlaceholder" class="route-list-item__placeholder" *cdkDragPlaceholder></div>
 </div>

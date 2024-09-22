@@ -9,13 +9,13 @@
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.1px;
-    color: #1D1B20;
+    color: #1d1b20;
   }
 }
 
 .get {
   background-color: #4088ff;
-  
+
   & > span {
     color: white;
   }
@@ -35,4 +35,12 @@
 
 .patch {
   background-color: #eece2a;
+}
+
+.selected {
+  background-color: white;
+
+  & > span {
+    color: #1d1b20;
+  }
 }

@@ -32,6 +32,8 @@ export class FolderListItemComponent {
 
   @Output() draggingStart = new EventEmitter();
   @Output() draggingEnd = new EventEmitter();
+
+  isDropping = false;
   @Output() dropping = new EventEmitter<boolean>();
 
   checkedForm = new FormControl(true, (control) => {
@@ -55,6 +57,7 @@ export class FolderListItemComponent {
       )
     )
   );
+  selectedRoute$ = this.projectManager.selectedRoute$;
 
   folder$ = new ReplaySubject<FolderInterface>(1);
 
@@ -64,6 +67,7 @@ export class FolderListItemComponent {
 
   draggingInside(enter: boolean) {
     if (!this.sortingMode) return;
+    this.isDropping = enter;
     this.dropping.emit(enter);
   }
 
@@ -81,6 +85,10 @@ export class FolderListItemComponent {
     });
 
     this.projectManager.sortRoute(from.id, to.id);
+  }
+
+  selectRoute(routeId: number) {
+    this.projectManager.selectRoute(routeId);
   }
 
   trackByRoute(_: number, route: RouteInterface) {

@@ -3,6 +3,7 @@
   background-color: #2d2b30;
   cursor: pointer;
   border-radius: 12px;
+  overflow: hidden;
 
   &__divider {
     border-bottom: 2px solid white;
@@ -38,7 +39,8 @@
   }
 
   &__placeholder {
-    height: 48px;
+    height: 1px;
+    background-color: white;
   }
 
   &__drop {
@@ -61,4 +63,8 @@
 
 .rotated {
   transform: rotate(90deg);
+}
+
+.dropping {
+  border: 2px solid white;
 }

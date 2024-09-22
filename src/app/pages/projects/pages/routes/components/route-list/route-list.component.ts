@@ -55,8 +55,7 @@ export class RouteListComponent {
       )
     )
   );
-
-  draggingIndex?: number;
+  selectedRoute$ = this.projectManager.selectedRoute$;
 
   constructor(private projectManager: ProjectManagerService) {}
 
@@ -77,6 +76,10 @@ export class RouteListComponent {
       from.is_folder ? from.folder.id : from.id,
       to.is_folder ? to.folder.id : to.id
     );
+  }
+
+  selectRoute(routeId: number) {
+    this.projectManager.selectRoute(routeId);
   }
 
   trackByRoute(_: number, route: RouteInterface | FolderAndRoutesInterface) {

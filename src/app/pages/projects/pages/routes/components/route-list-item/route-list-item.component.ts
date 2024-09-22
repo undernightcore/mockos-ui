@@ -10,8 +10,10 @@ import { RoutesService } from 'src/app/services/routes/routes.service';
 })
 export class RouteListItemComponent implements OnInit {
   @Input() route?: RouteInterface;
+  @Input() rounded = true;
   @Input() isSelected = false;
   @Input() sortingMode = false;
+  @Input() disablePlaceholder = false;
 
   @Output() draggingStart = new EventEmitter();
   @Output() draggingEnd = new EventEmitter();
