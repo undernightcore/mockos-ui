@@ -55,7 +55,8 @@ export class ProjectManagerService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  #selectedRoute = new Subject<number>();
+  #selectedRoute = new ReplaySubject<number>(1);
+  selectedRoute$ = this.#selectedRoute.asObservable();
   route$ = this.#selectedRoute.pipe(
     switchMap((selected) =>
       this.routes$.pipe(

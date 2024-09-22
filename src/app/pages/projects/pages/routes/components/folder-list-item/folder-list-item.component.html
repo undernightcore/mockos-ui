@@ -3,6 +3,7 @@
   (cdkDragStarted)="draggingStart.emit()"
   (cdkDragEnded)="draggingEnd.emit()"
   class="folder-list-item"
+  [class.dropping]="isDropping"
   cdkDragPreviewClass="height-fit"
   cdkDrag
 >
@@ -18,10 +19,15 @@
     *ngIf="opened"
     class="folder-list-item__routes"
   >
-    <app-route-list-item
-      [route]="route"
-      *ngFor="let route of routes$ | async; trackBy: trackByRoute"
-    ></app-route-list-item>
+    <ng-container *ngIf="{ value: selectedRoute$ | async } as selectedRoute">
+      <app-route-list-item
+        [rounded]="false"
+        (click)="selectRoute(route.id)"
+        [isSelected]="selectedRoute.value === route.id"
+        [route]="route"
+        *ngFor="let route of routes$ | async; trackBy: trackByRoute"
+      ></app-route-list-item>
+    </ng-container>
   </div>
   <div class="folder-list-item__placeholder" *cdkDragPlaceholder></div>
 </div>
