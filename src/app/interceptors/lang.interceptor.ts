@@ -14,7 +14,6 @@ export class LangInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let locale = localStorage.getItem('lang') || 'en';
-    if (!locale) return next.handle(req);
     return next.handle(
       req.clone({
         setHeaders: { 'Accept-Language': locale },

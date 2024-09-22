@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  BehaviorSubject,
   distinctUntilChanged,
   filter,
   map,
@@ -10,6 +11,7 @@ import {
   startWith,
   Subject,
   switchMap,
+  take,
   tap,
 } from 'rxjs';
 import { ProjectInterface } from 'src/app/interfaces/project.interface';
@@ -81,7 +83,6 @@ export class ProjectManagerService {
   );
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private projectsService: ProjectService,
     private appManager: AppManagerService,
     private routesService: RoutesService,
@@ -92,6 +93,17 @@ export class ProjectManagerService {
 
   selectRoute(routeId: number) {
     this.#selectedRoute.next(routeId);
+  }
+
+  sortRoute(fromId: number, toId: number) {
+    this.project$
+      .pipe(
+        take(1),
+        switchMap((project) =>
+          this.routesService.sortRoute(project.id, fromId, toId)
+        )
+      )
+      .subscribe();
   }
 
   selectProject(projectId: number) {

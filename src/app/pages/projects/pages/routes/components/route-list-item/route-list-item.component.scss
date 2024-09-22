@@ -1,74 +1,52 @@
 .route-list-item {
   position: relative;
-  background-color: white;
+  background-color: #2d2b30;
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--soft-gray);
-  }
+  border-radius: 12px;
 
   &__divider {
-    height: 2px;
-    background-color: var(--main-color);
+    border-bottom: 2px solid white;
   }
-
+  
   &__content {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border-bottom: 1px solid var(--disabled-color);
+    gap: 16px;
+    padding: 0 16px;
+    height: 68px;
 
-    & > button {
-      height: fit-content;
-      width: fit-content;
-      background-color: var(--alt-color);
-    }
-
-    & > div {
+    &__info {
+      display: flex;
+      flex-direction: column;
       width: 100%;
+      overflow: hidden;
 
-      & > div {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+      & > span {
+        font-family: Roboto, "sans-serif";
+        color: white;
+        font-weight: 400;
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
 
-        & > div {
-          height: 8px;
-          width: 8px;
-          border-radius: 25px;
-          background-color: red;
+        &:first-child {
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0.5px;
+        }
+
+        &:last-child {
+          font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0.25px;
         }
       }
-
-      & > p {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-right: 52px;
-      }
-    }
-
-
-    app-http-chip {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-    }
-
-    & > mat-icon {
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-    }
-
-    h4, p {
-      margin-bottom: 0;
     }
   }
 
   &__placeholder {
-    height: 77px;
-    background-color: lightgray;
+    height: 68px;
   }
 
   &__drop {
@@ -78,7 +56,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
 
     & > div {
       height: 100%;
@@ -92,10 +69,4 @@
 
 .is-selected {
   border-left: 5px solid var(--main-color) !important;
-}
-
-.is-dragging {
-  &:hover {
-    background-color: white !important;
-  }
 }

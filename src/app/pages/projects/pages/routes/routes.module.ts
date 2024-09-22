@@ -39,6 +39,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ButtonModule } from '../../../../components/button/button.module';
 import { RouteListComponent } from './components/route-list/route-list.component';
 import { InputModule } from '../../../../components/input/input.module';
+import { CheckboxModule } from "../../../../components/checkbox/checkbox.module";
+import { AutoAnimateModule } from 'src/app/directives/auto-animate/auto-animate.module';
 
 @NgModule({
   declarations: [
@@ -84,6 +86,8 @@ import { InputModule } from '../../../../components/input/input.module';
     MatProgressSpinnerModule,
     ButtonModule,
     InputModule,
-  ]
+    CheckboxModule,
+    AutoAnimateModule
+]
 })
 export class RoutesModule {}
