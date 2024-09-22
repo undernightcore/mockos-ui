@@ -12,8 +12,8 @@ export const mapRoutesToFolders = (
   for (const route of routes) {
     if (route.is_folder) {
       folders.set(route.id, { folder: route, routes: [], is_folder: true });
-    } else if (route.parentFolderId) {
-      const folder = folders.get(route.parentFolderId);
+    } else if (route.parent_folder_id) {
+      const folder = folders.get(route.parent_folder_id);
       if (!folder?.is_folder) continue;
       
       folder.routes.push(route);

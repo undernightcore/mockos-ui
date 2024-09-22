@@ -1,33 +1,44 @@
 .folder-list-item {
   position: relative;
-  border-bottom: 1px solid var(--disabled-color);
-  background-color: white;
+  background-color: #2d2b30;
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--soft-gray);
-  }
+  border-radius: 12px;
 
   &__divider {
-    height: 2px;
-    background-color: var(--main-color);
+    border-bottom: 2px solid white;
   }
 
   &__content {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px;
-    height: 40px;
+    padding: 0 16px;
+    gap: 16px;
+    height: 48px;
 
-    & > h4 {
-      margin-bottom: 0;
+    & > span {
+      font-family: Roboto, "sans-serif";
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    & > img {
+      transition: transform 150ms ease-in-out;
     }
   }
 
+  &__routes {
+    border-top: 1px solid #CAC4D0;
+  }
+
   &__placeholder {
-    height: 74px;
-    background-color: lightgray;
+    height: 48px;
   }
 
   &__drop {
@@ -48,8 +59,6 @@
   height: fit-content !important;
 }
 
-.is-dragging {
-  &:hover {
-    background-color: white !important;
-  }
+.rotated {
+  transform: rotate(90deg);
 }

@@ -2,6 +2,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: auto;
     gap: 24px;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: auto;
+        overflow-x: hidden;
+        gap: 8px;
+    }
 }
