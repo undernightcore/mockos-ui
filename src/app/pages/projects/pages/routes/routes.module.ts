@@ -41,6 +41,7 @@ import { RouteListComponent } from './components/route-list/route-list.component
 import { InputModule } from '../../../../components/input/input.module';
 import { CheckboxModule } from "../../../../components/checkbox/checkbox.module";
 import { AutoAnimateModule } from 'src/app/directives/auto-animate/auto-animate.module';
+import { NgLetModule } from 'ng-let';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { AutoAnimateModule } from 'src/app/directives/auto-animate/auto-animate.
     ButtonModule,
     InputModule,
     CheckboxModule,
-    AutoAnimateModule
+    AutoAnimateModule,
+    NgLetModule
 ]
 })
 export class RoutesModule {}

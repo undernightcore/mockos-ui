@@ -15,6 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class CheckboxComponent implements ControlValueAccessor {
   @Input() value = '';
+  @Input() highContrast = false;
 
   protected checked = false;
   protected onChange?: (value: boolean) => void;

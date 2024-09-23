@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   distinctUntilChanged,
-  filter,
   map,
   of,
   ReplaySubject,
@@ -39,7 +38,7 @@ export class ProjectManagerService {
   routes$ = this.project$.pipe(
     switchMap((project) =>
       this.realtimeService.listenProject(project.id).pipe(
-        startWith('updated'),
+        startWith('started'),
         switchMap((status) =>
           status !== 'deleted'
             ? this.routesService.getRoutes(project.id)
@@ -55,7 +54,7 @@ export class ProjectManagerService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  #selectedRoute = new ReplaySubject<number>(1);
+  #selectedRoute = new Subject<number>();
   selectedRoute$ = this.#selectedRoute.asObservable();
   route$ = this.#selectedRoute.pipe(
     switchMap((selected) =>
@@ -66,15 +65,30 @@ export class ProjectManagerService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  #loadingResponses = new BehaviorSubject(0);
+  loadingResponses$ = this.#loadingResponses.pipe(
+    map((amount) => Boolean(amount))
+  );
   responses$ = this.route$.pipe(
     distinctUntilChanged((previous, current) => previous?.id === current?.id),
     switchMap((route) =>
       route
         ? this.realtimeService.listenRoute(route.id).pipe(
-            startWith('updated'),
+            startWith('started'),
             switchMap((status) =>
               status !== 'deleted'
-                ? this.responsesService.getResponses(route.id)
+                ? this.responsesService.getResponses(route.id).pipe(
+                    tap({
+                      subscribe: () =>
+                        this.#loadingResponses.next(
+                          this.#loadingResponses.value + 1
+                        ),
+                      finalize: () =>
+                        this.#loadingResponses.next(
+                          this.#loadingResponses.value - 1
+                        ),
+                    })
+                  )
                 : of(undefined)
             )
           )

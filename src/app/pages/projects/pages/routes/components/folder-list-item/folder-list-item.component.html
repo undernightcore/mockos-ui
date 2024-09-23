@@ -13,21 +13,22 @@
     <span>{{ folder.name }}</span>
     <img [class.rotated]="opened" src="/assets/images/icons/right-arrow.svg" />
   </div>
-  <div
-    cdkDropList
-    (cdkDropListDropped)="handleDrop($event)"
-    *ngIf="opened"
-    class="folder-list-item__routes"
-  >
-    <ng-container *ngIf="{ value: selectedRoute$ | async } as selectedRoute">
+  <ng-container *ngLet="selectedRoute$ | async as selectedRoute">
+    <div
+      cdkDropList
+      (cdkDropListDropped)="handleDrop($event)"
+      *ngIf="opened"
+      class="folder-list-item__routes"
+    >
       <app-route-list-item
         [rounded]="false"
         (click)="selectRoute(route.id)"
-        [isSelected]="selectedRoute.value === route.id"
+        [isSelected]="selectedRoute === route.id"
         [route]="route"
         *ngFor="let route of routes$ | async; trackBy: trackByRoute"
       ></app-route-list-item>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
+
   <div class="folder-list-item__placeholder" *cdkDragPlaceholder></div>
 </div>

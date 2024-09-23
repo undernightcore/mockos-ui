@@ -4,6 +4,7 @@ import {
   firstValueFrom,
   map,
   ReplaySubject,
+  shareReplay,
   startWith,
   Subject,
   switchMap,
@@ -57,7 +58,7 @@ export class FolderListItemComponent {
       )
     )
   );
-  selectedRoute$ = this.projectManager.selectedRoute$;
+  selectedRoute$ = this.projectManager.selectedRoute$.pipe(shareReplay({ refCount: true, bufferSize: 1}));
 
   folder$ = new ReplaySubject<FolderInterface>(1);
 

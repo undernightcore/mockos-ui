@@ -2,6 +2,15 @@
   (click)="checked = !checked; onChange?.(checked)"
   [class.checked]="checked"
   class="checkbox"
+  [class.high-contrast]="highContrast"
 >
-  <img *ngIf="checked" alt="checked icon" src="assets/images/icons/check.svg" />
+  <img
+    *ngIf="checked"
+    alt="checked icon"
+    [src]="
+      highContrast
+        ? 'assets/images/icons/high-check.svg'
+        : 'assets/images/icons/check.svg'
+    "
+  />
 </div>

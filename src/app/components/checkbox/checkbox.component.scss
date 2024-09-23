@@ -15,3 +15,11 @@
   background-color: #4088ff;
   border: 2px solid #4088ff;
 }
+
+.high-contrast {
+  border: 2px solid white;
+}
+
+.checked.high-contrast {
+  background-color: white;
+}
