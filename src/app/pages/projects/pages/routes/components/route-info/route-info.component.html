@@ -1,1 +1,52 @@
-<div class="route"></div>
+<div *ngLet="route$ | async as route" class="route">
+  <div class="route__actions">
+    <app-button
+      [disabled]="!route"
+      size="small"
+      backgroundColor="#4088FF"
+      color="white"
+      borderColor="#4088FF"
+      >Nueva respuesta</app-button
+    >
+  </div>
+  <ng-container *ngIf="routes$ | async as routes; else loading">
+    <ng-container *ngIf="routes.length; else empty">
+      <div
+        *ngIf="route$ | async as route; else unselected"
+        class="route__responses"
+      >
+        <ng-container *ngLet="responses$ | async as responses">
+          <div
+            *ngIf="!(loadingResponses$ | async); else loading"
+            class="route__responses__grid"
+          >
+            <app-response-list-item
+              [response]="response"
+              *ngFor="let response of responses"
+            ></app-response-list-item>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+
+<ng-template #empty>
+  <div class="route__empty">
+    <img src="/assets/images/no-route.svg" alt="" />
+    <span>Esto está un poco vacío</span>
+  </div>
+</ng-template>
+
+<ng-template #unselected>
+  <div class="route__empty">
+    <img src="/assets/images/unselected.svg" alt="" />
+    <span>Aún no has seleccionado nada</span>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="route__loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

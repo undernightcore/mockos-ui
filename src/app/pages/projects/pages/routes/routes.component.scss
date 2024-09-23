@@ -13,7 +13,7 @@
         flex-direction: column;
         align-items: center;
         gap: 48px;
-        width: 82px;
+        min-width: 82px;
         background-color: #1D1B20;
         border-radius: 16px;
         box-sizing: border-box;
@@ -39,10 +39,12 @@
         background-color: #1D1B20;
         border-radius: 16px;
         box-sizing: border-box;
-        width: 506px;
+        min-width: 506px;
+        max-width: 506px;
     }
 
     &__info {
-        
+        height: 100%;
+        width: 100%;
     }
 }

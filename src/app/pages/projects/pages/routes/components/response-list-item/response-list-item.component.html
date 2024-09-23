@@ -1,22 +1,15 @@
 <div
   *ngIf="response"
-  class="response-card"
-  [ngClass]="response.enabled ? 'enabled' : 'disabled'"
+  class="response"
+  [class.selected]="response.enabled"
   (click)="edit.emit()"
 >
-  <img *ngIf="!loading" src="assets/icons/drop.svg" />
-  <mat-spinner *ngIf="loading"></mat-spinner>
-
-  <div class="response-card__info">
-    <h4>{{ response.name }}</h4>
-    <span>{{ response.status }}</span>
+  <div class="response__actions">
+    <app-checkbox [highContrast]="response.enabled"></app-checkbox>
+    <img src="/assets/images/icons/vertical-dots.svg" alt="" />
   </div>
-  <div class="response-card__actions">
-    <mat-icon *ngIf="!response.enabled" (click)="openSelectModal($event)">
-      swap_horiz
-    </mat-icon>
-    <mat-icon (click)="openDuplicateModal($event)">content_copy</mat-icon>
-    <mat-icon (click)="openConfigModal($event)">code</mat-icon>
-    <mat-icon (click)="openDeleteModal($event)">delete</mat-icon>
+  <div class="response__info">
+    <span>{{ response.status }}</span>
+    <span>{{ response.name }}</span>
   </div>
 </div>
