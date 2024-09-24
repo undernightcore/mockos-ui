@@ -11,7 +11,12 @@
     *ngIf="routes$ | async as routes"
     class="routes__list"
   >
-    <ng-container *ngIf="{ value: selectedRoute$ | async } as selectedRoute">
+    <ng-container
+      *ngIf="{
+        value: selectedRoute$ | async,
+        all: selectedRoutes$ | async
+      } as selectedRoute"
+    >
       <ng-container
         *ngFor="let item of routes; let i = index; trackBy: trackByRoute"
       >
@@ -20,6 +25,8 @@
           [folder]="item"
         ></app-folder-list-item>
         <app-route-list-item
+          [checked]="!!selectedRoute.all?.has(item.id)"
+          (checkedChanges)="handleChecked(item.id, $event)"
           (click)="selectRoute(item.id)"
           [isSelected]="selectedRoute.value === item.id"
           *ngIf="!item.is_folder"

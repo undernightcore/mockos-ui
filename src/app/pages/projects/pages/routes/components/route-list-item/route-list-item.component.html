@@ -2,8 +2,6 @@
   *ngIf="route"
   [class.rounded]="rounded"
   [class.is-selected]="isSelected"
-  (cdkDragStarted)="draggingStart.emit()"
-  (cdkDragEnded)="draggingEnd.emit()"
   cdkDragPreviewClass="height-fit"
   cdkDrag
   class="route-list-item"

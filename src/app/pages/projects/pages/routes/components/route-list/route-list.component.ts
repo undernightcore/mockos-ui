@@ -24,6 +24,7 @@ export class RouteListComponent {
   searchForm = new FormControl<string>('');
 
   temporalSorting$ = new Subject<{ from: number; to: number }>();
+  selectedRoutes$ = this.projectManager.selectedRoutes$;
   routes$ = this.searchForm.valueChanges.pipe(
     debounceTime(200),
     startWith(this.searchForm.value),
@@ -76,6 +77,14 @@ export class RouteListComponent {
       from.is_folder ? from.folder.id : from.id,
       to.is_folder ? to.folder.id : to.id
     );
+  }
+
+  handleChecked(routeId: number, checked: boolean) {
+    if (checked) {
+      this.projectManager.addRouteToList(routeId);
+    } else {
+      this.projectManager.removeRouteFromList(routeId);
+    }
   }
 
   selectRoute(routeId: number) {
