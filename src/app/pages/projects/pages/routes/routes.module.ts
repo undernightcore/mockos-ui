@@ -42,6 +42,10 @@ import { InputModule } from '../../../../components/input/input.module';
 import { CheckboxModule } from "../../../../components/checkbox/checkbox.module";
 import { AutoAnimateModule } from 'src/app/directives/auto-animate/auto-animate.module';
 import { NgLetModule } from 'ng-let';
+import { RouteActionsComponent } from './components/route-actions/route-actions.component';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { DialogModule } from "../../../../components/dialog/dialog.module";
+import { MethodSelectorComponent } from './components/method-selector/method-selector.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,8 @@ import { NgLetModule } from 'ng-let';
     CreateTokenComponent,
     FolderListItemComponent,
     RouteListComponent,
+    RouteActionsComponent,
+    MethodSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -89,7 +95,9 @@ import { NgLetModule } from 'ng-let';
     InputModule,
     CheckboxModule,
     AutoAnimateModule,
-    NgLetModule
+    NgLetModule,
+    CdkMenuModule,
+    DialogModule
 ]
 })
 export class RoutesModule {}

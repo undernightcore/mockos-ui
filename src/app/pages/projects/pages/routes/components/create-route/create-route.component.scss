@@ -1,16 +1,30 @@
-.create-route {
-  &::ng-deep {
-    .mat-tab-body-content {
-      overflow: unset;
-      padding-top: 10px;
-    }
-    mat-tab-body {
-      overflow: unset;
+.dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  
+    &__status {
+      display: flex;
+      gap: 20px;
+  
+      & > * {
+        width: 100%;
+      }
     }
   }
 
-  form {
+  &__actions {
     display: flex;
-    flex-direction: column;
+    gap: 20px;
+
+    & > app-button {
+      width: 100%;
+    }
   }
 }
+

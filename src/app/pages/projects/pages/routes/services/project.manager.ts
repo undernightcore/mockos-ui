@@ -27,6 +27,7 @@ import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
 export class ProjectManagerService {
   #selectedProject = new ReplaySubject<number>(1);
   project$ = this.#selectedProject.pipe(
+    tap(() => this.#selectedRoutes.next(new Set<number>())),
     switchMap((projectId) =>
       this.projectsService
         .getProject(Number(projectId))
@@ -53,6 +54,9 @@ export class ProjectManagerService {
     map((routes) => (routes ? mapRoutesToFolders(routes) : undefined)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
+
+  #selectedRoutes = new BehaviorSubject(new Set<number>());
+  selectedRoutes$ = this.#selectedRoutes.asObservable();
 
   #selectedRoute = new Subject<number>();
   selectedRoute$ = this.#selectedRoute.asObservable();
@@ -105,6 +109,16 @@ export class ProjectManagerService {
     private realtimeService: RealtimeService,
     private router: Router
   ) {}
+
+  addRouteToList(routeId: number) {
+    this.#selectedRoutes.value.add(routeId);
+    this.#selectedRoutes.next(this.#selectedRoutes.value)
+  }
+
+  removeRouteFromList(routeId: number) {
+    this.#selectedRoutes.value.delete(routeId);
+    this.#selectedRoutes.next(this.#selectedRoutes.value)
+  }
 
   selectRoute(routeId: number) {
     this.#selectedRoute.next(routeId);

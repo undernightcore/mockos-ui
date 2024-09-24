@@ -1,67 +1,37 @@
-<h1 mat-dialog-title>
-  {{
-    (selectedTab
-      ? "PAGES.ROUTES.CREATE_NEW_FOLDER"
-      : "PAGES.ROUTES.CREATE_NEW_ROUTE"
-    ) | translate
-  }}
-</h1>
-<div class="create-route" mat-dialog-content>
-  <mat-tab-group [preserveContent]="true" [(selectedIndex)]="selectedTab">
-    <mat-tab [label]="'COMMON.ROUTE' | translate">
-      <form [formGroup]="routeForm">
-        <mat-form-field>
-          <input
-            formControlName="name"
-            [placeholder]="'COMMON.NAME' | translate"
-            matInput
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            formControlName="endpoint"
-            [placeholder]="'COMMON.ENDPOINT' | translate"
-            matInput
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select
-            formControlName="method"
-            [placeholder]="'COMMON.METHOD' | translate"
+<app-dialog [title]="title">
+  <div class="dialog">
+    <div class="dialog__form">
+      <app-input label="Nombre" [control]="routeForm.controls.name"></app-input>
+      <ng-container *ngIf="!data?.isFolder">
+        <app-input
+          label="Endpoint"
+          [control]="routeForm.controls.endpoint"
+        ></app-input>
+        <div class="dialog__form__status">
+          <app-method-selector
+            [control]="routeForm.controls.method"
+          ></app-method-selector>
+          <app-button
+            (click)="routeForm.controls.enabled.setValue(false)"
+            color="#1D1B20"
+            backgroundColor="white"
+            borderColor="white"
+            *ngIf="routeForm.controls.enabled.value"
+            >Activo</app-button
           >
-            <mat-select-trigger
-              ><app-http-chip
-                [method]="routeForm.value.method ?? 'get'"
-              ></app-http-chip
-            ></mat-select-trigger>
-            <mat-option [value]="method" *ngFor="let method of methodOptions">
-              {{ method }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-slide-toggle formControlName="enabled">{{
-          "COMMON.ENABLED" | translate
-        }}</mat-slide-toggle>
-      </form>
-    </mat-tab>
-    <mat-tab [label]="'COMMON.FOLDER' | translate">
-      <form [formGroup]="routeForm">
-        <mat-form-field>
-          <input
-            formControlName="name"
-            [placeholder]="'COMMON.NAME' | translate"
-            matInput
-          />
-        </mat-form-field>
-      </form>
-    </mat-tab>
-  </mat-tab-group>
-</div>
-<div mat-dialog-actions>
-  <button (click)="dialogRef.close()" mat-button>
-    {{ "ACTIONS.CANCEL" | translate }}
-  </button>
-  <button (click)="emitData()" mat-button>
-    {{ "ACTIONS.CREATE" | translate }}
-  </button>
-</div>
+          <app-button
+            (click)="routeForm.controls.enabled.setValue(true)"
+            *ngIf="!routeForm.controls.enabled.value"
+            >Activar</app-button
+          >
+        </div>
+      </ng-container>
+    </div>
+    <div class="dialog__actions">
+      <app-button (click)="dialogRef.close()">Cancelar</app-button>
+      <app-button (click)="handleSubmit()" backgroundColor="#4088FF" borderColor="#4088FF" color="white"
+        >Crear</app-button
+      >
+    </div>
+  </div>
+</app-dialog>

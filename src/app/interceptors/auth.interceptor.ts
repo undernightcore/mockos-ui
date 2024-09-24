@@ -26,7 +26,6 @@ export class AuthInterceptor implements HttpInterceptor {
     });
     return next.handle(authenticatedRequest).pipe(
       catchError((error) => {
-        openToast(error.error.errors[0], 'error');
         if ([401, 403].includes(error.status)) {
           this.authService.logout();
           this.router.navigate(['/auth/login']);

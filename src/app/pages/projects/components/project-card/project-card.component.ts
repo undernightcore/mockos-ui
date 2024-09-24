@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ForkedProjectInterface } from '../../../../interfaces/project.interface';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { fromEvent, take } from 'rxjs';
 import { CdkMenuTrigger } from '@angular/cdk/menu';
 import { FormControl } from '@angular/forms';

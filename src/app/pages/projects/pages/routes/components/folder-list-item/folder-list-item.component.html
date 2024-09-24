@@ -1,7 +1,5 @@
 <div
   *ngIf="folder$ | async as folder"
-  (cdkDragStarted)="draggingStart.emit()"
-  (cdkDragEnded)="draggingEnd.emit()"
   class="folder-list-item"
   [class.dropping]="isDropping"
   cdkDragPreviewClass="height-fit"
@@ -14,20 +12,24 @@
     <img [class.rotated]="opened" src="/assets/images/icons/right-arrow.svg" />
   </div>
   <ng-container *ngLet="selectedRoute$ | async as selectedRoute">
-    <div
-      cdkDropList
-      (cdkDropListDropped)="handleDrop($event)"
-      *ngIf="opened"
-      class="folder-list-item__routes"
-    >
-      <app-route-list-item
-        [rounded]="false"
-        (click)="selectRoute(route.id)"
-        [isSelected]="selectedRoute === route.id"
-        [route]="route"
-        *ngFor="let route of routes$ | async; trackBy: trackByRoute"
-      ></app-route-list-item>
-    </div>
+    <ng-container *ngIf="selectedRoutes$ | async as selectedRoutes">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="handleDrop($event)"
+        *ngIf="opened"
+        class="folder-list-item__routes"
+      >
+        <app-route-list-item
+          [checked]="selectedRoutes.has(route.id)"
+          (checkedChanges)="handleChecked(route.id, $event)"
+          [rounded]="false"
+          (click)="selectRoute(route.id)"
+          [isSelected]="selectedRoute === route.id"
+          [route]="route"
+          *ngFor="let route of routes$ | async; trackBy: trackByRoute"
+        ></app-route-list-item>
+      </div>
+    </ng-container>
   </ng-container>
 
   <div class="folder-list-item__placeholder" *cdkDragPlaceholder></div>

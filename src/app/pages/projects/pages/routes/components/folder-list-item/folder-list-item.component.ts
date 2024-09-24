@@ -31,9 +31,6 @@ export class FolderListItemComponent {
 
   @Input() sortingMode = false;
 
-  @Output() draggingStart = new EventEmitter();
-  @Output() draggingEnd = new EventEmitter();
-
   isDropping = false;
   @Output() dropping = new EventEmitter<boolean>();
 
@@ -58,6 +55,7 @@ export class FolderListItemComponent {
       )
     )
   );
+  selectedRoutes$ = this.projectManager.selectedRoutes$;
   selectedRoute$ = this.projectManager.selectedRoute$.pipe(shareReplay({ refCount: true, bufferSize: 1}));
 
   folder$ = new ReplaySubject<FolderInterface>(1);
@@ -65,12 +63,6 @@ export class FolderListItemComponent {
   opened = false;
 
   constructor(private projectManager: ProjectManagerService) {}
-
-  draggingInside(enter: boolean) {
-    if (!this.sortingMode) return;
-    this.isDropping = enter;
-    this.dropping.emit(enter);
-  }
 
   async handleDrop(event: CdkDragDrop<any, any, any>) {
     const routes = await firstValueFrom(this.routes$);
@@ -86,6 +78,14 @@ export class FolderListItemComponent {
     });
 
     this.projectManager.sortRoute(from.id, to.id);
+  }
+
+  handleChecked(routeId: number, checked: boolean) {
+    if (checked) {
+      this.projectManager.addRouteToList(routeId);
+    } else {
+      this.projectManager.removeRouteFromList(routeId);
+    }
   }
 
   selectRoute(routeId: number) {
