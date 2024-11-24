@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProjectManagerService } from '../../services/project.manager';
 import { debounce, delayWhen, timer } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateResponseComponent } from '../create-response/create-response.component';
 
 @Component({
   selector: 'app-route-info',
@@ -17,5 +19,9 @@ export class RouteInfoComponent {
     delayWhen((loading) => (loading ? timer(0) : timer(200)))
   );
 
-  constructor(private projectManager: ProjectManagerService) {}
+  constructor(private projectManager: ProjectManagerService, private dialogService: MatDialog) {}
+
+  openCreateResponse(routeId: number) {
+    this.dialogService.open(CreateResponseComponent, { data: { routeId }})
+  }
 }

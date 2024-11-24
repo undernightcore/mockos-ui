@@ -1,14 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProjectManagerService } from '../../services/project.manager';
-import {
-  debounceTime,
-  firstValueFrom,
-  map,
-  startWith,
-  Subject,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { debounceTime, map, startWith, Subject, switchMap, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { RoutesService } from 'src/app/services/routes/routes.service';
@@ -23,7 +15,6 @@ import { FolderAndRoutesInterface } from '../../interfaces/folder-and-routes.int
 export class RouteListComponent {
   searchForm = new FormControl<string>('');
 
-  temporalSorting$ = new Subject<{ from: number; to: number }>();
   selectedRoutes$ = this.projectManager.selectedRoutes$;
   routes$ = this.searchForm.valueChanges.pipe(
     debounceTime(200),
@@ -36,22 +27,13 @@ export class RouteListComponent {
                 route.is_folder
                   ? route.folder.name
                       .toLowerCase()
-                      .includes(search.toLowerCase())
+                      .includes(search.toLowerCase()) ||
+                    route.routes.some((child) =>
+                      child.name.toLowerCase().includes(search.toLowerCase())
+                    )
                   : route.name.toLowerCase().includes(search.toLowerCase())
               )
             : routes
-        ),
-        switchMap((routes) =>
-          this.temporalSorting$.pipe(
-            startWith(undefined),
-            tap(
-              (sorting) =>
-                routes &&
-                sorting &&
-                moveItemInArray(routes, sorting.from, sorting.to)
-            ),
-            map(() => routes)
-          )
         )
       )
     )
@@ -59,25 +41,6 @@ export class RouteListComponent {
   selectedRoute$ = this.projectManager.selectedRoute$;
 
   constructor(private projectManager: ProjectManagerService) {}
-
-  async handleDrop(event: CdkDragDrop<any, any, any>) {
-    const routes = await firstValueFrom(this.routes$);
-
-    if (!routes) return;
-
-    const from = routes[event.previousIndex];
-    const to = routes[event.currentIndex];
-
-    this.temporalSorting$.next({
-      from: event.previousIndex,
-      to: event.currentIndex,
-    });
-
-    this.projectManager.sortRoute(
-      from.is_folder ? from.folder.id : from.id,
-      to.is_folder ? to.folder.id : to.id
-    );
-  }
 
   handleChecked(routeId: number, checked: boolean) {
     if (checked) {

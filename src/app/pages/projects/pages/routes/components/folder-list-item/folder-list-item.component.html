@@ -1,9 +1,6 @@
 <div
   *ngIf="folder$ | async as folder"
   class="folder-list-item"
-  [class.dropping]="isDropping"
-  cdkDragPreviewClass="height-fit"
-  cdkDrag
 >
   <div (click)="opened = !opened" class="folder-list-item__content">
     <app-checkbox [formControl]="checkedForm"></app-checkbox>
@@ -14,23 +11,23 @@
   <ng-container *ngLet="selectedRoute$ | async as selectedRoute">
     <ng-container *ngIf="selectedRoutes$ | async as selectedRoutes">
       <div
-        cdkDropList
-        (cdkDropListDropped)="handleDrop($event)"
         *ngIf="opened"
+        [attr.data-id]="folder.id"
         class="folder-list-item__routes"
+        dragula="routes"
+        [dragulaModel]="(routes$ | async) ?? []"
       >
         <app-route-list-item
+          [attr.data-id]="route.id"
           [checked]="selectedRoutes.has(route.id)"
           (checkedChanges)="handleChecked(route.id, $event)"
           [rounded]="false"
           (click)="selectRoute(route.id)"
           [isSelected]="selectedRoute === route.id"
           [route]="route"
-          *ngFor="let route of routes$ | async; trackBy: trackByRoute"
+          *ngFor="let route of (routes$ | async) ?? []; trackBy: trackByRoute"
         ></app-route-list-item>
       </div>
     </ng-container>
   </ng-container>
-
-  <div class="folder-list-item__placeholder" *cdkDragPlaceholder></div>
 </div>

@@ -64,17 +64,10 @@ export class RoutesService {
     );
   }
 
-  sortRoute(projectId: number, originRouteId: number, destRouteId: number) {
-    return this.httpClient.post<MessageInterface>(
-      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/sort`,
-      { origin: originRouteId, destination: destRouteId }
-    );
-  }
-
-  moveRoute(projectId: number, origin: number, destination: number | null) {
+  sortAndMoveRoute(projectId: number, what: number, before?: number, into?: number) {
     return this.httpClient.post<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/projects/${projectId}/move`,
-      { origin, destination }
+      { what, before: before ?? null, into: into ?? null }
     );
   }
 }

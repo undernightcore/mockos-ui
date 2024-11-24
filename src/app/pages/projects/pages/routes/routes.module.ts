@@ -19,7 +19,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ChoiceModalModule } from '../../../../components/choice-modal/choice-modal.module';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfiniteScrollModule } from '../../../../directives/infinite-scroll/infinite-scroll.module';
 import { ResponseListItemComponent } from './components/response-list-item/response-list-item.component';
 import { CreateResponseComponent } from './components/create-response/create-response.component';
@@ -46,6 +45,7 @@ import { RouteActionsComponent } from './components/route-actions/route-actions.
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { DialogModule } from "../../../../components/dialog/dialog.module";
 import { MethodSelectorComponent } from './components/method-selector/method-selector.component';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,6 @@ import { MethodSelectorComponent } from './components/method-selector/method-sel
     MatDialogModule,
     MatSelectModule,
     ChoiceModalModule,
-    DragDropModule,
     InfiniteScrollModule,
     MatTabsModule,
     MatMenuModule,
@@ -97,7 +96,8 @@ import { MethodSelectorComponent } from './components/method-selector/method-sel
     AutoAnimateModule,
     NgLetModule,
     CdkMenuModule,
-    DialogModule
+    DialogModule,
+    DragulaModule
 ]
 })
 export class RoutesModule {}

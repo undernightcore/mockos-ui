@@ -16,6 +16,7 @@ import { NavbarModule } from './components/navbar/navbar.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MonacoEditorModule } from './components/monaco/editor.module';
+import { DragulaModule } from 'ng2-dragula';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     MonacoEditorModule.forRoot(),
+    DragulaModule.forRoot()
   ],
   providers: [
     {

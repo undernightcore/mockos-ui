@@ -2,8 +2,6 @@
   *ngIf="route"
   [class.rounded]="rounded"
   [class.is-selected]="isSelected"
-  cdkDragPreviewClass="height-fit"
-  cdkDrag
   class="route-list-item"
 >
   <div class="route-list-item__content">
@@ -14,5 +12,4 @@
     </div>
     <app-http-chip [selected]="isSelected" [method]="route.method"></app-http-chip>
   </div>
-  <div [class.disabled]="disablePlaceholder" class="route-list-item__placeholder" *cdkDragPlaceholder></div>
 </div>

@@ -33,6 +33,7 @@
     "luxon": "^3.3.0",
     "monaco-editor": "^0.43.0",
     "ng-let": "^14.0.1",
+    "ng2-dragula": "^3.2.0",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.6.1",
     "swagger-ui": "^5.9.0",
