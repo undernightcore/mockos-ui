@@ -37,24 +37,6 @@
   &__routes {
     border-top: 1px solid #CAC4D0;
   }
-
-  &__placeholder {
-    height: 1px;
-    background-color: white;
-  }
-
-  &__drop {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    top: 0;
-
-    &__zone {
-      height: 100%;
-    }
-  }
 }
 
 .height-fit {
@@ -63,8 +45,4 @@
 
 .rotated {
   transform: rotate(90deg);
-}
-
-.dropping {
-  border: 2px solid white;
 }

@@ -1,89 +1,90 @@
-<h1 mat-dialog-title>
-  {{
-    (isEditing ? "PAGES.ROUTES.EDIT_RESPONSE" : "PAGES.ROUTES.CREATE_RESPONSE")
+<app-dialog
+  [title]="
+    (isEditing ? 'PAGES.ROUTES.EDIT_RESPONSE' : 'PAGES.ROUTES.CREATE_RESPONSE')
       | translate
-  }}
-</h1>
-<div class="main-content" mat-dialog-content>
-  <div class="main-content__form">
-    <form [formGroup]="responseForm">
-      <mat-form-field>
-        <input formControlName="name" matInput placeholder="Name" />
-      </mat-form-field>
-      <mat-form-field>
-        <input
-          formControlName="status"
-          type="number"
-          matInput
-          placeholder="Status code"
-        />
-      </mat-form-field>
-      <div>
-        <mat-slide-toggle formControlName="enabled">{{
-          "COMMON.ENABLED" | translate
-        }}</mat-slide-toggle>
+  "
+>
+  <div class="main-content">
+    <div class="main-content__form">
+      <form [formGroup]="responseForm">
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Name" />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            formControlName="status"
+            type="number"
+            matInput
+            placeholder="Status code"
+          />
+        </mat-form-field>
+        <div>
+          <mat-slide-toggle formControlName="enabled">{{
+            "COMMON.ENABLED" | translate
+          }}</mat-slide-toggle>
+        </div>
+      </form>
+      <div *ngIf="newChanges" class="main-content__form__warning">
+        <span>{{ "PAGES.ROUTES.NEW_CHANGES" | translate }}</span>
+        <button (click)="compareChanges()" mat-button>
+          {{ "ACTIONS.COMPARE_AND_SAVE" | translate }}
+        </button>
       </div>
-    </form>
-    <div *ngIf="newChanges" class="main-content__form__warning">
-      <span>{{ "PAGES.ROUTES.NEW_CHANGES" | translate }}</span>
-      <button (click)="compareChanges()" mat-button>
-        {{ "ACTIONS.COMPARE_AND_SAVE" | translate }}
+      <div
+        *ngIf="warningInvalidJson && selectedTab === 0"
+        class="main-content__form__warning"
+      >
+        {{ "PAGES.ROUTES.INVALID_JSON" | translate }}
+      </div>
+      <div
+        *ngIf="this.responseForm.controls.body.invalid && selectedTab === 0"
+        class="main-content__form__alert"
+      >
+        {{ "PAGES.ROUTES.EMPTY_JSON" | translate }}
+      </div>
+    </div>
+    <mat-tab-group
+      [(selectedIndex)]="selectedTab"
+      (selectedIndexChange)="handleTabChange()"
+    >
+      <mat-tab [label]="'COMMON.TEXT' | translate">
+        <div class="main-content__editor" #editor></div>
+      </mat-tab>
+      <mat-tab [label]="'COMMON.FILE' | translate">
+        <input
+          (change)="selectedFile = fileInput.files?.item(0) ?? undefined"
+          #fileInput
+          [style.display]="'none'"
+          type="file"
+        />
+        <div (click)="fileInput.click()" class="main-content__upload">
+          <mat-icon>upload</mat-icon>
+          <h4>
+            {{
+              selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
+                | translate
+            }}
+          </h4>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="actions">
+    <div>
+      <button [disabled]="saving" (click)="dialogRef.close()" mat-button>
+        {{ "ACTIONS.CANCEL" | translate }}
+      </button>
+      <button [disabled]="saving" (click)="handleSave()" mat-button>
+        {{ (isEditing ? "ACTIONS.UPDATE" : "ACTIONS.CREATE") | translate }}
       </button>
     </div>
-    <div
-      *ngIf="warningInvalidJson && selectedTab === 0"
-      class="main-content__form__warning"
+    <button
+      [disabled]="warningInvalidJson"
+      *ngIf="this.selectedTab === 0"
+      mat-button
+      (click)="prettifyJson()"
     >
-      {{ "PAGES.ROUTES.INVALID_JSON" | translate }}
-    </div>
-    <div
-      *ngIf="this.responseForm.controls.body.invalid && selectedTab === 0"
-      class="main-content__form__alert"
-    >
-      {{ "PAGES.ROUTES.EMPTY_JSON" | translate }}
-    </div>
-  </div>
-  <mat-tab-group
-    [(selectedIndex)]="selectedTab"
-    (selectedIndexChange)="handleTabChange()"
-  >
-    <mat-tab [label]="'COMMON.TEXT' | translate">
-      <div class="main-content__editor" #editor></div>
-    </mat-tab>
-    <mat-tab [label]="'COMMON.FILE' | translate">
-      <input
-        (change)="selectedFile = fileInput.files?.item(0) ?? undefined"
-        #fileInput
-        [style.display]="'none'"
-        type="file"
-      />
-      <div (click)="fileInput.click()" class="main-content__upload">
-        <mat-icon>upload</mat-icon>
-        <h4>
-          {{
-            selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
-              | translate
-          }}
-        </h4>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
-<div class="actions" mat-dialog-actions>
-  <div>
-    <button [disabled]="saving" (click)="dialogRef.close()" mat-button>
-      {{ "ACTIONS.CANCEL" | translate }}
-    </button>
-    <button [disabled]="saving" (click)="handleSave()" mat-button>
-      {{ (isEditing ? "ACTIONS.UPDATE" : "ACTIONS.CREATE") | translate }}
+      {{ "ACTIONS.PRETTIFY_JSON" | translate }}
     </button>
   </div>
-  <button
-    [disabled]="warningInvalidJson"
-    *ngIf="this.selectedTab === 0"
-    mat-button
-    (click)="prettifyJson()"
-  >
-    {{ "ACTIONS.PRETTIFY_JSON" | translate }}
-  </button>
-</div>
+</app-dialog>

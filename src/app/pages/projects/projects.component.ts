@@ -1,8 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
-  OnInit,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -11,12 +9,9 @@ import { ForkedProjectInterface } from '../../interfaces/project.interface';
 import {
   debounceTime,
   distinctUntilChanged,
-  exhaustMap,
   filter,
-  finalize,
   forkJoin,
   iif,
-  lastValueFrom,
   map,
   Observable,
   scan,
@@ -32,11 +27,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { openToast } from '../../utils/toast.utils';
 import { ProjectModalComponent } from './components/project-modal/project-modal.component';
-import { CreateProjectInterface } from '../../interfaces/create-project.interface';
-import { InvitationsService } from '../../services/invitations/invitations.service';
-import { Router } from '@angular/router';
 import { AppManagerService } from '../../services/app/app-manager.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { RealtimeService } from '../../services/realtime/realtime.service';
 
 @Component({
@@ -84,10 +76,7 @@ export class ProjectsComponent implements AfterViewInit {
                       : value.data,
                   total: value.meta.total,
                 }),
-                { projects: [], total: 0 } as {
-                  projects: ForkedProjectInterface[];
-                  total: number;
-                }
+                { projects: [] as ForkedProjectInterface[], total: 0 }
               )
             )
           )

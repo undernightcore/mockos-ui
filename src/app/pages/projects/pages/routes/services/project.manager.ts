@@ -112,27 +112,30 @@ export class ProjectManagerService {
 
   addRouteToList(routeId: number) {
     this.#selectedRoutes.value.add(routeId);
-    this.#selectedRoutes.next(this.#selectedRoutes.value)
+    this.#selectedRoutes.next(this.#selectedRoutes.value);
   }
 
   removeRouteFromList(routeId: number) {
     this.#selectedRoutes.value.delete(routeId);
-    this.#selectedRoutes.next(this.#selectedRoutes.value)
+    this.#selectedRoutes.next(this.#selectedRoutes.value);
   }
 
   selectRoute(routeId: number) {
     this.#selectedRoute.next(routeId);
   }
 
-  sortRoute(fromId: number, toId: number) {
-    this.project$
-      .pipe(
-        take(1),
-        switchMap((project) =>
-          this.routesService.sortRoute(project.id, fromId, toId)
+  moveRoute(whatId: string, beforeId?: string, intoId?: string) {
+    return this.project$.pipe(
+      take(1),
+      switchMap((project) =>
+        this.routesService.sortAndMoveRoute(
+          project.id,
+          Number(whatId),
+          beforeId ? Number(beforeId) : undefined,
+          intoId ? Number(intoId) : undefined
         )
       )
-      .subscribe();
+    );
   }
 
   selectProject(projectId: number) {

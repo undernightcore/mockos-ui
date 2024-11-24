@@ -43,24 +43,6 @@
       }
     }
   }
-
-  &__placeholder {
-    height: 1px;
-    background-color: white;
-  }
-
-  &__drop {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    & > div {
-      height: 100%;
-    }
-  }
 }
 
 .height-fit {

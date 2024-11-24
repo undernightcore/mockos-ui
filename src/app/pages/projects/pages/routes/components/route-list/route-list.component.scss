@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100%;
     gap: 24px;
+    user-select: none;
 
     &__list {
         display: flex;
