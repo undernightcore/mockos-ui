@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { IsValidVersion } from './pipes/is-valid-version/is-valid-version.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { CompareContractsComponent } from './components/compare-contracts/compare-contracts.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MonacoEditorModule } from '../../../../components/monaco/editor.module';
 import { ContractsVersionsComponent } from './components/contracts-versions/contracts-versions.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -39,7 +38,6 @@ import { ContractInfoComponent } from './components/contract-info/contract-info.
     FormsModule,
     MatTooltipModule,
     TranslateModule,
-    MatDialogModule,
     MonacoEditorModule,
     MatProgressSpinnerModule,
     InfiniteScrollModule,

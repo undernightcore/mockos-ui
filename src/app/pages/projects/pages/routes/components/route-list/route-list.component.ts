@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { ProjectManagerService } from '../../services/project.manager';
-import { debounceTime, map, startWith, Subject, switchMap, tap } from 'rxjs';
+import { debounceTime, map, startWith, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { RoutesService } from 'src/app/services/routes/routes.service';
 import { RouteInterface } from 'src/app/interfaces/route.interface';
 import { FolderAndRoutesInterface } from '../../interfaces/folder-and-routes.interface';
 
@@ -15,7 +13,6 @@ import { FolderAndRoutesInterface } from '../../interfaces/folder-and-routes.int
 export class RouteListComponent {
   searchForm = new FormControl<string>('');
 
-  selectedRoutes$ = this.projectManager.selectedRoutes$;
   routes$ = this.searchForm.valueChanges.pipe(
     debounceTime(200),
     startWith(this.searchForm.value),
@@ -41,14 +38,6 @@ export class RouteListComponent {
   selectedRoute$ = this.projectManager.selectedRoute$;
 
   constructor(private projectManager: ProjectManagerService) {}
-
-  handleChecked(routeId: number, checked: boolean) {
-    if (checked) {
-      this.projectManager.addRouteToList(routeId);
-    } else {
-      this.projectManager.removeRouteFromList(routeId);
-    }
-  }
 
   selectRoute(routeId: number) {
     this.projectManager.selectRoute(routeId);

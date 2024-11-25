@@ -42,6 +42,39 @@
           max-width: 294px;
           max-height: 80vh;
           overflow: auto;
+
+          &__empty {
+            background-color: #1d1b20;
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+
+            & > span {
+              color: white;
+
+              &:first-child {
+                font-weight: 900;
+                font-size: 32px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                line-height: normal;
+                letter-spacing: 1px;
+              }
+
+              &:last-child {
+                font-weight: 300;
+                font-size: 16px;
+                letter-spacing: 0.1px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+              }
+            }
+          }
         }
       }
 
@@ -100,7 +133,7 @@
           justify-content: center;
           align-items: center;
           border-radius: 25px;
-          background-color: #4088FF;
+          background-color: #4088ff;
           color: white;
           font-weight: 500;
           font-size: 16px;

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouteInterface } from '../../../../../../interfaces/route.interface';
-import { FormControl } from '@angular/forms';
-import { RoutesService } from 'src/app/services/routes/routes.service';
+import { ProjectManagerService } from '../../services/project.manager';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
 
 @Component({
   selector: 'app-route-list-item',
@@ -15,13 +15,9 @@ export class RouteListItemComponent {
   @Input() sortingMode = false;
   @Input() disablePlaceholder = false;
 
-  checkedForm = new FormControl();
-  @Input() set checked(value: boolean) {
-    this.checkedForm.setValue(value, { emitEvent: false });
-  };
-  @Output() checkedChanges = new EventEmitter<boolean>();
+  constructor(private projectManager: ProjectManagerService) {}
 
-  constructor() {
-    this.checkedForm.valueChanges.subscribe((value) => this.checkedChanges.emit(Boolean(value)))
+  openEditRouteModal(id: number, data: CreateRouteInterface) {
+    this.projectManager.openEditRouteModal(id, false, data).subscribe();
   }
 }

@@ -15,7 +15,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CreateRouteComponent } from './components/create-route/create-route.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ChoiceModalModule } from '../../../../components/choice-modal/choice-modal.module';
@@ -81,7 +80,6 @@ import { DragulaModule } from 'ng2-dragula';
     TranslateModule,
     MatButtonModule,
     MatIconModule,
-    MatDialogModule,
     MatSelectModule,
     ChoiceModalModule,
     InfiniteScrollModule,

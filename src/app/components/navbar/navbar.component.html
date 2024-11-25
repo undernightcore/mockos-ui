@@ -13,24 +13,32 @@
         matBadgeColor="warn"
         *ngIf="isLogged$ | async"
       >
-        <img
-          [style.cursor]="(invitationNumber$ | async) ? 'pointer' : 'default'"
-          [cdkMenuTriggerFor]="menu"
-          alt="notifications icon"
-          src="assets/images/icons/export.svg"
-        />
-        <ng-template #menu>
-          <div cdkMenu>
-            <div class="navbar__inner__actions__notifications__list">
-              <app-invitation-card
-                *ngFor="let invitation of invitations$ | async"
-                [project]="invitation.project"
-                (accept)="resolveInvitation(invitation.id, true)"
-                (reject)="resolveInvitation(invitation.id, false)"
-              ></app-invitation-card>
+        <ng-container *ngIf="invitations$ | async as invitations">
+          <img
+            [cdkMenuTriggerFor]="menu"
+            alt="notifications icon"
+            src="assets/images/icons/export.svg"
+          />
+          <ng-template #menu>
+            <div cdkMenu>
+              <div class="navbar__inner__actions__notifications__list">
+                <div
+                  *ngIf="!invitations.length"
+                  class="navbar__inner__actions__notifications__list__empty"
+                >
+                  <span>¡Estás al día!</span>
+                  <span>No tienes invitaciones pendientes</span>
+                </div>
+                <app-invitation-card
+                  *ngFor="let invitation of invitations"
+                  [project]="invitation.project"
+                  (accept)="resolveInvitation(invitation.id, true)"
+                  (reject)="resolveInvitation(invitation.id, false)"
+                ></app-invitation-card>
+              </div>
             </div>
-          </div>
-        </ng-template>
+          </ng-template>
+        </ng-container>
       </div>
       <div class="navbar__inner__actions__language">
         <img
@@ -59,7 +67,11 @@
         *ngIf="currentUser$ | async as user"
       >
         <div>{{ user.name[0] | uppercase }}</div>
-        <img [class.rotated]="menuTrigger.isOpen()" alt="right arrow" src="assets/images/icons/right-arrow.svg" />
+        <img
+          [class.rotated]="menuTrigger.isOpen()"
+          alt="right arrow"
+          src="assets/images/icons/right-arrow.svg"
+        />
         <ng-template #menu>
           <div cdkMenu>
             <div class="navbar__inner__actions__user__list">

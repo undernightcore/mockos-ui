@@ -7,7 +7,6 @@ import { NavbarModule } from '../../../../components/navbar/navbar.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MemberCardComponent } from './components/member-card/member-card.component';
 import { InviteModalComponent } from './components/invite-modal/invite-modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,7 +22,6 @@ import { ChoiceModalModule } from '../../../../components/choice-modal/choice-mo
     MembersRoutingModule,
     NavbarModule,
     TranslateModule,
-    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

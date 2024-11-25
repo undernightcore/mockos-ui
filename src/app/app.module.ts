@@ -17,6 +17,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MonacoEditorModule } from './components/monaco/editor.module';
 import { DragulaModule } from 'ng2-dragula';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -45,7 +46,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     MonacoEditorModule.forRoot(),
-    DragulaModule.forRoot()
+    DragulaModule.forRoot(),
+    MatDialogModule
   ],
   providers: [
     {
