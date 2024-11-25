@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   BehaviorSubject,
+  catchError,
+  defer,
   distinctUntilChanged,
+  filter,
   map,
+  Observable,
   of,
   ReplaySubject,
   shareReplay,
@@ -20,6 +24,12 @@ import { RealtimeService } from 'src/app/services/realtime/realtime.service';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { RoutesService } from 'src/app/services/routes/routes.service';
 import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
+import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
+import { RouteInterface } from 'src/app/interfaces/route.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateRouteComponent } from '../components/create-route/create-route.component';
+import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +37,6 @@ import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
 export class ProjectManagerService {
   #selectedProject = new ReplaySubject<number>(1);
   project$ = this.#selectedProject.pipe(
-    tap(() => this.#selectedRoutes.next(new Set<number>())),
     switchMap((projectId) =>
       this.projectsService
         .getProject(Number(projectId))
@@ -54,9 +63,6 @@ export class ProjectManagerService {
     map((routes) => (routes ? mapRoutesToFolders(routes) : undefined)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  #selectedRoutes = new BehaviorSubject(new Set<number>());
-  selectedRoutes$ = this.#selectedRoutes.asObservable();
 
   #selectedRoute = new Subject<number>();
   selectedRoute$ = this.#selectedRoute.asObservable();
@@ -107,18 +113,9 @@ export class ProjectManagerService {
     private routesService: RoutesService,
     private responsesService: ResponsesService,
     private realtimeService: RealtimeService,
-    private router: Router
+    private router: Router,
+    private dialogService: MatDialog
   ) {}
-
-  addRouteToList(routeId: number) {
-    this.#selectedRoutes.value.add(routeId);
-    this.#selectedRoutes.next(this.#selectedRoutes.value);
-  }
-
-  removeRouteFromList(routeId: number) {
-    this.#selectedRoutes.value.delete(routeId);
-    this.#selectedRoutes.next(this.#selectedRoutes.value);
-  }
 
   selectRoute(routeId: number) {
     this.#selectedRoute.next(routeId);
@@ -140,6 +137,92 @@ export class ProjectManagerService {
 
   selectProject(projectId: number) {
     this.#selectedProject.next(projectId);
+  }
+
+  openCreateRouteModal(
+    folder: boolean,
+    data?: CreateFolderInterface | CreateRouteInterface
+  ): Observable<RouteInterface> {
+    return this.dialogService
+      .open(CreateRouteComponent, {
+        data: { isFolder: folder, data },
+        minWidth: 450,
+      })
+      .afterClosed()
+      .pipe(
+        filter((response) => Boolean(response)),
+        switchMap((value) =>
+          this.project$.pipe(
+            take(1),
+            switchMap((project) =>
+              defer(() =>
+                folder
+                  ? this.routesService.createFolder(project.id, value)
+                  : this.routesService.createRoute(project.id, {
+                      ...value,
+                      parentFolderId: null,
+                    })
+              ).pipe(
+                catchError((error) =>
+                  this.dialogService
+                    .open(ConfirmModalComponent, {
+                      data: {
+                        title: 'Error',
+                        message:
+                          error?.error?.errors?.[0] ?? 'Error inesperado',
+                        label: 'Aceptar',
+                        type: 'destructive',
+                      },
+                    })
+                    .afterClosed()
+                    .pipe(
+                      switchMap(() => this.openCreateRouteModal(folder, value))
+                    )
+                )
+              )
+            )
+          )
+        )
+      );
+  }
+
+  openEditRouteModal(
+    id: number,
+    folder: boolean,
+    data: CreateFolderInterface | CreateRouteInterface
+  ): Observable<RouteInterface> {
+    return this.dialogService
+      .open(CreateRouteComponent, {
+        data: { isFolder: folder, data },
+        minWidth: 450,
+      })
+      .afterClosed()
+      .pipe(
+        filter((response) => Boolean(response)),
+        switchMap((value) =>
+          defer(() =>
+            folder
+              ? this.routesService.editFolder(id, value)
+              : this.routesService.editRoute(id, value)
+          ).pipe(
+            catchError((error) =>
+              this.dialogService
+                .open(ConfirmModalComponent, {
+                  data: {
+                    title: 'Error',
+                    message: error?.error?.errors?.[0] ?? 'Error inesperado',
+                    label: 'Aceptar',
+                    type: 'destructive',
+                  },
+                })
+                .afterClosed()
+                .pipe(
+                  switchMap(() => this.openEditRouteModal(id, folder, value))
+                )
+            )
+          )
+        )
+      );
   }
 
   #setHeader(project: ProjectInterface) {

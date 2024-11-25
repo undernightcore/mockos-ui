@@ -7,6 +7,8 @@ import {
 } from 'src/app/interfaces/route.interface';
 import { ProjectManagerService } from '../../services/project.manager';
 import { FormControl } from '@angular/forms';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
+import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
 
 @Component({
   selector: 'app-folder-list-item',
@@ -19,17 +21,8 @@ export class FolderListItemComponent {
     this.routes$.next(value.routes);
   }
 
-  @Input() sortingMode = false;
-
-  @Output() dropping = new EventEmitter<boolean>();
-
-  checkedForm = new FormControl(true, (control) => {
-    if (!control.value) control.setValue(true);
-    return null;
-  });
-
   routes$ = new ReplaySubject<RouteInterface[]>(1);
-  selectedRoutes$ = this.projectManager.selectedRoutes$;
+
   selectedRoute$ = this.projectManager.selectedRoute$.pipe(
     shareReplay({ refCount: true, bufferSize: 1 })
   );
@@ -40,12 +33,8 @@ export class FolderListItemComponent {
 
   constructor(private projectManager: ProjectManagerService) {}
 
-  handleChecked(routeId: number, checked: boolean) {
-    if (checked) {
-      this.projectManager.addRouteToList(routeId);
-    } else {
-      this.projectManager.removeRouteFromList(routeId);
-    }
+  openEditFolderModal(id: number, data: CreateFolderInterface) {
+    this.projectManager.openEditRouteModal(id, true, data).subscribe();
   }
 
   selectRoute(routeId: number) {
