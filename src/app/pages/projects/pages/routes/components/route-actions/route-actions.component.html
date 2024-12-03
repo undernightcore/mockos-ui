@@ -52,7 +52,7 @@
   >
     <img src="/assets/images/icons/pencil.svg" alt="" />
   </div>
-  <div [class.disabled]="!selected" class="actions__item">
+  <div (click)="openDeleteRouteModal(selected).subscribe()" [class.disabled]="!selected" class="actions__item">
     <img src="/assets/images/icons/bin.svg" alt="" />
   </div>
 </div>

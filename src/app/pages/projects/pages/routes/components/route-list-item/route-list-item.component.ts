@@ -20,4 +20,8 @@ export class RouteListItemComponent {
   openEditRouteModal(id: number, data: CreateRouteInterface) {
     this.projectManager.openEditRouteModal(id, false, data).subscribe();
   }
+
+  openDeleteRouteModal(route: RouteInterface) {
+    this.projectManager.openDeleteRouteModal(route).subscribe()
+  }
 }

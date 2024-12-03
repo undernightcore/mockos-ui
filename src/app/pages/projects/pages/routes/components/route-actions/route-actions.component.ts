@@ -49,4 +49,8 @@ export class RouteActionsComponent {
   ): Observable<RouteInterface> {
     return this.projectManager.openEditRouteModal(id, folder, data);
   }
+
+  openDeleteRouteModal(item: RouteInterface | FolderInterface) {
+   return this.projectManager.openDeleteRouteModal(item)
+  }
 }
