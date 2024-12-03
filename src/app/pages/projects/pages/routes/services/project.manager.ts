@@ -26,10 +26,15 @@ import { RoutesService } from 'src/app/services/routes/routes.service';
 import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
 import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
 import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
-import { RouteInterface } from 'src/app/interfaces/route.interface';
+import {
+  FolderInterface,
+  RouteInterface,
+} from 'src/app/interfaces/route.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateRouteComponent } from '../components/create-route/create-route.component';
 import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
+import { ChoiceModalComponent } from 'src/app/components/choice-modal/choice-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -114,7 +119,8 @@ export class ProjectManagerService {
     private responsesService: ResponsesService,
     private realtimeService: RealtimeService,
     private router: Router,
-    private dialogService: MatDialog
+    private dialogService: MatDialog,
+    private translateService: TranslateService
   ) {}
 
   selectRoute(routeId: number) {
@@ -222,6 +228,37 @@ export class ProjectManagerService {
             )
           )
         )
+      );
+  }
+
+  openDeleteRouteModal(route: RouteInterface | FolderInterface) {
+    return this.dialogService
+      .open(ChoiceModalComponent, {
+        data: {
+          title: this.translateService.instant(
+            route.is_folder
+              ? `PAGES.ROUTES.DELETE_FOLDER_TITLE`
+              : `PAGES.ROUTES.DELETE_ROUTE_TITLE`
+          ),
+          message: this.translateService.instant(
+            route.is_folder
+              ? `PAGES.ROUTES.DELETE_FOLDER_MESSAGE`
+              : `PAGES.ROUTES.DELETE_ROUTE_MESSAGE`,
+            {
+              name: route.name,
+            }
+          ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
+        },
+        autoFocus: false,
+        minWidth: '450px',
+        maxWidth: '650px',
+      })
+      .afterClosed()
+      .pipe(
+        filter((confirmed) => confirmed),
+        switchMap(() => this.routesService.deleteRoute(route.id))
       );
   }
 

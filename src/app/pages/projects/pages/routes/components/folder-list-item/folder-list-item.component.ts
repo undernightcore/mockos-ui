@@ -37,6 +37,10 @@ export class FolderListItemComponent {
     this.projectManager.openEditRouteModal(id, true, data).subscribe();
   }
 
+  openDeleteFolderModal(folder: FolderInterface) {
+    this.projectManager.openDeleteRouteModal(folder).subscribe();
+  }
+
   selectRoute(routeId: number) {
     this.projectManager.selectRoute(routeId);
   }
