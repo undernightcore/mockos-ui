@@ -3,83 +3,48 @@
   display: flex;
   flex-direction: column;
 }
+
 .main-content {
   height: 100%;
-  max-height: none;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-
-  mat-form-field {
-    width: 100%;
-  }
-
-  &__editor,
-  &__upload {
-    height: 100%;
-  }
-
-  &__upload {
-    cursor: pointer;
-    display: flex;
-    gap: 12px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    & > mat-icon {
-      color: var(--main-color);
-      height: 52px;
-      width: 52px;
-      font-size: 52px;
-    }
-  }
+  gap: 20px;
+  box-sizing: border-box;
 
   &__form {
-    &__alert {
-      margin-top: 16px;
-      color: white;
-      background-color: lightcoral;
-      box-sizing: border-box;
-      padding: 8px;
-    }
-
-    &__warning {
-      margin-top: 16px;
-      color: white;
-      background-color: lightsalmon;
-      box-sizing: border-box;
-      padding: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      & > button {
-        background-color: var(--alt-color);
-
-        @media (max-width: 1000px) {
-          white-space: normal;
-          line-height: normal;
-        }
-      }
-    }
+    display: flex;
+    gap: 20px;
   }
 
-  & > mat-tab-group {
+  &__editor {
+    border-radius: 8px;
     height: 100%;
-    &::ng-deep {
-      .mat-tab-body-wrapper {
-        height: 100%;
-      }
+    overflow: hidden;
+    position: relative;
+
+    & > ngx-monaco-editor {
+      top: 0;
+      position: absolute;
+      height: 100%;
+      width: 100%;
     }
   }
 
   & > div {
     width: 100%;
   }
-}
 
-.actions {
-  display: flex;
-  justify-content: space-between;
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+
+    & > div {
+      display: flex;
+      gap: 20px;
+
+      & > app-button {
+        width: 200px;
+      }
+    }
+  }
 }

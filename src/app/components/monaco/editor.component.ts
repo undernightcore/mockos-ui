@@ -118,11 +118,6 @@ export class EditorComponent extends BaseEditor implements ControlValueAccessor 
       this.onTouched();
     });
 
-    // refresh layout on resize event.
-    if (this._windowResizeSubscription) {
-      this._windowResizeSubscription.unsubscribe();
-    }
-    this._windowResizeSubscription = fromEvent(window, 'resize').subscribe(() => this._editor.layout());
     this.onInit.emit(this._editor);
   }
 

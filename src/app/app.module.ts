@@ -45,9 +45,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    MonacoEditorModule.forRoot(),
+    MonacoEditorModule.forRoot({ defaultOptions: { automaticLayout: true } }),
     DragulaModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [
     {

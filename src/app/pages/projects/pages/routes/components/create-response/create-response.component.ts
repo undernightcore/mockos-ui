@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponsesService } from '../../../../../../services/responses/responses.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -23,12 +16,6 @@ import {
   isValidJson,
   prettifyJson,
 } from '../../../../../../utils/string.utils';
-import { Ace, edit } from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-gruvbox';
-import 'ace-builds/src-noconflict/theme-kr_theme';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/mode-html';
-import 'ace-builds/src-noconflict/ext-searchbox';
 import { EditorTypeEnum } from '../../../../../../interfaces/response-type.interface';
 
 @Component({
@@ -37,8 +24,6 @@ import { EditorTypeEnum } from '../../../../../../interfaces/response-type.inter
   styleUrls: ['./create-response.component.scss'],
 })
 export class CreateResponseComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('editor') editorElement!: ElementRef;
-  editor?: Ace.Editor;
   responseSubscription?: Subscription;
   newChanges = false;
 
@@ -46,6 +31,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   selectedFile = this.data.selectedFile;
 
   saving = false;
+  mode = EditorTypeEnum.JSON;
 
   responseForm = new FormGroup({
     name: new FormControl(this.data.responseData?.name ?? 'Default', [
@@ -81,7 +67,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
 
   get warningInvalidJson() {
     return (
-      this.editor?.getOption('mode') === EditorTypeEnum.JSON &&
+      this.mode === EditorTypeEnum.JSON &&
       !isValidJson(this.responseForm.controls.body.value || '{}')
     );
   }
@@ -96,16 +82,6 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit() {
-    this.editor = edit(this.editorElement.nativeElement, {
-      mode: this.data.responseData?.editorType ?? EditorTypeEnum.JSON,
-      theme: 'ace/theme/gruvbox',
-    });
-    this.editor.on('change', () => {
-      this.responseForm.controls.body.setValue(
-        this.editor?.getValue() as string
-      );
-    });
-    this.editor.session.setValue(this.responseForm.controls.body.value ?? '');
     this.#listenToChanges();
   }
 
@@ -172,9 +148,6 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
 
   prettifyJson() {
     this.responseForm.controls.body.setValue(
-      prettifyJson(this.responseForm.value.body as string)
-    );
-    this.editor?.session.setValue(
       prettifyJson(this.responseForm.value.body as string)
     );
   }

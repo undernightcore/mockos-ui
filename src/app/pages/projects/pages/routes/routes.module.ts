@@ -45,6 +45,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { DialogModule } from "../../../../components/dialog/dialog.module";
 import { MethodSelectorComponent } from './components/method-selector/method-selector.component';
 import { DragulaModule } from 'ng2-dragula';
+import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { DragulaModule } from 'ng2-dragula';
     NgLetModule,
     CdkMenuModule,
     DialogModule,
-    DragulaModule
+    DragulaModule,
+    MonacoEditorModule
 ]
 })
 export class RoutesModule {}

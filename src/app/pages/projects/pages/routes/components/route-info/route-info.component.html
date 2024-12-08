@@ -24,6 +24,7 @@
             <app-response-list-item
               [response]="response"
               *ngFor="let response of responses"
+              (edit)="openCreateResponse(route.id, response.id)"
             ></app-response-list-item>
           </div>
         </ng-container>
