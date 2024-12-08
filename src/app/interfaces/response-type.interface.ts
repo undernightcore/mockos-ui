@@ -4,8 +4,8 @@ export interface ResponseTypeInterface {
 }
 
 export enum EditorTypeEnum {
-  JSON = 'ace/mode/json',
-  HTML = 'ace/mode/html',
-  TEXT = 'ace/mode/text',
-  YAML = 'ace/mode/yaml',
+  JSON = 'json',
+  HTML = 'html',
+  TEXT = 'text',
+  YAML = 'yaml',
 }

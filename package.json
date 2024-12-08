@@ -31,7 +31,7 @@
     "ace-builds": "^1.22.0",
     "js-yaml": "^4.1.0",
     "luxon": "^3.3.0",
-    "monaco-editor": "^0.43.0",
+    "monaco-editor": "^0.52.0",
     "ng-let": "^14.0.1",
     "ng2-dragula": "^3.2.0",
     "rxjs": "~7.5.0",
