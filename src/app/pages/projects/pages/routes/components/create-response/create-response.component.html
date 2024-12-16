@@ -36,35 +36,74 @@
         >Activar</app-button
       >
     </div>
-    <div *ngIf="newChanges" class="main-content__form__warning">
+    <div *ngIf="newChanges" class="main-content__warning">
       <span>{{ "PAGES.ROUTES.NEW_CHANGES" | translate }}</span>
       <button (click)="compareChanges()" mat-button>
         {{ "ACTIONS.COMPARE_AND_SAVE" | translate }}
       </button>
     </div>
-    <div
-      *ngIf="warningInvalidJson && selectedTab === 0"
-      class="main-content__form__warning"
-    >
+    <div *ngIf="warningInvalidJson && !fileMode" class="main-content__warning">
       {{ "PAGES.ROUTES.INVALID_JSON" | translate }}
     </div>
     <div
-      *ngIf="this.responseForm.controls.body.invalid && selectedTab === 0"
-      class="main-content__form__alert"
+      *ngIf="this.responseForm.controls.body.invalid && !fileMode"
+      class="main-content__alert"
     >
       {{ "PAGES.ROUTES.EMPTY_JSON" | translate }}
     </div>
     <div class="main-content__editor">
+      <ng-container *ngIf="fileMode">
+        <div class="main-content__editor__locked"></div>
+        <div class="main-content__editor__locked-content">
+          <img src="/assets/images/icons/download-off.svg" />
+          <span
+            >The response is in file mode, you can either return a file or text
+            but not both. Please remove the file if you want to be able to go back
+            to text mode.</span
+          >
+        </div>
+      </ng-container>
       <ngx-monaco-editor
+        *ngIf="!fileMode"
         [formControl]="responseForm.controls.body"
         [options]="{ theme: 'vs-dark', language: mode }"
       ></ngx-monaco-editor>
+    </div>
+    <div class="main-content__file">
+      <div (click)="fileInput.click()" class="main-content__file__box">
+        <input
+          (change)="
+            fileInput.files?.item(0) &&
+              (selectedFile = fileInput.files?.item(0) ?? undefined)
+          "
+          #fileInput
+          [style.display]="'none'"
+          type="file"
+        />
+        <img
+          src="/assets/images/icons/{{
+            selectedFile?.name || fileInBack ? 'document' : 'download'
+          }}.svg"
+        />
+        <span>{{
+          selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
+            | translate
+        }}</span>
+      </div>
+      <app-button
+        borderColor="#FF2B44"
+        backgroundColor="#FF2B44"
+        color="white"
+        *ngIf="fileMode"
+        (click)="clearFileMode()"
+        >Delete file</app-button
+      >
     </div>
     <div class="main-content__actions">
       <div>
         <app-button
           [disabled]="warningInvalidJson"
-          *ngIf="this.selectedTab === 0"
+          *ngIf="!fileMode"
           (click)="prettifyJson()"
         >
           {{ "ACTIONS.PRETTIFY_JSON" | translate }}
