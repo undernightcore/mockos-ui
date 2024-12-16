@@ -27,7 +27,6 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   responseSubscription?: Subscription;
   newChanges = false;
 
-  selectedTab = this.fileInBack ? 1 : 0;
   selectedFile = this.data.selectedFile;
 
   saving = false;
@@ -60,9 +59,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   get fileMode() {
-    return (
-      this.selectedTab === 1 && Boolean(this.selectedFile || this.fileInBack)
-    );
+    return Boolean(this.selectedFile || this.fileInBack);
   }
 
   get warningInvalidJson() {
@@ -90,7 +87,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   handleSave() {
-    if (this.responseForm.invalid && this.selectedTab === 0) return;
+    if (this.responseForm.invalid && !this.fileMode) return;
     const body = this.#prepareSaveBody();
     this.saving = true;
     iif(
@@ -98,12 +95,12 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
       this.responsesService.editResponse(
         this.data.responseData?.id as number,
         body,
-        this.selectedTab === 1
+        this.fileMode
       ),
       this.responsesService.createResponse(
         this.data.routeId,
         body,
-        this.selectedTab === 1
+        this.fileMode
       )
     )
       .pipe(finalize(() => (this.saving = false)))
@@ -117,10 +114,6 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
           this.#changeToCreateUnexpectedly();
         },
       });
-  }
-
-  handleTabChange() {
-    this.selectedFile = undefined;
   }
 
   compareChanges() {
@@ -144,6 +137,17 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
       autoFocus: false,
       panelClass: 'mobile-fullscreen',
     });
+  }
+
+  clearFileMode() {
+    this.selectedFile = undefined;
+    this.data.selectedFile = undefined;
+
+    if (this.data.responseData) {
+      this.data.responseData.is_file = false;
+      this.data.responseData.body =
+        this.responseForm.controls.body.value ?? '{}';
+    }
   }
 
   prettifyJson() {
@@ -178,7 +182,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   #prepareSaveBody() {
-    return this.selectedTab === 1
+    return this.fileMode
       ? new CreateResponseWithFileModel(
           new CreateResponseModel(
             this.responseForm.value as CreateResponseInterface

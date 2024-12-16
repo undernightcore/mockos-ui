@@ -22,11 +22,78 @@
     overflow: hidden;
     position: relative;
 
+    &__locked {
+      z-index: 100;
+      top: 0;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-color: white;
+      opacity: 0.05;
+      
+    }
+
+    &__locked-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      z-index: 101;
+      top: 0;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+
+      & > img {
+        height: 64px;
+      }
+
+      & > span {
+        font-family: Roboto;
+        color: #CAC4D0;
+        max-width: 500px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 28px;
+      }
+    }
+
     & > ngx-monaco-editor {
       top: 0;
       position: absolute;
       height: 100%;
       width: 100%;
+    }
+  }
+
+  &__file {
+    display: flex;
+    gap: 12px;
+
+    &__box {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      border: 1px dashed #cac4d0;
+      border-radius: 8px;
+      min-height: 56px;
+      cursor: pointer;
+
+      & > span {
+        color: #cac4d0;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+
+    & > app-button {
+      width: fit-content;
+      white-space: nowrap;
     }
   }
 
