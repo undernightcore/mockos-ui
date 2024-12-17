@@ -16,6 +16,27 @@
     gap: 20px;
   }
 
+  &__warning {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 16px;
+    background-color: #322f35;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+    & > span {
+      display: flex;
+      gap: 4px;
+      font-family: Roboto;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0.25px;
+      color: #F5EFF7;
+    }
+  }
+
   &__editor {
     border-radius: 8px;
     height: 100%;
@@ -30,7 +51,6 @@
       width: 100%;
       background-color: white;
       opacity: 0.05;
-      
     }
 
     &__locked-content {
@@ -51,7 +71,7 @@
 
       & > span {
         font-family: Roboto;
-        color: #CAC4D0;
+        color: #cac4d0;
         max-width: 500px;
         text-align: center;
         font-size: 24px;
