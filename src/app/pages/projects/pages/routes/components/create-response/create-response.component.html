@@ -36,21 +36,31 @@
         >Activar</app-button
       >
     </div>
+
     <div *ngIf="newChanges" class="main-content__warning">
       <span>{{ "PAGES.ROUTES.NEW_CHANGES" | translate }}</span>
-      <button (click)="compareChanges()" mat-button>
+      <app-button
+        backgroundColor="#4088FF"
+        borderColor="#4088FF"
+        color="white"
+        size="small"
+        (click)="compareChanges()"
+      >
         {{ "ACTIONS.COMPARE_AND_SAVE" | translate }}
-      </button>
+      </app-button>
     </div>
+
     <div *ngIf="warningInvalidJson && !fileMode" class="main-content__warning">
-      {{ "PAGES.ROUTES.INVALID_JSON" | translate }}
+      <span>{{ "PAGES.ROUTES.INVALID_JSON" | translate }}</span>
     </div>
+
     <div
       *ngIf="this.responseForm.controls.body.invalid && !fileMode"
-      class="main-content__alert"
+      class="main-content__warning"
     >
-      {{ "PAGES.ROUTES.EMPTY_JSON" | translate }}
+      <span>{{ "PAGES.ROUTES.EMPTY_JSON" | translate }}</span>
     </div>
+
     <div class="main-content__editor">
       <ng-container *ngIf="fileMode">
         <div class="main-content__editor__locked"></div>
@@ -58,8 +68,8 @@
           <img src="/assets/images/icons/download-off.svg" />
           <span
             >The response is in file mode, you can either return a file or text
-            but not both. Please remove the file if you want to be able to go back
-            to text mode.</span
+            but not both. Please remove the file if you want to be able to go
+            back to text mode.</span
           >
         </div>
       </ng-container>
