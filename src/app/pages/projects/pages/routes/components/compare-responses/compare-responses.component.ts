@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   Inject,
   OnDestroy,
   ViewChild,
@@ -11,16 +10,10 @@ import { ResponseModalDataInterface } from '../create-response/interfaces/respon
 import { DialogRef } from '@angular/cdk/dialog';
 import { RealtimeService } from '../../../../../../services/realtime/realtime.service';
 import { ResponsesService } from '../../../../../../services/responses/responses.service';
-import { interval, Subscription } from 'rxjs';
-import { DateTime } from 'luxon';
-import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { CreateResponseComponent } from '../create-response/create-response.component';
-import { Ace, edit } from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-gruvbox';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/mode-html';
-import 'ace-builds/src-noconflict/ext-searchbox';
 import { ResponseModel } from '../../../../../../models/response.model';
+import { DiffEditorComponent } from 'src/app/components/monaco/diff-editor.component';
 
 @Component({
   selector: 'app-compare-responses',
@@ -28,9 +21,12 @@ import { ResponseModel } from '../../../../../../models/response.model';
   styleUrls: ['./compare-responses.component.scss'],
 })
 export class CompareResponsesComponent implements AfterViewInit, OnDestroy {
-  localChanges: ResponseModel;
-  localEditor?: Ace.Editor;
+  @ViewChild(DiffEditorComponent) private editor?: DiffEditorComponent;
+
+  localChanges? = this.data.responseData;
+  newLocalChanges? = this.data.responseData?.body;
   localFile? = this.data.selectedFile;
+
   get localFileName() {
     return (
       this.localFile?.name ??
@@ -39,30 +35,22 @@ export class CompareResponsesComponent implements AfterViewInit, OnDestroy {
         : undefined)
     );
   }
-  @ViewChild('localEditor') localEditorElement!: ElementRef;
 
   originChanges?: ResponseModel;
-  originEditor?: Ace.Editor;
+
   get originFileName() {
     return this.originChanges?.is_file ? this.originChanges.body : undefined;
   }
-  @ViewChild('originEditor') originEditorElement!: ElementRef;
 
-  intervalSubscription?: Subscription;
   responseSubscription?: Subscription;
-
-  updatedAgo?: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: ResponseModalDataInterface,
     private dialogRef: DialogRef,
     private realtimeService: RealtimeService,
     private responsesService: ResponsesService,
-    private translateService: TranslateService,
     private dialogService: MatDialog
-  ) {
-    this.localChanges = data.responseData as ResponseModel;
-  }
+  ) {}
 
   ngAfterViewInit() {
     this.#getResponse();
@@ -70,10 +58,20 @@ export class CompareResponsesComponent implements AfterViewInit, OnDestroy {
 
   keepLocal() {
     if (!this.originChanges) return;
-    this.localChanges.mergeResponses({
+
+    if (
+      this.localChanges &&
+      this.newLocalChanges &&
+      !this.localChanges.is_file
+    ) {
+      this.localChanges.body = this.newLocalChanges;
+    }
+
+    this.localChanges?.mergeResponses({
       editorType: this.originChanges.editorType,
       ...(this.localFile ? { body: this.originFileName, is_file: true } : {}),
     });
+
     this.#returnToResponseModal({
       routeId: this.data.routeId,
       responseData: this.localChanges,
@@ -101,32 +99,18 @@ export class CompareResponsesComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  #buildForm() {
-    this.localEditor = edit(this.localEditorElement.nativeElement, {
-      mode: this.data.responseData?.editorType,
-      theme: 'ace/theme/gruvbox',
-    });
-    this.localEditor.on('change', () => {
-      this.localChanges.body = this.localEditor?.getValue() as string;
-    });
-    this.originEditor = edit(this.originEditorElement.nativeElement, {
-      readOnly: true,
-      mode: this.originChanges?.editorType,
-      theme: 'ace/theme/gruvbox',
-    });
-    this.localEditor.session.setValue(this.data.responseData?.body as string);
-    this.originEditor?.session.setValue(this.originChanges?.body as string);
-  }
-
   #getResponse() {
     if (!this.data.responseData) return;
     this.responsesService
       .getResponse(this.data.responseData.id)
       .subscribe((response) => {
+        if (this.localChanges && !this.localChanges.is_file) {
+          this.localChanges.body = this.newLocalChanges ?? '{}';
+        }
+
         this.originChanges = response;
-        this.#buildForm();
+
         if (!this.responseSubscription) this.#listenToChanges();
-        if (!this.intervalSubscription) this.#keepTimeUpdated();
       });
   }
 
@@ -137,23 +121,10 @@ export class CompareResponsesComponent implements AfterViewInit, OnDestroy {
       .subscribe((event) => {
         if (event === 'deleted') return;
         this.#getResponse();
-        this.#keepTimeUpdated();
       });
-  }
-
-  #keepTimeUpdated() {
-    this.intervalSubscription?.unsubscribe();
-    this.intervalSubscription = interval(1000).subscribe(() => {
-      if (!this.originChanges) return;
-      this.updatedAgo =
-        DateTime.fromISO(this.originChanges.updated_at).toRelative({
-          locale: this.translateService.currentLang,
-        }) ?? undefined;
-    });
   }
 
   ngOnDestroy() {
     this.responseSubscription?.unsubscribe();
-    this.intervalSubscription?.unsubscribe();
   }
 }
