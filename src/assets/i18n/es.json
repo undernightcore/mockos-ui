@@ -118,7 +118,8 @@
       "TOKENS_HINT": "No podrás usar Mockos desde clientes no autenticados",
       "CREATE_TOKEN": "Crear nuevo token",
       "CREATE_TOKEN_DESCRIPTION": "Puedes utilizar estos tokens para autenticarte desde cualquier cliente",
-      "CREATE_NEW_FOLDER": "Crear nueva carpeta"
+      "CREATE_NEW_FOLDER": "Crear nueva carpeta",
+      "IMPORT_SWAGGER": "Importar Swagger"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",
@@ -174,6 +175,7 @@
     "CANCEL": "Cancelar",
     "CREATE": "Crear",
     "INVITE": "Invitar",
+    "IMPORT": "Importar",
     "UPDATE": "Actualizar",
     "COMPARE_AND_SAVE": "Comparar y guardar",
     "KEEP_LEFT": "Guardar izquierda",
