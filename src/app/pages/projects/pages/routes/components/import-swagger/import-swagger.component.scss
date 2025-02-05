@@ -103,6 +103,10 @@
       min-height: 56px;
       cursor: pointer;
 
+      &__dragging {
+        border: 2px dashed #cac4d0;
+      }
+
       & > span {
         color: #cac4d0;
         font-family: Roboto;

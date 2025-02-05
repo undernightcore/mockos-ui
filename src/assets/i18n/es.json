@@ -101,6 +101,8 @@
       "FORKING_PROJECT": "Estás haciendo una rama del proyecto. Serás el único miembro, pero funciona como cualquier otro projecto normal.",
       "FORKED_FROM": "Rama de",
       "CLICK_TO_UPLOAD": "Haz click para subir un archivo",
+      "DRAG_TO_UPLOAD": "Arrastra para subir un archivo",
+      "DROP_TO_UPLOAD": "Suelta el archivo para cargarlo",
       "TOKENS_TITLE": "Lista de tokens",
       "YOUR_PROJECT_ID": "Tu ID de proyecto",
       "YOUR_TOKEN": "Tu token",

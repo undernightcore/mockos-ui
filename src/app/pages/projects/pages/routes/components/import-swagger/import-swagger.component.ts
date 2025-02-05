@@ -2,11 +2,10 @@ import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponsesService } from '../../../../../../services/responses/responses.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { ResponseModalDataInterface } from './interfaces/response-modal-data.interface';
 import { CreateResponseInterface } from '../../../../../../interfaces/create-response.interface';
 import { DialogRef } from '@angular/cdk/dialog';
 import { openToast } from '../../../../../../utils/toast.utils';
-import { finalize, iif, Subscription } from 'rxjs';
+import { debounceTime, distinct, distinctUntilChanged, filter, finalize, iif, map, startWith, Subscription } from 'rxjs';
 import { RealtimeService } from '../../../../../../services/realtime/realtime.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CompareResponsesComponent } from '../compare-responses/compare-responses.component';
@@ -18,6 +17,7 @@ import {
   prettifyJson,
 } from '../../../../../../utils/string.utils';
 import { EditorTypeEnum } from '../../../../../../interfaces/response-type.interface';
+import { ResponseModalDataInterface } from '../create-response/interfaces/response-modal-data.interface';
 
 @Component({
   selector: 'app-import-swagger',
@@ -29,17 +29,14 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
   newChanges = false;
 
   selectedFile = this.data.selectedFile;
-
+  isDragging = false;
   saving = false;
-  mode = EditorTypeEnum.YAML;
 
   responseForm = new FormGroup({
     basePath: new FormControl(),
-    body: new FormControl(
-      '',
-      [Validators.required]
-    )
+    body: new FormControl('', [Validators.required]),
   });
+
 
   get isEditing() {
     return Boolean(this.data.responseData);
@@ -55,14 +52,9 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
     return Boolean(this.selectedFile || this.fileInBack);
   }
 
-  get getEditorMode() {
-    return this.mode = isYaml(this.responseForm.controls.body.value || '') ? EditorTypeEnum.YAML : EditorTypeEnum.JSON;
-  }
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ResponseModalDataInterface,
     public dialogRef: DialogRef,
-    private responsesService: ResponsesService,
     private realtimeService: RealtimeService,
     private translateService: TranslateService,
     private dialogService: MatDialog
@@ -78,7 +70,6 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
 
   handleSave() {
     if (this.responseForm.invalid && !this.fileMode) return;
-    const body = this.#prepareSaveBody();
     this.saving = true;
     // this.responsesService.createResponse(
     //   this.data.routeId,
@@ -104,8 +95,7 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
 
     if (this.data.responseData) {
       this.data.responseData.is_file = false;
-      this.data.responseData.body =
-        this.responseForm.controls.body.value ?? '';
+      this.data.responseData.body = this.responseForm.controls.body.value ?? '';
     }
   }
 
@@ -113,6 +103,26 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
     this.responseForm.controls.body.setValue(
       prettifyJson(this.responseForm.value.body as string)
     );
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = true;
+  }
+
+  onFileDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragging = false;
+
+    if (event.dataTransfer?.files.length) {
+      const file = event.dataTransfer.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = (e.target?.result || '') as string;
+        this.responseForm.controls.body.setValue(text);
+      };
+      reader.readAsText(file);
+    }
   }
 
   #listenToChanges() {
@@ -139,21 +149,4 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
       5000
     );
   }
-
-  #prepareSaveBody() {
-    console.log('file',this.fileMode, this.selectedFile)
-    return this.fileMode
-      ? new CreateResponseWithFileModel(
-          new CreateResponseModel(
-            this.responseForm.value as CreateResponseInterface
-          ),
-          this.selectedFile
-        ).formData
-      : new CreateResponseModel(
-          this.responseForm.value as CreateResponseInterface
-        );
-  }
-
-
 }
-
