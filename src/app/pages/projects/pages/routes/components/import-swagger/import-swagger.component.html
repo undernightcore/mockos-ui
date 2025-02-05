@@ -1,7 +1,9 @@
-<app-dialog
-  [title]="'PAGES.ROUTES.IMPORT_SWAGGER' | translate"
->
-  <div class="main-content">
+<app-dialog [title]="'PAGES.ROUTES.IMPORT_SWAGGER' | translate">
+  <div
+    class="main-content"
+    (drop)="onFileDrop($event)"
+    (dragover)="onDragOver($event)"
+  >
     <div class="main-content__form">
       <app-input
         [style.width.%]="100"
@@ -11,52 +13,19 @@
       ></app-input>
     </div>
     <div class="main-content__editor">
-      <ng-container *ngIf="fileMode">
-        <div class="main-content__editor__locked"></div>
-        <div class="main-content__editor__locked-content">
-          <img src="/assets/images/icons/download-off.svg" />
-          <span
-            >The response is in file mode, you can either return a file or text
-            but not both. Please remove the file if you want to be able to go
-            back to text mode.</span
-          >
-        </div>
-      </ng-container>
       <ngx-monaco-editor
-        *ngIf="!fileMode"
         [formControl]="responseForm.controls.body"
-        [options]="{ theme: 'vs-dark', language: getEditorMode }"
+        [options]="{ theme: 'vs-dark', language: 'yaml' }"
       ></ngx-monaco-editor>
     </div>
     <div class="main-content__file">
-      <div (click)="fileInput.click()" class="main-content__file__box">
-        <input
-          (change)="
-            fileInput.files?.item(0) &&
-              (selectedFile = fileInput.files?.item(0) ?? undefined)
-          "
-          #fileInput
-          [style.display]="'none'"
-          type="file"
-        />
-        <img
-          src="/assets/images/icons/{{
-            selectedFile?.name || fileInBack ? 'document' : 'download'
-          }}.svg"
-        />
-        <span>{{
-          selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
-            | translate
-        }}</span>
+      <div class="main-content__file__box" [ngClass]="{'main-content__file__box__dragging': isDragging}">
+        <img   src="/assets/images/icons/{{
+          isDragging ? 'drag-and-drop-bold' : 'drag-and-drop'
+        }}.png"/>
+
+        <span>{{ (isDragging ? "PAGES.ROUTES.DROP_TO_UPLOAD" : "PAGES.ROUTES.DRAG_TO_UPLOAD") | translate }}</span>
       </div>
-      <app-button
-        borderColor="#FF2B44"
-        backgroundColor="#FF2B44"
-        color="white"
-        *ngIf="fileMode"
-        (click)="clearFileMode()"
-        >Delete file</app-button
-      >
     </div>
     <div class="main-content__actions">
       <div>
@@ -70,7 +39,7 @@
           [disabled]="saving"
           (click)="handleSave()"
         >
-          {{'ACTIONS.IMPORT' | translate }}
+          {{ "ACTIONS.IMPORT" | translate }}
         </app-button>
       </div>
     </div>
