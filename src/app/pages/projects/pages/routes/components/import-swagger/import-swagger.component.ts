@@ -1,22 +1,13 @@
 import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ResponsesService } from '../../../../../../services/responses/responses.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { CreateResponseInterface } from '../../../../../../interfaces/create-response.interface';
 import { DialogRef } from '@angular/cdk/dialog';
 import { openToast } from '../../../../../../utils/toast.utils';
-import { debounceTime, distinct, distinctUntilChanged, filter, finalize, iif, map, startWith, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RealtimeService } from '../../../../../../services/realtime/realtime.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CompareResponsesComponent } from '../compare-responses/compare-responses.component';
-import { CreateResponseWithFileModel } from '../../../../../../models/create-response-with-file.model';
-import { CreateResponseModel } from '../../../../../../models/create-response.model';
-import {
-  isValidJson,
-  isYaml,
-  prettifyJson,
-} from '../../../../../../utils/string.utils';
-import { EditorTypeEnum } from '../../../../../../interfaces/response-type.interface';
+
+import { prettifyJson } from '../../../../../../utils/string.utils';
 import { ResponseModalDataInterface } from '../create-response/interfaces/response-modal-data.interface';
 
 @Component({
@@ -36,7 +27,6 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
     basePath: new FormControl(),
     body: new FormControl('', [Validators.required]),
   });
-
 
   get isEditing() {
     return Boolean(this.data.responseData);

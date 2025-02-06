@@ -25,12 +25,3 @@ export function isValidYaml(value: string) {
     return false;
   }
 }
-
-export function isJson(value: string): boolean {
-  value = value.trim();
-  return value.startsWith('{') && value.endsWith('}') || value.startsWith('[') && value.endsWith(']');
-}
-
-export function isYaml(value: string): boolean {
-  return /:\s*[^:]+/.test(value) && !isJson(value);
-}
