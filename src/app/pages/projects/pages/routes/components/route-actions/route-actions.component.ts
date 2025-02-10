@@ -50,8 +50,8 @@ export class RouteActionsComponent {
     return this.projectManager.openEditRouteModal(id, folder, data);
   }
 
-  openImportSwaggerModal(item: RouteInterface | FolderInterface) {
-    return this.projectManager.openImportSwaggerModal(item);
+  openImportSwaggerModal() {
+    return this.projectManager.openImportSwaggerModal();
   }
 
   openDeleteRouteModal(item: RouteInterface | FolderInterface) {
