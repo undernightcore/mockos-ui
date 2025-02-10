@@ -10,6 +10,7 @@ import { MessageInterface } from '../../interfaces/message.interface';
 import { MemberInterface } from '../../interfaces/member.interface';
 import { EnvService } from '../env/env.service';
 import { omitBy } from '../../utils/object.utils';
+import { ImportSwaggerInterface } from 'src/app/interfaces/import-swagger.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -89,6 +90,13 @@ export class ProjectService {
     return this.httpClient.post<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/projects/${projectId}/leave`,
       undefined
+    );
+  }
+
+  importSwagger(projectId: number, data: ImportSwaggerInterface) {
+    return this.httpClient.post<any>(
+      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/swagger`,
+      data
     );
   }
 }

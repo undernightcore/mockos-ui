@@ -46,6 +46,7 @@ import { DialogModule } from "../../../../components/dialog/dialog.module";
 import { MethodSelectorComponent } from './components/method-selector/method-selector.component';
 import { DragulaModule } from 'ng2-dragula';
 import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
+import { ImportSwaggerComponent } from './components/import-swagger/import-swagger.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
     CreateRouteComponent,
     ResponseListItemComponent,
     CreateResponseComponent,
+    ImportSwaggerComponent,
     CompareResponsesComponent,
     TokensComponent,
     RouteInfoComponent,

@@ -35,6 +35,7 @@ import { CreateRouteComponent } from '../components/create-route/create-route.co
 import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
 import { ChoiceModalComponent } from 'src/app/components/choice-modal/choice-modal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ImportSwaggerComponent } from '../components/import-swagger/import-swagger.component';
 
 @Injectable({
   providedIn: 'root',
@@ -231,6 +232,23 @@ export class ProjectManagerService {
       );
   }
 
+  openImportSwaggerModal() {
+    return this.project$.pipe(
+      take(1),
+      switchMap(project => {
+        return this.dialogService
+          .open(ImportSwaggerComponent, {
+            closeOnNavigation: true,
+            height: '90%',
+            width: '70%',
+            data: {  projectId: project.id },
+            panelClass: 'mobile-fullscreen',
+            autoFocus: false,
+          })
+          .afterClosed();
+      })
+    );
+  }
   openDeleteRouteModal(route: RouteInterface | FolderInterface) {
     return this.dialogService
       .open(ChoiceModalComponent, {
