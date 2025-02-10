@@ -32,9 +32,11 @@
     align-items: center;
     height: 100%;
     gap: 24px;
+    overflow: hidden;
 
     & > img {
       max-height: 100%;
+      max-width: 100%;
     }
 
     & > span {
