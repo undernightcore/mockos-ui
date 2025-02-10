@@ -101,6 +101,8 @@
       "FORKING_PROJECT": "Estás haciendo una rama del proyecto. Serás el único miembro, pero funciona como cualquier otro projecto normal.",
       "FORKED_FROM": "Rama de",
       "CLICK_TO_UPLOAD": "Haz click para subir un archivo",
+      "DRAG_TO_UPLOAD": "Arrastra para subir un archivo",
+      "DROP_TO_UPLOAD": "Suelta el archivo para cargarlo",
       "TOKENS_TITLE": "Lista de tokens",
       "YOUR_PROJECT_ID": "Tu ID de proyecto",
       "YOUR_TOKEN": "Tu token",
@@ -118,7 +120,9 @@
       "TOKENS_HINT": "No podrás usar Mockos desde clientes no autenticados",
       "CREATE_TOKEN": "Crear nuevo token",
       "CREATE_TOKEN_DESCRIPTION": "Puedes utilizar estos tokens para autenticarte desde cualquier cliente",
-      "CREATE_NEW_FOLDER": "Crear nueva carpeta"
+      "CREATE_NEW_FOLDER": "Crear nueva carpeta",
+      "IMPORT_SWAGGER": "Importar Swagger",
+      "REPLACE_PROJECT_ROUTES": "Remplazar todas las rutas del proyecto"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",
@@ -174,6 +178,7 @@
     "CANCEL": "Cancelar",
     "CREATE": "Crear",
     "INVITE": "Invitar",
+    "IMPORT": "Importar",
     "UPDATE": "Actualizar",
     "COMPARE_AND_SAVE": "Comparar y guardar",
     "KEEP_LEFT": "Guardar izquierda",
@@ -187,6 +192,7 @@
     "ROLLBACK": "Rollback"
   },
   "ERRORS": {
-    "REQUIRED": "¡Este campo no puede estar vacío!"
+    "REQUIRED": "¡Este campo no puede estar vacío!",
+    "PATTERN": "¡Este campo no tiene el formato correcto!"
   }
 }
