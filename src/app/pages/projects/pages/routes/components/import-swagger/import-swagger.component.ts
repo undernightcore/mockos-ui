@@ -1,97 +1,67 @@
-import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogRef } from '@angular/cdk/dialog';
 import { openToast } from '../../../../../../utils/toast.utils';
-import { Subscription } from 'rxjs';
-import { RealtimeService } from '../../../../../../services/realtime/realtime.service';
-import { TranslateService } from '@ngx-translate/core';
+import { finalize, Subscription } from 'rxjs';
 
 import { prettifyJson } from '../../../../../../utils/string.utils';
-import { ResponseModalDataInterface } from '../create-response/interfaces/response-modal-data.interface';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { ImportSwaggerInterface } from 'src/app/interfaces/import-swagger.interface';
 
 @Component({
   selector: 'app-import-swagger',
   templateUrl: './import-swagger.component.html',
   styleUrls: ['./import-swagger.component.scss'],
 })
-export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
+export class ImportSwaggerComponent implements  OnDestroy {
   responseSubscription?: Subscription;
-  newChanges = false;
 
-  selectedFile = this.data.selectedFile;
+  newChanges = false;
   isDragging = false;
   saving = false;
 
   responseForm = new FormGroup({
-    basePath: new FormControl(),
-    body: new FormControl('', [Validators.required]),
+    basePath: new FormControl('', [
+      Validators.pattern('^/([a-zA-Z0-9{}-]+)*(/[a-zA-Z0-9{}-]+)*$')
+    ]),
+    reset: new FormControl(false),
+    swagger: new FormControl('', [Validators.required]),
   });
 
-  get isEditing() {
-    return Boolean(this.data.responseData);
-  }
-
-  get fileInBack() {
-    return this.data.responseData?.is_file
-      ? this.data.responseData?.body
-      : undefined;
-  }
-
-  get fileMode() {
-    return Boolean(this.selectedFile || this.fileInBack);
-  }
-
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ResponseModalDataInterface,
+    @Inject(MAT_DIALOG_DATA) public data: {projectId: number},
     public dialogRef: DialogRef,
-    private realtimeService: RealtimeService,
-    private translateService: TranslateService,
-    private dialogService: MatDialog
+    private projectService: ProjectService
   ) {}
-
-  ngAfterViewInit() {
-    this.#listenToChanges();
-  }
 
   ngOnDestroy() {
     this.responseSubscription?.unsubscribe();
   }
 
   handleSave() {
-    if (this.responseForm.invalid && !this.fileMode) return;
+    const projectId = this.data.projectId;
+    if (this.responseForm.invalid && projectId) return;
+
     this.saving = true;
-    // this.responsesService.createResponse(
-    //   this.data.routeId,
-    //   body,
-    //   this.fileMode
-    // )
-    //   .pipe(finalize(() => (this.saving = false)))
-    //   .subscribe({
-    //     next: (response) => {
-    //       openToast(response.message, 'success');
-    //       this.dialogRef.close();
-    //     },
-    //     error: (error) => {
-    //       if (error.status !== 404) return;
-    //       this.#changeToCreateUnexpectedly();
-    //     },
-    //   });
-  }
 
-  clearFileMode() {
-    this.selectedFile = undefined;
-    this.data.selectedFile = undefined;
-
-    if (this.data.responseData) {
-      this.data.responseData.is_file = false;
-      this.data.responseData.body = this.responseForm.controls.body.value ?? '';
-    }
+    this.projectService.importSwagger(projectId!, this.responseForm.getRawValue() as ImportSwaggerInterface)
+      .pipe(finalize(() => (this.saving = false)))
+      .subscribe({
+        next: (response) => {
+          openToast(response.message, 'success');
+          this.dialogRef.close();
+        },
+        error: (error) => {
+          const errorMessage = error.error.errors[0]
+          this.#changeToCreateUnexpectedly(errorMessage);
+        },
+      });
   }
 
   prettifyJson() {
-    this.responseForm.controls.body.setValue(
-      prettifyJson(this.responseForm.value.body as string)
+    this.responseForm.controls.swagger.setValue(
+      prettifyJson(this.responseForm.value.swagger as string)
     );
   }
 
@@ -109,33 +79,17 @@ export class ImportSwaggerComponent implements AfterViewInit, OnDestroy {
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = (e.target?.result || '') as string;
-        this.responseForm.controls.body.setValue(text);
+        this.responseForm.controls.swagger.setValue(text);
       };
       reader.readAsText(file);
     }
   }
 
-  #listenToChanges() {
-    if (!this.data.responseData) return;
-    this.responseSubscription = this.realtimeService
-      .listenResponse(this.data.responseData.id)
-      .subscribe((event) => {
-        if (event === 'deleted') {
-          this.#changeToCreateUnexpectedly();
-        } else if (event === 'updated') {
-          this.newChanges = true;
-        }
-      });
-  }
-
-  #changeToCreateUnexpectedly() {
+  #changeToCreateUnexpectedly(error: string) {
     this.responseSubscription?.unsubscribe();
-    this.data.responseData = undefined;
-    openToast(
-      this.translateService.instant(
-        'PAGES.ROUTES.RESPONSE_UNEXPECTEDLY_DELETED'
-      ),
-      'warning',
+
+    openToast(error,
+      'error',
       5000
     );
   }

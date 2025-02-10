@@ -11,10 +11,14 @@
         placeholder="/example/path"
         label="Base Path"
       ></app-input>
+      <div class="main-content__form__checkbox">
+        <app-checkbox [formControl]="responseForm.controls.reset"></app-checkbox>
+        <span>{{'PAGES.ROUTES.REPLACE_PROJECT_ROUTES' | translate}}</span>
+      </div>
     </div>
     <div class="main-content__editor">
       <ngx-monaco-editor
-        [formControl]="responseForm.controls.body"
+        [formControl]="responseForm.controls.swagger"
         [options]="{ theme: 'vs-dark', language: 'yaml' }"
       ></ngx-monaco-editor>
     </div>

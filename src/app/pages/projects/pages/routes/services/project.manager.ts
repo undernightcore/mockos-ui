@@ -232,21 +232,23 @@ export class ProjectManagerService {
       );
   }
 
-
-  openImportSwaggerModal(
-    route: RouteInterface | FolderInterface ): Observable<any> {
-    return this.dialogService
-      .open(ImportSwaggerComponent, {
-        closeOnNavigation: true,
-        height: '90%',
-        width: '70%',
-        data: { routeId: route?.id },
-        panelClass: 'mobile-fullscreen',
-        autoFocus: false,
+  openImportSwaggerModal() {
+    return this.project$.pipe(
+      take(1),
+      switchMap(project => {
+        return this.dialogService
+          .open(ImportSwaggerComponent, {
+            closeOnNavigation: true,
+            height: '90%',
+            width: '70%',
+            data: {  projectId: project.id },
+            panelClass: 'mobile-fullscreen',
+            autoFocus: false,
+          })
+          .afterClosed();
       })
-      .afterClosed()
+    );
   }
-
   openDeleteRouteModal(route: RouteInterface | FolderInterface) {
     return this.dialogService
       .open(ChoiceModalComponent, {

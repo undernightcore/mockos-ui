@@ -13,7 +13,23 @@
 
   &__form {
     display: flex;
+    flex-direction: column;
     gap: 20px;
+
+    &__checkbox {
+      display: flex;
+
+      & > span {
+        display: flex;
+        gap: 4px;
+        font-family: Roboto;
+        font-weight: 400;
+        font-size: 16px;
+        letter-spacing: 0.25px;
+        margin-left: 8px;
+        color: #F5EFF7;
+      }
+    }
   }
 
   &__warning {
