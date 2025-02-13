@@ -39,13 +39,13 @@
       }}</span>
     </div>
     <div class="project__info__actions">
-      <app-button [compressed]="true" [routerLink]="['/projects', project.id]" [size]="'small'">
-        <img alt="code icon" src="assets/images/icons/link.svg"/>
+      <app-button
+        [compressed]="true"
+        [routerLink]="['/projects', project.id]"
+        [size]="'small'"
+      >
+        <img alt="code icon" src="assets/images/icons/link.svg" />
         <span>Endpoints</span>
-      </app-button>
-      <app-button [compressed]="true" [routerLink]="['/projects', project.id, 'contracts']" [size]="'small'">
-        <img alt="code icon" src="assets/images/icons/document.svg"/>
-        <span>Contracts</span>
       </app-button>
     </div>
   </div>
