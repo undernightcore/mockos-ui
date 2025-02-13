@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import {
+  EMPTY,
+  catchError,
   defer,
   filter,
   iif,
@@ -13,6 +15,7 @@ import {
   switchMap,
   take,
   tap,
+  throwError,
 } from 'rxjs';
 import { repeatPasswordValidator } from '../../validators/repeat-password.validator';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +24,7 @@ import { MessageInterface } from '../../interfaces/message.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { EnvService } from '../../services/env/env.service';
 import { AppManagerService } from '../../services/app/app-manager.service';
+import { openToast } from 'src/app/utils/toast.utils';
 
 @Component({
   selector: 'app-auth',
@@ -87,6 +91,10 @@ export class AuthComponent {
       )
     )
       .pipe(
+        catchError((error) => {
+          openToast(error.error.errors[0], 'error');
+          return EMPTY;
+        }),
         switchMap((res) =>
           defer(() =>
             registering
@@ -109,7 +117,8 @@ export class AuthComponent {
               ? 'PAGES.AUTH.LOG_IN'
               : 'PAGES.AUTH.VERIFY_ACCOUNT'
           ),
-          message,
+          message: message.message,
+          label: 'Aceptar',
         },
         autoFocus: false,
       })
