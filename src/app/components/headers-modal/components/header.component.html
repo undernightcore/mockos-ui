@@ -1,0 +1,12 @@
+<div class="header">
+  <ng-container *ngIf="editable; else none_editable">
+    <app-input label="Título"></app-input>
+    <app-input label="Valor"></app-input>
+  </ng-container>
+  <ng-template #none_editable>
+    <span>Date</span>
+    <span>Ingo Lorem ipsum dolor sit amet.</span>
+  </ng-template>
+  <img src="/assets/images/icons/pencil.svg" alt="add">
+  <img src="/assets/images/icons/bin.svg" alt="add">
+</div>
