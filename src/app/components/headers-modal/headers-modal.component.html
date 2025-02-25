@@ -1,0 +1,15 @@
+<app-dialog title="Editar headers">
+  <div class="headers">
+    <div class="headers__creator">
+      <app-input label="Título"></app-input>
+      <app-input label="Valor"></app-input>
+      <app-button backgroundColor="#4088FF" borderColor="#4088FF" color="#FFFFFF">
+        <img src="/assets/images/icons/add.svg" alt="add">
+      </app-button>
+    </div>
+    <div class="headers__list">
+      <app-header [editable]="true"></app-header>
+      <app-header [editable]="false"></app-header>
+    </div>
+  </div>
+</app-dialog>

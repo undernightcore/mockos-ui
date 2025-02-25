@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #ffffff;
+  padding: 16px 12px;
+  border-radius: 12px;
+  background-color: #2d2b30;
+
+  * {
+    width: 100%;
+  }
+  img {
+    max-width: 24px;
+  }
+}

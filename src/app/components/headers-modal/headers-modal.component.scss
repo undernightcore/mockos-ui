@@ -1,0 +1,49 @@
+.headers {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 861px;
+
+  &__creator {
+    display: flex;
+    gap: 20px;
+
+    app-input {
+      width: 100%;
+    }
+
+    app-button {
+      min-width: 56px;
+      height: 56px;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__element {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #ffffff;
+    padding: 16px 12px;
+    border-radius: 12px;
+    background-color: #2D2B30;
+
+    * {
+      width: 100%;
+    }
+    img {
+      max-width: 24px;
+    }
+  }
+
+  &__element {
+
+  }
+}
