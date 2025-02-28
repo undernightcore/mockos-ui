@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SimpleResponseInterface } from '../../../../../../interfaces/response.interface';
+import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
 
 @Component({
   selector: 'app-response-list-item',
@@ -10,29 +11,27 @@ export class ResponseListItemComponent {
   @Input() response?: SimpleResponseInterface;
   @Input() loading = false;
 
+  @Output() processor = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Output() select = new EventEmitter<void>();
   @Output() config = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
 
-  openConfigModal(click: MouseEvent) {
+  buttons: ResponseMenuOptionInterface[] = [
+    { icon: 'pencil', action: this.edit, label: 'Editar' },
+    { icon: 'header', action: this.duplicate, label: 'Header' },
+    { icon: 'duplicate', action: this.delete, label: 'Duplicar' },
+    { icon: 'processor', action: this.processor, label: 'Live mock' },
+    { icon: 'bin', action: this.config, label: 'Eliminar' },
+  ];
+
+  responseMenuClick(click: MouseEvent, button: ResponseMenuOptionInterface) {
     click.stopPropagation();
-    this.config.emit();
+    button.action.emit();
   }
 
-  openDeleteModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.delete.emit();
-  }
-
-  openDuplicateModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.duplicate.emit();
-  }
-
-  openSelectModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.select.emit();
+  trackByButton(_index: number, button: ResponseMenuOptionInterface) {
+    return button.label;
   }
 }
