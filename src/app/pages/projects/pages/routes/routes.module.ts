@@ -99,7 +99,8 @@ import { ImportSwaggerComponent } from './components/import-swagger/import-swagg
     CdkMenuModule,
     DialogModule,
     DragulaModule,
-    MonacoEditorModule
+    MonacoEditorModule,
+    MatMenuModule,
 ]
 })
 export class RoutesModule {}

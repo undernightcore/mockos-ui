@@ -6,7 +6,37 @@
 >
   <div class="response__actions">
     <app-checkbox [highContrast]="response.enabled"></app-checkbox>
-    <img src="/assets/images/icons/vertical-dots.svg" alt="" />
+    <img
+      #responseActions="cdkMenuTriggerFor"
+      [cdkMenuTriggerFor]="menu"
+      src="/assets/images/icons/vertical-dots.svg"
+      alt=""
+      (click)="$event.stopPropagation()"
+    />
+    <ng-template #menu>
+      <div cdkMenu>
+        <div class="response__actions__menu">
+          <app-button
+            size="small"
+            backgroundColor="#4088FF"
+            borderColor="unset"
+            color="#fff"
+            >Activar</app-button
+          >
+          <div
+            *ngFor="let button of buttons; trackBy: trackByButton"
+            class="response__actions__menu__item"
+            (click)="responseMenuClick($event, button)"
+          >
+            <img
+              [src]="'/assets/images/icons/' + button.icon + '.svg'"
+              [alt]="button.label"
+            />
+            <span>{{ button.label }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
   <div class="response__info">
     <span>{{ response.status }}</span>
