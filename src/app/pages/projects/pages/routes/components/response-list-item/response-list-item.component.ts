@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SimpleResponseInterface } from '../../../../../../interfaces/response.interface';
 import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
 
@@ -17,13 +17,19 @@ export class ResponseListItemComponent {
   @Output() config = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
+  @Output() enableResponse = new EventEmitter<void>();
 
   buttons: ResponseMenuOptionInterface[] = [
     { icon: 'pencil', action: this.edit, label: 'Editar' },
-    { icon: 'header', action: this.duplicate, label: 'Header' },
-    { icon: 'duplicate', action: this.delete, label: 'Duplicar' },
+    { icon: 'header', action: this.duplicate, label: 'Header', disabled: true },
+    {
+      icon: 'duplicate',
+      action: this.delete,
+      label: 'Duplicar',
+      disabled: true,
+    },
     { icon: 'processor', action: this.processor, label: 'Live mock' },
-    { icon: 'bin', action: this.config, label: 'Eliminar' },
+    { icon: 'bin', action: this.config, label: 'Eliminar', disabled: true },
   ];
 
   responseMenuClick(click: MouseEvent, button: ResponseMenuOptionInterface) {

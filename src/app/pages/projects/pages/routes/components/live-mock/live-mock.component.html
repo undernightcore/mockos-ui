@@ -1,0 +1,34 @@
+<app-dialog [title]="'PAGES.ROUTES.LIVE_MOCK' | translate">
+  <div class="main-content">
+    <div class="main-content__form">
+      <div class="main-content__form__checkbox">
+        <app-checkbox
+          [formControl]="liveMockForm.controls.enabled"
+        ></app-checkbox>
+        <span>{{ "COMMON.ENABLED" | translate }}</span>
+      </div>
+    </div>
+    <div class="main-content__editor">
+      <ngx-monaco-editor
+        [formControl]="liveMockForm.controls.code"
+        [options]="{ theme: 'vs-dark', language: 'javascript' }"
+      ></ngx-monaco-editor>
+    </div>
+    <div class="main-content__actions">
+      <div>
+        <app-button [disabled]="saving" (click)="dialogRef.close()">
+          {{ "ACTIONS.CANCEL" | translate }}
+        </app-button>
+        <app-button
+          borderColor="#4088FF"
+          backgroundColor="#4088FF"
+          color="white"
+          [disabled]="saving"
+          (click)="handleSave()"
+        >
+          {{ "COMMON.APPLY" | translate }}
+        </app-button>
+      </div>
+    </div>
+  </div>
+</app-dialog>
