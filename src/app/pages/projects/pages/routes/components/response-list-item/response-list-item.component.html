@@ -17,15 +17,18 @@
       <div cdkMenu>
         <div class="response__actions__menu">
           <app-button
+            *ngIf="!response.enabled"
             size="small"
             backgroundColor="#4088FF"
             borderColor="unset"
             color="#fff"
+            (click)="enableResponse.emit()"
             >Activar</app-button
           >
           <div
             *ngFor="let button of buttons; trackBy: trackByButton"
             class="response__actions__menu__item"
+            [class.response__actions__menu__item--disabled]="button.disabled"
             (click)="responseMenuClick($event, button)"
           >
             <img

@@ -81,6 +81,15 @@
       cursor: pointer;
       padding: 0 16px;
 
+      &--disabled {
+        pointer-events: none;
+        color: #4f4b54;
+
+        & img {
+          opacity: 0.3;
+        }
+      }
+
       &:hover {
         background-color: #1d1b20;
       }

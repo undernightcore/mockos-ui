@@ -25,6 +25,8 @@
               [response]="response"
               *ngFor="let response of responses"
               (edit)="openCreateResponse(route.id, response.id)"
+              (processor)="openLiveMock(response.id)"
+              (enableResponse)="enableResponse(response.id)"
             ></app-response-list-item>
           </div>
         </ng-container>

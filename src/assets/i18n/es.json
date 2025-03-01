@@ -28,7 +28,8 @@
     "UPDATED_AT": "Actualizado el",
     "AUTHOR": "Autor",
     "YOUR_VERSION": "Tu versión",
-    "PREVIEW": "Vista previa"
+    "PREVIEW": "Vista previa",
+    "APPLY": "Aplicar"
   },
   "PAGES": {
     "HOME": {
@@ -122,7 +123,9 @@
       "CREATE_TOKEN_DESCRIPTION": "Puedes utilizar estos tokens para autenticarte desde cualquier cliente",
       "CREATE_NEW_FOLDER": "Crear nueva carpeta",
       "IMPORT_SWAGGER": "Importar Swagger",
-      "REPLACE_PROJECT_ROUTES": "Remplazar todas las rutas del proyecto"
+      "REPLACE_PROJECT_ROUTES": "Remplazar todas las rutas del proyecto",
+      "LIVE_MOCK": "Configurar live mock",
+      "LIVE_MOCK_EDITED": "Live mock editado correctamente"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",

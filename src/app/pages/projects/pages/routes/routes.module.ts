@@ -37,16 +37,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ButtonModule } from '../../../../components/button/button.module';
 import { RouteListComponent } from './components/route-list/route-list.component';
 import { InputModule } from '../../../../components/input/input.module';
-import { CheckboxModule } from "../../../../components/checkbox/checkbox.module";
+import { CheckboxModule } from '../../../../components/checkbox/checkbox.module';
 import { AutoAnimateModule } from 'src/app/directives/auto-animate/auto-animate.module';
 import { NgLetModule } from 'ng-let';
 import { RouteActionsComponent } from './components/route-actions/route-actions.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { DialogModule } from "../../../../components/dialog/dialog.module";
+import { DialogModule } from '../../../../components/dialog/dialog.module';
 import { MethodSelectorComponent } from './components/method-selector/method-selector.component';
 import { DragulaModule } from 'ng2-dragula';
 import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
 import { ImportSwaggerComponent } from './components/import-swagger/import-swagger.component';
+import { LiveMockComponent } from './components/live-mock/live-mock.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ImportSwaggerComponent } from './components/import-swagger/import-swagg
     RouteListComponent,
     RouteActionsComponent,
     MethodSelectorComponent,
+    LiveMockComponent,
   ],
   imports: [
     CommonModule,
@@ -101,6 +103,6 @@ import { ImportSwaggerComponent } from './components/import-swagger/import-swagg
     DragulaModule,
     MonacoEditorModule,
     MatMenuModule,
-]
+  ],
 })
 export class RoutesModule {}
