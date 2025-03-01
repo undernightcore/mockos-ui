@@ -113,6 +113,38 @@ export class ProjectManagerService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  #loadingProcessors = new BehaviorSubject(0);
+  loadingProcessors$ = this.#loadingProcessors.pipe(
+    map((amount) => Boolean(amount))
+  );
+  processors$ = this.route$.pipe(
+    distinctUntilChanged((previous, current) => previous?.id === current?.id),
+    switchMap((route) =>
+      route
+        ? this.realtimeService.listenRoute(route.id).pipe(
+            startWith('started'),
+            switchMap((status) =>
+              status !== 'deleted'
+                ? this.routesService.getProcessors(route.id).pipe(
+                    tap({
+                      subscribe: () =>
+                        this.#loadingProcessors.next(
+                          this.#loadingProcessors.value + 1
+                        ),
+                      finalize: () =>
+                        this.#loadingProcessors.next(
+                          this.#loadingProcessors.value - 1
+                        ),
+                    })
+                  )
+                : of(undefined)
+            )
+          )
+        : of(undefined)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   constructor(
     private projectsService: ProjectService,
     private appManager: AppManagerService,
@@ -235,13 +267,13 @@ export class ProjectManagerService {
   openImportSwaggerModal() {
     return this.project$.pipe(
       take(1),
-      switchMap(project => {
+      switchMap((project) => {
         return this.dialogService
           .open(ImportSwaggerComponent, {
             closeOnNavigation: true,
             height: '90%',
             width: '70%',
-            data: {  projectId: project.id },
+            data: { projectId: project.id },
             panelClass: 'mobile-fullscreen',
             autoFocus: false,
           })

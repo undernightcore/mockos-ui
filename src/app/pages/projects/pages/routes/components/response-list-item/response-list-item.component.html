@@ -6,13 +6,28 @@
 >
   <div class="response__actions">
     <app-checkbox [highContrast]="response.enabled"></app-checkbox>
-    <img
-      #responseActions="cdkMenuTriggerFor"
-      [cdkMenuTriggerFor]="menu"
-      src="/assets/images/icons/vertical-dots.svg"
-      alt=""
-      (click)="$event.stopPropagation()"
-    />
+    <div class="response__actions__icons">
+      <div
+        class="response__actions__icons__badge"
+        *ngIf="response.processor?.enabled"
+        matBadge="1"
+        matBadgeSize="small"
+      >
+        <img
+          src="/assets/images/icons/processor.svg"
+          alt=""
+          (click)="$event.stopPropagation(); processor.emit()"
+        />
+      </div>
+
+      <img
+        #responseActions="cdkMenuTriggerFor"
+        [cdkMenuTriggerFor]="menu"
+        src="/assets/images/icons/vertical-dots.svg"
+        alt=""
+        (click)="$event.stopPropagation()"
+      />
+    </div>
     <ng-template #menu>
       <div cdkMenu>
         <div class="response__actions__menu">
