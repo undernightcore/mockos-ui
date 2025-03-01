@@ -48,6 +48,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
 import { ImportSwaggerComponent } from './components/import-swagger/import-swagger.component';
 import { LiveMockComponent } from './components/live-mock/live-mock.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { LiveMockComponent } from './components/live-mock/live-mock.component';
     DragulaModule,
     MonacoEditorModule,
     MatMenuModule,
+    MatBadgeModule,
   ],
 })
 export class RoutesModule {}

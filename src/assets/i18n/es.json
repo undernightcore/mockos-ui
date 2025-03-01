@@ -29,7 +29,11 @@
     "AUTHOR": "Autor",
     "YOUR_VERSION": "Tu versión",
     "PREVIEW": "Vista previa",
-    "APPLY": "Aplicar"
+    "APPLY": "Aplicar",
+    "EDIT": "Editar",
+    "HEADERS": "Headers",
+    "DUPLICATE": "Duplicar",
+    "DELETE": "Eliminar"
   },
   "PAGES": {
     "HOME": {
@@ -124,8 +128,11 @@
       "CREATE_NEW_FOLDER": "Crear nueva carpeta",
       "IMPORT_SWAGGER": "Importar Swagger",
       "REPLACE_PROJECT_ROUTES": "Remplazar todas las rutas del proyecto",
-      "LIVE_MOCK": "Configurar live mock",
-      "LIVE_MOCK_EDITED": "Live mock editado correctamente"
+      "LIVE_MOCK": "Live mock",
+      "LIVE_MOCK_CONFIG": "Configurar live mock",
+      "LIVE_MOCK_EDITED": "Live mock editado correctamente",
+      "DELETE_RESPONSE": "Eliminar respuesta",
+      "DELETE_RESPONSE_MESSAGE": "¿Estás seguro de que quieres eliminar esta respuesta?"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",

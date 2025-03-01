@@ -15,6 +15,28 @@
     justify-content: space-between;
     align-items: center;
 
+    &__icons {
+      display: flex;
+      align-items: center;
+      flex-shrink: 1;
+      gap: 16px;
+
+      &__badge {
+        display: flex;
+        align-items: center;
+
+        & span {
+          content: none;
+          height: 6px;
+          width: 6px;
+          right: -3px !important;
+          top: 0;
+          background-color: #41cdbc !important;
+          color: #41cdbc !important;
+        }
+      }
+    }
+
     & > img {
       cursor: pointer;
     }

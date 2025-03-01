@@ -1,4 +1,5 @@
 import { HeadersInterface } from './headers.interface';
+import { ProcessorInterface } from './processor.interface';
 
 export interface ResponseInterface {
   id: number;
@@ -17,4 +18,12 @@ export interface SimpleResponseInterface {
   name: string;
   enabled: boolean;
   status: number;
+}
+
+export interface SimpleResponseWithProcessorInterface {
+  id: number;
+  name: string;
+  enabled: boolean;
+  status: number;
+  processor: ProcessorInterface | undefined;
 }
