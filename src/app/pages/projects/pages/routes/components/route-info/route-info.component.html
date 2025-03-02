@@ -28,6 +28,8 @@
               (processor)="openLiveMock(response)"
               (enableResponse)="enableResponse(response.id)"
               (delete)="openDeleteResponse(response.id)"
+              (config)="openHeaders(response.id)"
+              (duplicate)="openDuplicateResponse(response.id)"
             ></app-response-list-item>
           </div>
         </ng-container>

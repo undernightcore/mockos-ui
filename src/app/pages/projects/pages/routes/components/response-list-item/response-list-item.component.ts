@@ -39,7 +39,6 @@ export class ResponseListItemComponent implements OnInit {
       icon: 'duplicate',
       action: this.duplicate,
       label: this.translateService.instant(`COMMON.DUPLICATE`),
-      disabled: true,
     },
     {
       icon: 'processor',

@@ -19,6 +19,8 @@ import { toMap } from '../../../../../../utils/object.utils';
 import { SimpleResponseWithProcessorInterface } from '../../../../../../interfaces/response.interface';
 import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { EditHeadersResponseComponent } from '../edit-headers-response/edit-headers-response.component';
+import { DuplicateResponseComponent } from '../duplicate-response/duplicate-response.component';
 
 @Component({
   selector: 'app-route-info',
@@ -115,14 +117,40 @@ export class RouteInfoComponent {
           confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
         },
         autoFocus: false,
-        minWidth: '450px',
-        maxWidth: '450px',
       })
       .afterClosed()
       .pipe(
         filter((confirmed) => confirmed),
         switchMap(() => this.responsesService.deleteResponse(responseId))
       )
+      .subscribe();
+  }
+
+  openHeaders(responseId: number) {
+    this.dialogService
+      .open(EditHeadersResponseComponent, {
+        closeOnNavigation: true,
+        height: '90%',
+        width: '70%',
+        data: responseId,
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => confirmed))
+      .subscribe();
+  }
+
+  openDuplicateResponse(responseId: number) {
+    this.dialogService
+      .open(DuplicateResponseComponent, {
+        closeOnNavigation: true,
+        data: responseId,
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => confirmed))
       .subscribe();
   }
 
