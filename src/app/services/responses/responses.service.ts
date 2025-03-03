@@ -74,7 +74,10 @@ export class ResponsesService {
 
   deleteSelectedResponses(responseIds: number[]) {
     return this.httpClient.delete(
-      `${this.envService.getEnv('apiUrl')}/responses/${responseIds}`
+      `${this.envService.getEnv('apiUrl')}/responses/selected`,
+      {
+        body: { ids: responseIds },
+      }
     );
   }
 
