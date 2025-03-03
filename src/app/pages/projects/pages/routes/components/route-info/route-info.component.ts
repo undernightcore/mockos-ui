@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  BehaviorSubject,
   defer,
   delayWhen,
   filter,
+  map,
   of,
   startWith,
   switchMap,
@@ -34,6 +36,11 @@ export class RouteInfoComponent {
     startWith(false),
     delayWhen((loading) => (loading ? timer(0) : timer(200)))
   );
+
+  selectedResponseIdsSubject = new BehaviorSubject<Set<number>>(new Set());
+  selectedResponseIds$ = this.selectedResponseIdsSubject
+    .asObservable()
+    .pipe(map((set) => Array.from(set)));
 
   constructor(
     private projectManager: ProjectManagerService,
@@ -100,6 +107,34 @@ export class RouteInfoComponent {
       .subscribe();
   }
 
+  openDeleteSelectedResponses() {
+    const selectedIds = Array.from(this.selectedResponseIdsSubject.value);
+    if (selectedIds.length === 0) return;
+
+    this.dialogService
+      .open(ChoiceModalComponent, {
+        data: {
+          title: this.translateService.instant(`PAGES.ROUTES.DELETE_RESPONSE`),
+          message: this.translateService.instant(
+            `PAGES.ROUTES.DELETE_SELECTED_RESPONSES_MESSAGE`
+          ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
+        },
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(
+        filter((confirmed) => confirmed),
+        switchMap(() =>
+          this.responsesService.deleteSelectedResponses(selectedIds)
+        )
+      )
+      .subscribe(() => {
+        this.selectedResponseIdsSubject.next(new Set());
+      });
+  }
+
   openHeaders(responseId: number) {
     this.dialogService
       .open(EditHeadersResponseComponent, {
@@ -133,5 +168,15 @@ export class RouteInfoComponent {
       next: (value) => {},
       error: (error) => {},
     });
+  }
+
+  selectItem(responseId: number) {
+    const currentSet = new Set(this.selectedResponseIdsSubject.value);
+    if (currentSet.has(responseId)) {
+      currentSet.delete(responseId);
+    } else {
+      currentSet.add(responseId);
+    }
+    this.selectedResponseIdsSubject.next(currentSet);
   }
 }

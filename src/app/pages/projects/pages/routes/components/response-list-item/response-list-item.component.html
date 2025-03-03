@@ -7,7 +7,7 @@
   <div class="response__actions">
     <app-checkbox
       [highContrast]="response.enabled"
-      (click)="$event.stopPropagation()"
+      (click)="onSelectedClick($event)"
     ></app-checkbox>
 
     <div class="response__actions__icons" (click)="$event.stopPropagation()">

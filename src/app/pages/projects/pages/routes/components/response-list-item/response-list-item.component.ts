@@ -15,7 +15,7 @@ export class ResponseListItemComponent {
 
   @Output() processor = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
-  @Output() select = new EventEmitter<void>();
+  @Output() select = new EventEmitter<number>();
   @Output() config = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
@@ -66,6 +66,12 @@ export class ResponseListItemComponent {
       return;
 
     this.edit.emit();
+  }
+
+  onSelectedClick(event: MouseEvent) {
+    event.stopPropagation();
+    if (!this.response?.id) return;
+    this.select.emit(this.response.id);
   }
 
   trackByButton(_index: number, button: ResponseMenuOptionInterface) {

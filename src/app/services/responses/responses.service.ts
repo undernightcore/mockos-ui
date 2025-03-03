@@ -72,6 +72,12 @@ export class ResponsesService {
     );
   }
 
+  deleteSelectedResponses(responseIds: number[]) {
+    return this.httpClient.delete(
+      `${this.envService.getEnv('apiUrl')}/responses/${responseIds}`
+    );
+  }
+
   duplicateResponse(responseId: number, name: string) {
     return this.httpClient.post<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/responses/${responseId}/duplicate`,
