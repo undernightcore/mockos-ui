@@ -1,13 +1,5 @@
 <app-dialog [title]="'PAGES.ROUTES.LIVE_MOCK_CONFIG' | translate">
   <div class="main-content">
-    <div class="main-content__form">
-      <div class="main-content__form__checkbox">
-        <app-checkbox
-          [formControl]="liveMockForm.controls.enabled"
-        ></app-checkbox>
-        <span>{{ "COMMON.ENABLED" | translate }}</span>
-      </div>
-    </div>
     <div class="main-content__editor">
       <ngx-monaco-editor
         [formControl]="liveMockForm.controls.code"
@@ -15,6 +7,24 @@
       ></ngx-monaco-editor>
     </div>
     <div class="main-content__actions">
+      <div>
+        <app-button
+          [style.width.px]="200"
+          (click)="liveMockForm.controls.enabled.setValue(false)"
+          color="#1D1B20"
+          backgroundColor="white"
+          borderColor="white"
+          *ngIf="liveMockForm.controls.enabled.value"
+          >{{ "COMMON.ACTIVE" | translate }}</app-button
+        >
+        <app-button
+          [style.width.px]="200"
+          (click)="liveMockForm.controls.enabled.setValue(true)"
+          *ngIf="!liveMockForm.controls.enabled.value"
+          >{{ "COMMON.ENABLE" | translate }}</app-button
+        >
+      </div>
+
       <div>
         <app-button [disabled]="saving" (click)="dialogRef.close()">
           {{ "ACTIONS.CANCEL" | translate }}

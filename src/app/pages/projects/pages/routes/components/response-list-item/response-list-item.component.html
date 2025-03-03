@@ -9,7 +9,10 @@
     <div class="response__actions__icons">
       <div
         class="response__actions__icons__badge"
-        *ngIf="response.processor?.enabled"
+        [class.response__actions__icons__badge--invisible]="
+          !response.processor?.enabled
+        "
+        *ngIf="response.processor"
         matBadge="1"
         matBadgeSize="small"
       >
