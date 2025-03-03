@@ -1,12 +1,34 @@
 <div class="header">
-  <ng-container *ngIf="editable; else none_editable">
-    <app-input label="Título"></app-input>
-    <app-input label="Valor"></app-input>
+  <ng-container *ngIf="editing; else none_editing" [formGroup]="editingForm">
+    <app-input
+      [control]="editingForm.controls.key"
+      label="Título"
+      backgroundColor="#2D2B30"
+    ></app-input>
+    <app-input
+      [control]="editingForm.controls.value"
+      label="Valor"
+      backgroundColor="#2D2B30"
+    ></app-input>
+    <img
+      src="/assets/images/icons/save.svg"
+      alt="add"
+      (click)="saveHeader.emit()"
+    />
+    <img
+      src="/assets/images/icons/close.svg"
+      alt="add"
+      (click)="cancelEditing.emit()"
+    />
   </ng-container>
-  <ng-template #none_editable>
-    <span>Date</span>
-    <span>Ingo Lorem ipsum dolor sit amet.</span>
+  <ng-template #none_editing>
+    <span>{{ header?.key }}</span>
+    <span>{{ header?.value }}</span>
+    <img
+      src="/assets/images/icons/pencil.svg"
+      alt="add"
+      (click)="editingHeader.emit()"
+    />
+    <img src="/assets/images/icons/bin.svg" alt="add" (click)="deleteHeader.emit()"/>
   </ng-template>
-  <img src="/assets/images/icons/pencil.svg" alt="add">
-  <img src="/assets/images/icons/bin.svg" alt="add">
 </div>

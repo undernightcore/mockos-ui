@@ -1,15 +1,38 @@
 <app-dialog title="Editar headers">
   <div class="headers">
     <div class="headers__creator">
-      <app-input label="Título"></app-input>
-      <app-input label="Valor"></app-input>
-      <app-button backgroundColor="#4088FF" borderColor="#4088FF" color="#FFFFFF">
-        <img src="/assets/images/icons/add.svg" alt="add">
+      <ng-container [formGroup]="createHeaderForm">
+        <app-input
+          label="Título"
+          [control]="createHeaderForm.controls.key"
+        ></app-input>
+        <app-input
+          label="Valor"
+          [control]="createHeaderForm.controls.value"
+        ></app-input>
+      </ng-container>
+
+      <app-button
+        backgroundColor="#4088FF"
+        borderColor="#4088FF"
+        color="#FFFFFF"
+        [disabled]="createHeaderForm.invalid"
+        (click)="createHeader()"
+      >
+        <img src="/assets/images/icons/add.svg" alt="add" />
       </app-button>
     </div>
     <div class="headers__list">
-      <app-header [editable]="true"></app-header>
-      <app-header [editable]="false"></app-header>
+      <app-header
+        *ngFor="let header of headers; trackBy: trackByHeader"
+        [editingForm]="editingHeaderForm"
+        [header]="header"
+        [editing]="header.id === editingHeaderForm.value.id"
+        (saveHeader)="saveEditing()"
+        (editingHeader)="setEditingHeader(header)"
+        (deleteHeader)="deleteHeader(header.id)"
+        (cancelEditing)="cancelEditing()"
+      ></app-header>
     </div>
   </div>
 </app-dialog>

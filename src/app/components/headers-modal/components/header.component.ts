@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { HeadersInterface } from '../../../interfaces/headers.interface';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +9,17 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  @Input() editable: boolean = false;
+  @Input() editing: boolean = false;
+  @Input() header?: HeadersInterface;
+  @Input() editingForm!: FormGroup<{
+    id: FormControl;
+    key: FormControl;
+    value: FormControl;
+  }>;
+  @Output() editingHeader = new EventEmitter<void>();
+  @Output() deleteHeader = new EventEmitter<void>();
+  @Output() cancelEditing = new EventEmitter<void>();
+  @Output() saveHeader = new EventEmitter<void>();
+
   constructor(public dialogRef: MatDialogRef<HeaderComponent>) {}
 }
