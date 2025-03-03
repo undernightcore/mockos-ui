@@ -1,14 +1,14 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogRef } from '@angular/cdk/dialog';
-import { openToast } from '../../../../../../utils/toast.utils';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize, Subscription } from 'rxjs';
-import { ResponsesService } from '../../../../../../services/responses/responses.service';
+import { LIVE_MOCK_TEMPLATE } from '../../../../../../const/live-mock.const';
 import { EditProcessorInterface } from '../../../../../../interfaces/edit-processor.interface';
 import { ProcessorInterface } from '../../../../../../interfaces/processor.interface';
-import { LIVE_MOCK_TEMPLATE } from '../../../../../../const/live-mock.const';
-import { TranslateService } from '@ngx-translate/core';
+import { ResponsesService } from '../../../../../../services/responses/responses.service';
+import { openToast } from '../../../../../../utils/toast.utils';
 
 @Component({
   selector: 'app-live-mock',
@@ -38,7 +38,7 @@ export class LiveMockComponent implements OnDestroy {
     if (this.data.processor) {
       this.liveMockForm.patchValue({
         enabled: this.data.processor.enabled,
-        code: JSON.parse(this.data.processor.code),
+        code: this.data.processor.code,
       });
     }
   }
@@ -55,7 +55,7 @@ export class LiveMockComponent implements OnDestroy {
 
     const processor = {
       enabled: this.liveMockForm.value.enabled,
-      code: JSON.stringify(this.liveMockForm.value.code),
+      code: this.liveMockForm.value.code,
     } as EditProcessorInterface;
 
     this.responsesService

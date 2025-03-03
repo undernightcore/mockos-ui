@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  SimpleResponseInterface,
-  SimpleResponseWithProcessorInterface,
-} from '../../../../../../interfaces/response.interface';
-import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
+
 import { TranslateService } from '@ngx-translate/core';
+import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
+import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
 
 @Component({
   selector: 'app-response-list-item',
@@ -12,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./response-list-item.component.scss'],
 })
 export class ResponseListItemComponent implements OnInit {
-  @Input() response?: SimpleResponseWithProcessorInterface;
+  @Input() response?: SimpleResponseInterface;
   @Input() loading = false;
 
   @Output() processor = new EventEmitter<void>();
