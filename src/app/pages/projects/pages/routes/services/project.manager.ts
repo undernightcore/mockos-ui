@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   BehaviorSubject,
   catchError,
@@ -17,25 +19,24 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { ChoiceModalComponent } from 'src/app/components/choice-modal/choice-modal.component';
+import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
+import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
 import { ProjectInterface } from 'src/app/interfaces/project.interface';
+import {
+  FolderInterface,
+  RouteInterface,
+} from 'src/app/interfaces/route.interface';
 import { AppManagerService } from 'src/app/services/app/app-manager.service';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { RealtimeService } from 'src/app/services/realtime/realtime.service';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { RoutesService } from 'src/app/services/routes/routes.service';
-import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
-import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
-import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
-import {
-  FolderInterface,
-  RouteInterface,
-} from 'src/app/interfaces/route.interface';
-import { MatDialog } from '@angular/material/dialog';
 import { CreateRouteComponent } from '../components/create-route/create-route.component';
-import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
-import { ChoiceModalComponent } from 'src/app/components/choice-modal/choice-modal.component';
-import { TranslateService } from '@ngx-translate/core';
 import { ImportSwaggerComponent } from '../components/import-swagger/import-swagger.component';
+import { TokensComponent } from '../components/tokens/tokens.component';
+import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +86,7 @@ export class ProjectManagerService {
   loadingResponses$ = this.#loadingResponses.pipe(
     map((amount) => Boolean(amount))
   );
+
   responses$ = this.route$.pipe(
     distinctUntilChanged((previous, current) => previous?.id === current?.id),
     switchMap((route) =>
@@ -235,13 +237,13 @@ export class ProjectManagerService {
   openImportSwaggerModal() {
     return this.project$.pipe(
       take(1),
-      switchMap(project => {
+      switchMap((project) => {
         return this.dialogService
           .open(ImportSwaggerComponent, {
             closeOnNavigation: true,
             height: '90%',
             width: '70%',
-            data: {  projectId: project.id },
+            data: { projectId: project.id },
             panelClass: 'mobile-fullscreen',
             autoFocus: false,
           })
@@ -249,6 +251,7 @@ export class ProjectManagerService {
       })
     );
   }
+
   openDeleteRouteModal(route: RouteInterface | FolderInterface) {
     return this.dialogService
       .open(ChoiceModalComponent, {
@@ -278,6 +281,23 @@ export class ProjectManagerService {
         filter((confirmed) => confirmed),
         switchMap(() => this.routesService.deleteRoute(route.id))
       );
+  }
+
+  openTokensModal() {
+    return this.project$.pipe(
+      take(1),
+      switchMap((project) =>
+        this.dialogService
+          .open(TokensComponent, {
+            data: project.id,
+            height: '70%',
+            width: '50%',
+            panelClass: 'mobile-fullscreen',
+            autoFocus: false,
+          })
+          .afterClosed()
+      )
+    );
   }
 
   #setHeader(project: ProjectInterface) {

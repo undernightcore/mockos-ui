@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SimpleResponseInterface } from '../../../../../../interfaces/response.interface';
+
+import { TranslateService } from '@ngx-translate/core';
+import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
+import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
 
 @Component({
   selector: 'app-response-list-item',
@@ -10,29 +13,51 @@ export class ResponseListItemComponent {
   @Input() response?: SimpleResponseInterface;
   @Input() loading = false;
 
+  @Output() processor = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Output() select = new EventEmitter<void>();
   @Output() config = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
+  @Output() enableResponse = new EventEmitter<void>();
 
-  openConfigModal(click: MouseEvent) {
+  buttons: ResponseMenuOptionInterface[] = [
+    {
+      icon: 'pencil',
+      action: this.edit,
+      label: this.translateService.instant(`COMMON.EDIT`),
+    },
+    {
+      icon: 'header',
+      action: this.config,
+      label: this.translateService.instant(`COMMON.HEADERS`),
+      disabled: true,
+    },
+    {
+      icon: 'duplicate',
+      action: this.duplicate,
+      label: this.translateService.instant(`COMMON.DUPLICATE`),
+    },
+    {
+      icon: 'processor',
+      action: this.processor,
+      label: this.translateService.instant(`PAGES.ROUTES.LIVE_MOCK`),
+    },
+    {
+      icon: 'bin',
+      action: this.delete,
+      label: this.translateService.instant(`COMMON.DELETE`),
+    },
+  ];
+
+  constructor(private translateService: TranslateService) {}
+
+  responseMenuClick(click: MouseEvent, button: ResponseMenuOptionInterface) {
     click.stopPropagation();
-    this.config.emit();
+    button.action.emit();
   }
 
-  openDeleteModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.delete.emit();
-  }
-
-  openDuplicateModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.duplicate.emit();
-  }
-
-  openSelectModal(click: MouseEvent) {
-    click.stopPropagation();
-    this.select.emit();
+  trackByButton(_index: number, button: ResponseMenuOptionInterface) {
+    return button.label;
   }
 }
