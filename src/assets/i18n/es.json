@@ -134,7 +134,8 @@
       "LIVE_MOCK_CONFIG": "Configurar live mock",
       "LIVE_MOCK_EDITED": "Live mock editado correctamente",
       "DELETE_RESPONSE": "Eliminar respuesta",
-      "DELETE_RESPONSE_MESSAGE": "¿Estás seguro de que quieres eliminar esta respuesta?"
+      "DELETE_RESPONSE_MESSAGE": "¿Estás seguro de que quieres eliminar esta respuesta?",
+      "DELETE_SELECTED_RESPONSES_MESSAGE": "¿Estás seguro de que quieres eliminar las respuestas seleccionadas?"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",
