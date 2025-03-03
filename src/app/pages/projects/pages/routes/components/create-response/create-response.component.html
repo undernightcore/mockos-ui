@@ -27,13 +27,13 @@
         backgroundColor="white"
         borderColor="white"
         *ngIf="responseForm.controls.enabled.value"
-        >Activo</app-button
+        >{{ "COMMON.ACTIVE" | translate }}</app-button
       >
       <app-button
         [style.width.px]="200"
         (click)="responseForm.controls.enabled.setValue(true)"
         *ngIf="!responseForm.controls.enabled.value"
-        >Activar</app-button
+        >{{ "COMMON.ENABLE" | translate }}</app-button
       >
     </div>
 

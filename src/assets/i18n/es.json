@@ -33,7 +33,9 @@
     "EDIT": "Editar",
     "HEADERS": "Headers",
     "DUPLICATE": "Duplicar",
-    "DELETE": "Eliminar"
+    "DELETE": "Eliminar",
+    "ACTIVE": "Activo",
+    "ENABLE": "Activar"
   },
   "PAGES": {
     "HOME": {

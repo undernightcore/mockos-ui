@@ -1,6 +1,4 @@
-export const LIVE_MOCK_TEMPLATE = `
-
-//Variables globales a las que es posible acceder:
+export const LIVE_MOCK_TEMPLATE = `//Variables globales a las que es posible acceder:
 
 // queryParams: Parámetros de la URL
 // url: URL de la petición
