@@ -35,6 +35,7 @@ import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { RoutesService } from 'src/app/services/routes/routes.service';
 import { CreateRouteComponent } from '../components/create-route/create-route.component';
 import { ImportSwaggerComponent } from '../components/import-swagger/import-swagger.component';
+import { TokensComponent } from '../components/tokens/tokens.component';
 import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
 
 @Injectable({
@@ -250,6 +251,7 @@ export class ProjectManagerService {
       })
     );
   }
+
   openDeleteRouteModal(route: RouteInterface | FolderInterface) {
     return this.dialogService
       .open(ChoiceModalComponent, {
@@ -279,6 +281,23 @@ export class ProjectManagerService {
         filter((confirmed) => confirmed),
         switchMap(() => this.routesService.deleteRoute(route.id))
       );
+  }
+
+  openTokensModal() {
+    return this.project$.pipe(
+      take(1),
+      switchMap((project) =>
+        this.dialogService
+          .open(TokensComponent, {
+            data: project.id,
+            height: '70%',
+            width: '50%',
+            panelClass: 'mobile-fullscreen',
+            autoFocus: false,
+          })
+          .afterClosed()
+      )
+    );
   }
 
   #setHeader(project: ProjectInterface) {
