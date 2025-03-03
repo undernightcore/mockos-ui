@@ -57,6 +57,17 @@ export class ResponseListItemComponent {
     button.action.emit();
   }
 
+  onComponentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (
+      target.closest('app-checkbox') ||
+      target.closest('.response__actions__icons')
+    )
+      return;
+
+    this.edit.emit();
+  }
+
   trackByButton(_index: number, button: ResponseMenuOptionInterface) {
     return button.label;
   }
