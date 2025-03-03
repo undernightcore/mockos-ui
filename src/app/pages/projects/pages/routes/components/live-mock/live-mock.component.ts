@@ -38,7 +38,7 @@ export class LiveMockComponent implements OnDestroy {
     if (this.data.processor) {
       this.liveMockForm.patchValue({
         enabled: this.data.processor.enabled,
-        code: JSON.parse(this.data.processor.code),
+        code: this.data.processor.code,
       });
     }
   }
@@ -55,7 +55,7 @@ export class LiveMockComponent implements OnDestroy {
 
     const processor = {
       enabled: this.liveMockForm.value.enabled,
-      code: JSON.stringify(this.liveMockForm.value.code),
+      code: this.liveMockForm.value.code,
     } as EditProcessorInterface;
 
     this.responsesService

@@ -34,6 +34,10 @@
           background-color: #41cdbc !important;
           color: #41cdbc !important;
         }
+
+        &--invisible span {
+          display: none;
+        }
       }
     }
 
