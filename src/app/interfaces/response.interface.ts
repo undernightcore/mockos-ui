@@ -18,12 +18,5 @@ export interface SimpleResponseInterface {
   name: string;
   enabled: boolean;
   status: number;
-}
-
-export interface SimpleResponseWithProcessorInterface {
-  id: number;
-  name: string;
-  enabled: boolean;
-  status: number;
-  processor: ProcessorInterface | undefined;
+  processor: ProcessorInterface | null;
 }
