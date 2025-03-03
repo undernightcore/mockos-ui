@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
-import { ProjectManagerService } from '../../services/project.manager';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import {
-  combineLatestWith,
   defer,
   delayWhen,
   filter,
-  map,
   of,
   startWith,
   switchMap,
   timer,
 } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateResponseComponent } from '../create-response/create-response.component';
+import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
-import { LiveMockComponent } from '../live-mock/live-mock.component';
-import { toMap } from '../../../../../../utils/object.utils';
-import { SimpleResponseWithProcessorInterface } from '../../../../../../interfaces/response.interface';
 import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
-import { TranslateService } from '@ngx-translate/core';
-import { EditHeadersResponseComponent } from '../edit-headers-response/edit-headers-response.component';
+import { ProjectManagerService } from '../../services/project.manager';
+import { CreateResponseComponent } from '../create-response/create-response.component';
 import { DuplicateResponseComponent } from '../duplicate-response/duplicate-response.component';
+import { EditHeadersResponseComponent } from '../edit-headers-response/edit-headers-response.component';
+import { LiveMockComponent } from '../live-mock/live-mock.component';
 
 @Component({
   selector: 'app-route-info',
@@ -30,34 +27,11 @@ import { DuplicateResponseComponent } from '../duplicate-response/duplicate-resp
 export class RouteInfoComponent {
   routes$ = this.projectManager.routes$;
   route$ = this.projectManager.route$;
-  processors$ = this.projectManager.processors$;
 
-  responses$ = this.projectManager.responses$.pipe(
-    combineLatestWith(this.processors$),
-    map(([responses, processors]) => {
-      if (!processors || !responses) return [];
-
-      const processorsByResponseId = toMap(
-        processors,
-        (processor) => processor.responseId
-      );
-
-      return responses.map((response) => ({
-        ...response,
-        processor: processorsByResponseId.get(response.id),
-      })) as SimpleResponseWithProcessorInterface[];
-    })
-  );
+  responses$ = this.projectManager.responses$;
 
   loadingResponses$ = this.projectManager.loadingResponses$.pipe(
     startWith(false),
-    combineLatestWith(
-      this.projectManager.loadingProcessors$.pipe(startWith(false))
-    ),
-    map(
-      ([loadingResponses, loadingProcessors]) =>
-        loadingResponses || loadingProcessors
-    ),
     delayWhen((loading) => (loading ? timer(0) : timer(200)))
   );
 
@@ -91,7 +65,7 @@ export class RouteInfoComponent {
       .subscribe();
   }
 
-  openLiveMock(response: SimpleResponseWithProcessorInterface) {
+  openLiveMock(response: SimpleResponseInterface) {
     this.dialogService
       .open(LiveMockComponent, {
         closeOnNavigation: true,
