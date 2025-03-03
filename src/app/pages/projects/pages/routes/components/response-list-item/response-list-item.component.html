@@ -2,11 +2,15 @@
   *ngIf="response"
   class="response"
   [class.selected]="response.enabled"
-  (click)="edit.emit()"
+  (click)="onComponentClick($event)"
 >
   <div class="response__actions">
-    <app-checkbox [highContrast]="response.enabled"></app-checkbox>
-    <div class="response__actions__icons">
+    <app-checkbox
+      [highContrast]="response.enabled"
+      (click)="$event.stopPropagation()"
+    ></app-checkbox>
+
+    <div class="response__actions__icons" (click)="$event.stopPropagation()">
       <div
         class="response__actions__icons__badge"
         [class.response__actions__icons__badge--invisible]="
@@ -31,6 +35,7 @@
         (click)="$event.stopPropagation()"
       />
     </div>
+
     <ng-template #menu>
       <div cdkMenu>
         <div class="response__actions__menu">
@@ -41,7 +46,7 @@
             borderColor="unset"
             color="#fff"
             (click)="enableResponse.emit()"
-            >Activar</app-button
+          >Activar</app-button
           >
           <div
             *ngFor="let button of buttons; trackBy: trackByButton"
