@@ -7,4 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class DialogComponent {
   @Input() title = '';
+  @Input() overflowContent: 'scroll' | 'auto' | 'hidden' | 'visible' =
+    'visible';
 }
