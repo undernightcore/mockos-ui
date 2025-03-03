@@ -11,3 +11,14 @@ export function omitByAndNullify(obj: { [key: string]: any }, value: any) {
 
   return Object.entries(newObject).length ? newObject : null;
 }
+
+export function toMap<K, V>(list: V[], keyGetter: (input: V) => K): Map<K, V> {
+  const map = new Map();
+
+  for (const item of list) {
+    const key = keyGetter(item);
+    map.set(key, item);
+  }
+
+  return map;
+}

@@ -28,7 +28,14 @@
     "UPDATED_AT": "Updated at",
     "AUTHOR": "Author",
     "YOUR_VERSION": "Your version",
-    "PREVIEW": "Preview"
+    "PREVIEW": "Preview",
+    "APPLY": "Apply",
+    "EDIT": "Edit",
+    "HEADERS": "Headers",
+    "DUPLICATE": "Duplicate",
+    "DELETE": "Delete",
+    "ACTIVE": "Active",
+    "ENABLE": "Enable"
   },
   "PAGES": {
     "HOME": {
@@ -118,7 +125,12 @@
       "TOKENS_HINT": "You won't be able to use Mockos from unauthenticated clients",
       "CREATE_TOKEN": "Create new token",
       "CREATE_TOKEN_DESCRIPTION": "You can use these tokens to authenticate from any client",
-      "CREATE_NEW_FOLDER": "Create new folder"
+      "CREATE_NEW_FOLDER": "Create new folder",
+      "LIVE_MOCK": "Live mock",
+      "LIVE_MOCK_CONFIG": "Live mock configuration",
+      "LIVE_MOCK_EDITED": "Live mock successfully edited",
+      "DELETE_RESPONSE": "Delete response",
+      "DELETE_RESPONSE_MESSAGE": "Are you sure you want to delete this response?"
     },
     "MEMBERS": {
       "GO_BACK": "Return to project",
