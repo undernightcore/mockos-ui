@@ -5,7 +5,7 @@
   width: 100%;
   box-sizing: border-box;
   color: #ffffff;
-  padding: 16px 12px;
+  padding: 16px;
   border-radius: 12px;
   background-color: #2d2b30;
 
@@ -13,6 +13,7 @@
     width: 100%;
   }
   img {
-    max-width: 24px;
+    cursor: pointer;
+    max-width: 18px;
   }
 }
