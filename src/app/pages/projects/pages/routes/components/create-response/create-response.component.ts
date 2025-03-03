@@ -110,6 +110,9 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
           this.dialogRef.close();
         },
         error: (error) => {
+          if (error.error.errors[0]) {
+            openToast(error.error.errors[0], 'error');
+          }
           if (error.status !== 404) return;
           this.#changeToCreateUnexpectedly();
         },
