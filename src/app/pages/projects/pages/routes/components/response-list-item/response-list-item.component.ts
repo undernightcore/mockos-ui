@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
@@ -9,7 +9,7 @@ import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-opti
   templateUrl: './response-list-item.component.html',
   styleUrls: ['./response-list-item.component.scss'],
 })
-export class ResponseListItemComponent implements OnInit {
+export class ResponseListItemComponent {
   @Input() response?: SimpleResponseInterface;
   @Input() loading = false;
 
@@ -51,10 +51,6 @@ export class ResponseListItemComponent implements OnInit {
   ];
 
   constructor(private translateService: TranslateService) {}
-
-  ngOnInit() {
-    console.log(this.response);
-  }
 
   responseMenuClick(click: MouseEvent, button: ResponseMenuOptionInterface) {
     click.stopPropagation();
