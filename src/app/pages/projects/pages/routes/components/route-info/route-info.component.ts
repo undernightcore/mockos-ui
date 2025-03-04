@@ -2,15 +2,22 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  BehaviorSubject,
   defer,
   delayWhen,
   filter,
+  map,
   of,
   startWith,
   switchMap,
+  take,
   timer,
 } from 'rxjs';
 import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
+import {
+  FolderInterface,
+  RouteInterface,
+} from 'src/app/interfaces/route.interface';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
 import { ProjectManagerService } from '../../services/project.manager';
@@ -34,6 +41,11 @@ export class RouteInfoComponent {
     startWith(false),
     delayWhen((loading) => (loading ? timer(0) : timer(200)))
   );
+
+  selectedResponseIdsSubject = new BehaviorSubject<Set<number>>(new Set());
+  selectedResponseIds$ = this.selectedResponseIdsSubject
+    .asObservable()
+    .pipe(map((set) => Array.from(set)));
 
   constructor(
     private projectManager: ProjectManagerService,
@@ -100,6 +112,44 @@ export class RouteInfoComponent {
       .subscribe();
   }
 
+  openDeleteSelectedResponses() {
+    if (this.selectedResponseIdsSubject.value.size === 0) return;
+
+    this.dialogService
+      .open(ChoiceModalComponent, {
+        data: {
+          title: this.translateService.instant(`PAGES.ROUTES.DELETE_RESPONSE`),
+          message: this.translateService.instant(
+            `PAGES.ROUTES.DELETE_SELECTED_RESPONSES_MESSAGE`
+          ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
+        },
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(
+        filter((confirmed) => confirmed),
+        switchMap(() =>
+          this.route$.pipe(
+            filter(
+              (route): route is RouteInterface | FolderInterface =>
+                route !== undefined
+            ),
+            take(1)
+          )
+        ),
+        switchMap(({ id }) =>
+          this.responsesService.deleteResponses(id, [
+            ...this.selectedResponseIdsSubject.value,
+          ])
+        )
+      )
+      .subscribe(() => {
+        this.selectedResponseIdsSubject.next(new Set());
+      });
+  }
+
   openHeaders(responseId: number) {
     this.dialogService
       .open(EditHeadersResponseComponent, {
@@ -133,5 +183,15 @@ export class RouteInfoComponent {
       next: (value) => {},
       error: (error) => {},
     });
+  }
+
+  selectItem(responseId: number) {
+    const currentSet = new Set(this.selectedResponseIdsSubject.value);
+    if (currentSet.has(responseId)) {
+      currentSet.delete(responseId);
+    } else {
+      currentSet.add(responseId);
+    }
+    this.selectedResponseIdsSubject.next(currentSet);
   }
 }

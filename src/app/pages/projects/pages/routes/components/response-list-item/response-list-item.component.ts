@@ -15,7 +15,7 @@ export class ResponseListItemComponent {
 
   @Output() processor = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
-  @Output() select = new EventEmitter<void>();
+  @Output() select = new EventEmitter<number>();
   @Output() config = new EventEmitter<void>();
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
@@ -55,6 +55,23 @@ export class ResponseListItemComponent {
   responseMenuClick(click: MouseEvent, button: ResponseMenuOptionInterface) {
     click.stopPropagation();
     button.action.emit();
+  }
+
+  onComponentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (
+      target.closest('app-checkbox') ||
+      target.closest('.response__actions__icons')
+    )
+      return;
+
+    this.edit.emit();
+  }
+
+  onSelectedClick(event: MouseEvent) {
+    event.stopPropagation();
+    if (!this.response?.id) return;
+    this.select.emit(this.response.id);
   }
 
   trackByButton(_index: number, button: ResponseMenuOptionInterface) {
