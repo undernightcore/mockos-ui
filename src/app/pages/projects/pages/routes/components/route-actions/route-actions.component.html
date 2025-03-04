@@ -29,12 +29,15 @@
     <img src="/assets/images/icons/import.svg" alt="" />
   </div>
   <div
-  [routerLink]="['members']"
-  [queryParamsHandling]="'merge'"
-  class="actions__item"
->
-  <img src="/assets/images/icons/members.svg" alt="" />
-</div>
+    [routerLink]="['members']"
+    [queryParamsHandling]="'merge'"
+    class="actions__item"
+  >
+    <img src="/assets/images/icons/members.svg" alt="" />
+  </div>
+  <div class="actions__item" (click)="openTokensModal().subscribe()">
+    <img src="/assets/images/icons/key.svg" alt="" />
+  </div>
   <div class="actions__divider"></div>
   <div
     (click)="

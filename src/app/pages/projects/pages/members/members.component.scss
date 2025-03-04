@@ -3,7 +3,8 @@
   flex-direction: column;
   overflow: hidden;
   height: 100%;
-  padding: 0 28px;
+  padding: 12px 28px;
+  box-sizing: border-box;
 
   &__header {
     display: flex;
@@ -22,11 +23,11 @@
 
     &__items {
       display: grid;
-      gap: 24px;
-      grid-template-columns: 1fr;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
 
-      @media (min-width: 500px) {
-        grid-template-columns: repeat(4, 1fr);
+      @media (max-width: 550px) {
+        grid-template-columns: 1fr;
       }
     }
   }
