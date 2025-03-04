@@ -10,9 +10,14 @@ import {
   of,
   startWith,
   switchMap,
+  take,
   timer,
 } from 'rxjs';
 import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
+import {
+  FolderInterface,
+  RouteInterface,
+} from 'src/app/interfaces/route.interface';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
 import { ProjectManagerService } from '../../services/project.manager';
@@ -108,8 +113,7 @@ export class RouteInfoComponent {
   }
 
   openDeleteSelectedResponses() {
-    const selectedIds = Array.from(this.selectedResponseIdsSubject.value);
-    if (selectedIds.length === 0) return;
+    if (this.selectedResponseIdsSubject.value.size === 0) return;
 
     this.dialogService
       .open(ChoiceModalComponent, {
@@ -127,7 +131,18 @@ export class RouteInfoComponent {
       .pipe(
         filter((confirmed) => confirmed),
         switchMap(() =>
-          this.responsesService.deleteSelectedResponses(selectedIds)
+          this.route$.pipe(
+            filter(
+              (route): route is RouteInterface | FolderInterface =>
+                route !== undefined
+            ),
+            take(1)
+          )
+        ),
+        switchMap(({ id }) =>
+          this.responsesService.deleteResponses(id, [
+            ...this.selectedResponseIdsSubject.value,
+          ])
         )
       )
       .subscribe(() => {
