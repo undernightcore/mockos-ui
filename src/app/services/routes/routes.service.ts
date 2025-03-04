@@ -9,6 +9,7 @@ import { CreateRouteInterface } from '../../interfaces/create-route.interface';
 import { MessageInterface } from '../../interfaces/message.interface';
 import { EnvService } from '../env/env.service';
 import { CreateFolderInterface } from '../../interfaces/create-folder.interface';
+import { ProcessorInterface } from '../../interfaces/processor.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -64,10 +65,21 @@ export class RoutesService {
     );
   }
 
-  sortAndMoveRoute(projectId: number, what: number, before?: number, into?: number) {
+  sortAndMoveRoute(
+    projectId: number,
+    what: number,
+    before?: number,
+    into?: number
+  ) {
     return this.httpClient.post<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/projects/${projectId}/move`,
       { what, before: before ?? null, into: into ?? null }
+    );
+  }
+
+  getProcessors(routeId: number) {
+    return this.httpClient.get<Array<ProcessorInterface>>(
+      `${this.envService.getEnv('apiUrl')}/routes/${routeId}/processors`
     );
   }
 }

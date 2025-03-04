@@ -1,13 +1,13 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { DialogRef } from '@angular/cdk/dialog';
-import { TokensService } from '../../../../../../services/tokens/tokens.service';
-import { TokensInterface } from '../../../../../../interfaces/tokens.interface';
-import { tap } from 'rxjs';
-import { openToast } from '../../../../../../utils/toast.utils';
 import { TranslateService } from '@ngx-translate/core';
-import { DeleteTokenComponent } from '../delete-token/delete-token.component';
+import { tap } from 'rxjs';
+import { TokensInterface } from '../../../../../../interfaces/tokens.interface';
+import { TokensService } from '../../../../../../services/tokens/tokens.service';
+import { openToast } from '../../../../../../utils/toast.utils';
 import { CreateTokenComponent } from '../create-token/create-token.component';
+import { DeleteTokenComponent } from '../delete-token/delete-token.component';
 
 @Component({
   selector: 'app-tokens',
@@ -39,6 +39,7 @@ export class TokensComponent implements OnInit {
   handleDelete(tokenId: number) {
     this.dialogService.open(DeleteTokenComponent, {
       data: { tokenId, projectId: this.projectId },
+      autoFocus: false,
     });
     this.dialogRef.close();
   }
@@ -46,6 +47,7 @@ export class TokensComponent implements OnInit {
   handleCreate() {
     this.dialogService.open(CreateTokenComponent, {
       data: this.projectId,
+      autoFocus: false,
     });
     this.dialogRef.close();
   }
@@ -55,6 +57,10 @@ export class TokensComponent implements OnInit {
       this.translateService.instant('COMMON.COPIED_TO_CLIPBOARD'),
       'success'
     );
+  }
+
+  openDocumentation() {
+    open('https://docs.mockos.io/docs/integrating/', '_blank');
   }
 
   #getTokens(page = 1) {

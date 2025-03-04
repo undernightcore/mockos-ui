@@ -1,27 +1,12 @@
 import { Component } from '@angular/core';
-import { ProjectManagerService } from '../../services/project.manager';
-import {
-  catchError,
-  defer,
-  filter,
-  map,
-  Observable,
-  retry,
-  retryWhen,
-  startWith,
-  switchMap,
-  take,
-} from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateRouteComponent } from '../create-route/create-route.component';
+import { Observable, startWith } from 'rxjs';
+import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
 import {
   FolderInterface,
   RouteInterface,
 } from 'src/app/interfaces/route.interface';
-import { RoutesService } from 'src/app/services/routes/routes.service';
-import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
-import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
-import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
+import { ProjectManagerService } from '../../services/project.manager';
 
 @Component({
   selector: 'app-route-actions',
@@ -31,9 +16,7 @@ import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-
 export class RouteActionsComponent {
   selectedRoute$ = this.projectManager.route$.pipe(startWith(undefined));
 
-  constructor(
-    private projectManager: ProjectManagerService
-  ) {}
+  constructor(private projectManager: ProjectManagerService) {}
 
   openCreateRouteModal(
     folder: boolean,
@@ -54,7 +37,11 @@ export class RouteActionsComponent {
     return this.projectManager.openImportSwaggerModal();
   }
 
+  openTokensModal() {
+    return this.projectManager.openTokensModal();
+  }
+
   openDeleteRouteModal(item: RouteInterface | FolderInterface) {
-   return this.projectManager.openDeleteRouteModal(item)
+    return this.projectManager.openDeleteRouteModal(item);
   }
 }
