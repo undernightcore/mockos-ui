@@ -28,6 +28,13 @@
   <div class="actions__item" (click)="openImportSwaggerModal().subscribe()">
     <img src="/assets/images/icons/import.svg" alt="" />
   </div>
+  <div
+    [routerLink]="['members']"
+    [queryParamsHandling]="'merge'"
+    class="actions__item"
+  >
+    <img src="/assets/images/icons/members.svg" alt="" />
+  </div>
   <div class="actions__item" (click)="openTokensModal().subscribe()">
     <img src="/assets/images/icons/key.svg" alt="" />
   </div>
@@ -46,6 +53,7 @@
   >
     <img src="/assets/images/icons/pencil.svg" alt="" />
   </div>
+
   <div
     (click)="openDeleteRouteModal(selected).subscribe()"
     [class.disabled]="!selected"
