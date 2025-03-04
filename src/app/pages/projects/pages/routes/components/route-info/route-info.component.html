@@ -9,6 +9,20 @@
       (click)="route && openCreateResponse(route.id)"
       >Nueva respuesta</app-button
     >
+    <div *ngIf="selectedResponseIds$ | async as selectedIds">
+      <app-button
+        *ngIf="selectedIds.length"
+        [disabled]="!route"
+        size="small"
+        background="#D32F2F"
+        borderColor="#D32F2F"
+        color="white"
+        (click)="openDeleteSelectedResponses()"
+      >
+        <span>Eliminar</span>
+        <img alt="delete icon" src="assets/images/icons/bin.svg" />
+      </app-button>
+    </div>
   </div>
   <ng-container *ngIf="routes$ | async as routes; else loading">
     <ng-container *ngIf="routes.length; else empty">
@@ -22,14 +36,15 @@
             class="route__responses__grid"
           >
             <app-response-list-item
-              [response]="response"
               *ngFor="let response of responses"
+              [response]="response"
               (edit)="openCreateResponse(route.id, response.id)"
               (processor)="openLiveMock(response)"
               (enableResponse)="enableResponse(response.id)"
               (delete)="openDeleteResponse(response.id)"
               (config)="openHeaders(response.id)"
               (duplicate)="openDuplicateResponse(response.id)"
+              (select)="selectItem($event)"
             ></app-response-list-item>
           </div>
         </ng-container>
