@@ -14,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { InfiniteScrollModule } from '../../../../directives/infinite-scroll/infinite-scroll.module';
 import { ChoiceModalModule } from '../../../../components/choice-modal/choice-modal.module';
+import { ButtonModule } from 'src/app/components/button/button.module';
+import { InputModule } from 'src/app/components/input/input.module';
+import { DialogModule } from 'src/app/components/dialog/dialog.module';
 
 @NgModule({
   declarations: [MembersComponent, MemberCardComponent, InviteModalComponent],
@@ -29,6 +32,10 @@ import { ChoiceModalModule } from '../../../../components/choice-modal/choice-mo
     MatIconModule,
     InfiniteScrollModule,
     ChoiceModalModule,
+    MatButtonModule,
+    ButtonModule,
+    DialogModule,
+    InputModule
   ],
 })
 export class MembersModule {}

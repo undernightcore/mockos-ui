@@ -1,18 +1,23 @@
-<h1 mat-dialog-title>{{'PAGES.MEMBERS.INVITE_USER' | translate}}</h1>
-<div mat-dialog-content>
-  <mat-form-field>
-    <input
-      [placeholder]="'COMMON.EMAIL' | translate"
-      matInput
-      [formControl]="inviteEmail"
-    />
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button (click)="dialogRef.close()" mat-button>
-    {{ "ACTIONS.CANCEL" | translate }}
-  </button>
-  <button (click)="handleInvite()" mat-button>
-    {{ "ACTIONS.INVITE" | translate }}
-  </button>
-</div>
+<app-dialog [title]="'PAGES.INVITATIONS.INVITE_THE_TEAM' | translate">
+  <div class="members">
+    <div class="members__form">
+      <app-input
+        [control]="inviteEmail"
+        [label]="'COMMON.EMAIL' | translate"
+      ></app-input>
+    </div>
+    <div class="members__actions">
+      <app-button (click)="dialogRef.close()">
+        {{ "ACTIONS.CANCEL" | translate }}
+      </app-button>
+      <app-button
+
+        borderColor="#4088FF"
+        backgroundColor="#4088FF"
+        color="white"
+        (click)="handleInvite()"
+        >{{ "ACTIONS.ACCEPT" | translate }}</app-button
+      >
+    </div>
+  </div>
+</app-dialog>
