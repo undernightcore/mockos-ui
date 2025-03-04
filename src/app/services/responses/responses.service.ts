@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
+import { CreateResponseInterface } from '../../interfaces/create-response.interface';
+import { EditProcessorInterface } from '../../interfaces/edit-processor.interface';
+import { MessageInterface } from '../../interfaces/message.interface';
+import { ProcessorInterface } from '../../interfaces/processor.interface';
 import {
   ResponseInterface,
   SimpleResponseInterface,
 } from '../../interfaces/response.interface';
-import { CreateResponseInterface } from '../../interfaces/create-response.interface';
-import { MessageInterface } from '../../interfaces/message.interface';
-import { map } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { EnvService } from '../env/env.service';
-import { ProcessorInterface } from '../../interfaces/processor.interface';
-import { EditProcessorInterface } from '../../interfaces/edit-processor.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +69,15 @@ export class ResponsesService {
   deleteResponse(responseId: number) {
     return this.httpClient.delete<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/responses/${responseId}`
+    );
+  }
+
+  deleteResponses(routeId: number, responseIds: number[]) {
+    return this.httpClient.delete(
+      `${this.envService.getEnv('apiUrl')}/routes/${routeId}/responses`,
+      {
+        body: { ids: responseIds },
+      }
     );
   }
 

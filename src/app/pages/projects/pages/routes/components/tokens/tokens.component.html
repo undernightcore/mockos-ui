@@ -35,6 +35,9 @@
         <span>{{ "PAGES.ROUTES.MISSING_TOKENS" | translate }}</span>
       </div>
     </div>
+    <div *ngIf="!tokens" class="tokens__loading">
+      <mat-spinner color="primary"></mat-spinner>
+    </div>
     <div class="tokens__actions">
       <div>
         <app-button (click)="dialogRef.close(false)">
