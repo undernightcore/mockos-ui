@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
+import { Component, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { TokensService } from '../../../../../../services/tokens/tokens.service';
 import { TokensComponent } from '../tokens/tokens.component';
 
 @Component({
