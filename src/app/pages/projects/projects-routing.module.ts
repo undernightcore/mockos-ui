@@ -16,14 +16,7 @@ const routes: Routes = [
     path: ':id/members',
     loadChildren: () =>
       import('./pages/members/members.module').then((m) => m.MembersModule),
-  },
-  {
-    path: ':id/contracts',
-    loadChildren: () =>
-      import('./pages/contracts/contracts.module').then(
-        (m) => m.ContractsModule
-      ),
-  },
+  }
 ];
 
 @NgModule({
