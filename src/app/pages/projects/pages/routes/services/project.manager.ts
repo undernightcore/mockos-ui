@@ -303,7 +303,7 @@ export class ProjectManagerService {
   #setHeader(project: ProjectInterface) {
     this.appManager.setHeaderData({
       hideHeader: false,
-      breadcrumb: [{ label: 'Inicio', link: '/' }, { label: project.name }],
+      breadcrumb: [{ label: this.translateService.instant('PAGES.HOME.TITLE'), link: '/' }, { label: project.name }],
     });
   }
 }
