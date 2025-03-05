@@ -9,15 +9,15 @@
       <app-input
         [style.width.%]="100"
         [control]="responseForm.controls.name"
-        placeholder="Name"
-        label="Name"
+        [placeholder]="'COMMON.NAME' | translate"
+        [label]="'COMMON.NAME' | translate"
       ></app-input>
 
       <app-input
         [control]="responseForm.controls.status"
         type="number"
-        placeholder="Status code"
-        label="Status code"
+        [placeholder]="'COMMON.STATUS_CODE' | translate"
+        [label]="'COMMON.STATUS_CODE' | translate"
       ></app-input>
 
       <app-button
@@ -66,11 +66,7 @@
         <div class="main-content__editor__locked"></div>
         <div class="main-content__editor__locked-content">
           <img src="/assets/images/icons/download-off.svg" />
-          <span
-            >The response is in file mode, you can either return a file or text
-            but not both. Please remove the file if you want to be able to go
-            back to text mode.</span
-          >
+          <span>{{ "PAGES.ROUTES.EDITOR_DESCRIPTION" | translate }}</span>
         </div>
       </ng-container>
       <ngx-monaco-editor
@@ -106,7 +102,7 @@
         color="white"
         *ngIf="fileMode"
         (click)="clearFileMode()"
-        >Delete file</app-button
+        >{{ "ACTIONS.ROUTES.DELETE_FILTE" | translate }}</app-button
       >
     </div>
     <div class="main-content__actions">

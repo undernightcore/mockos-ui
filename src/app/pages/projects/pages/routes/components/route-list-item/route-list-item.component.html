@@ -19,11 +19,11 @@
     <div class="route-list-item__actions" cdkMenu>
       <div (click)="openEditRouteModal(route.id, route)">
         <img alt="edit icon" src="assets/images/icons/pencil.svg" />
-        <span>Editar</span>
+        <span>{{ "COMMON.EDIT" | translate }}</span>
       </div>
       <div (click)="openDeleteRouteModal(route)">
         <img alt="delete icon" src="assets/images/icons/bin.svg" />
-        <span>Eliminar</span>
+        <span>{{ "ACTIONS.DELETE" | translate }}</span>
       </div>
     </div>
   </ng-template>

@@ -1,57 +1,64 @@
 <div class="projects">
   <ng-container *ngIf="projects$ | async as data; else loading">
     <div class="projects__filters">
-      <span>Filtro</span>
+      <span> {{ "COMMON.FILTER" | translate }}</span>
       <div class="projects__filters__section">
-        <span>Ordenado</span>
+        <span> {{ "COMMON.SORTED" | translate }}</span>
         <app-checkbox-group [formControl]="filters.controls.sort">
           <div class="projects__filters__section__list">
             <div class="projects__filters__section__list__option">
               <app-checkbox value="created_at"></app-checkbox>
-              <span>Por fecha de creación</span>
+              <span> {{ "COMMON.BY_CREATION_DATE" | translate }}</span>
             </div>
             <div class="projects__filters__section__list__option">
               <app-checkbox value="name"></app-checkbox>
-              <span>Alfabético</span>
+              <span> {{ "COMMON.ALPHABETIC" | translate }}</span>
             </div>
             <div class="projects__filters__section__list__option">
               <app-checkbox value="updated_at"></app-checkbox>
-              <span>Reciente</span>
+              <span> {{ "COMMON.RECENT" | translate }}</span>
             </div>
           </div>
         </app-checkbox-group>
       </div>
       <div class="projects__filters__section">
-        <span>Tipo</span>
+        <span> {{ "COMMON.TYPE" | translate }}</span>
         <app-checkbox-group [formControl]="filters.controls.onlyBranches">
           <div class="projects__filters__section__list">
             <div class="projects__filters__section__list__option">
               <app-checkbox value="false"></app-checkbox>
-              <span>Original</span>
+              <span> {{ "COMMON.ORIGINAL" | translate }}</span>
             </div>
             <div class="projects__filters__section__list__option">
               <app-checkbox value="true"></app-checkbox>
-              <span>Ramificación</span>
+              <span> {{ "COMMON.BRANCHING" | translate }}</span>
             </div>
           </div>
         </app-checkbox-group>
       </div>
       <div class="projects__filters__section">
-        <span>Seleccionar</span>
+        <span> {{ "COMMON.SELECT" | translate }}</span>
         <div class="projects__filters__section__actions">
-          <app-button (click)="selectProjects(data.projects)">Todo</app-button>
-          <app-button (click)="selectProjects([])">Deselección</app-button>
+          <app-button (click)="selectProjects(data.projects)">
+            {{ "COMMON.ALL" | translate }}</app-button
+          >
+          <app-button (click)="selectProjects([])">
+            {{ "COMMON.DESELECTION" | translate }}</app-button
+          >
         </div>
       </div>
       <div class="projects__filters__section">
-        <span>Borrar</span>
+        <span> {{ "COMMON.ERASE" | translate }}</span>
         <div class="projects__filters__section__actions">
           <app-button
             [disabled]="!selectedProjects.size"
             (click)="openDeleteMultipleModal()"
-            >Selección</app-button
           >
-          <app-button (click)="resetFilters()">Filtros</app-button>
+            {{ "COMMON.SELECTION" | translate }}</app-button
+          >
+          <app-button (click)="resetFilters()">
+            {{ "COMMON.FILTERS" | translate }}</app-button
+          >
         </div>
       </div>
     </div>
@@ -80,10 +87,10 @@
   <div class="empty">
     <img alt="no projects" src="assets/images/no-projects.svg" />
     <span *ngIf="filters.controls.onlyBranches.value">
-      No hay ramas disponibles
+      {{ "PAGES.PROJECTS.NO_AVAILABLE_BRANCHES" | translate }}
     </span>
     <span *ngIf="!filters.controls.onlyBranches.value">
-      Aún no tienes ningún proyecto, es hora de crear uno
+      {{ "PAGES.PROJECTS.CREATE_NEW_PROJECT" | translate }}
     </span>
     <app-button
       *ngIf="!filters.controls.onlyBranches.value"
@@ -92,7 +99,8 @@
       color="white"
       borderColor="#4088FF"
       backgroundColor="#4088FF"
-      >Crear proyecto</app-button
+    >
+      {{ "PAGES.PROJECTS.CREATE_PROJECR" | translate }}</app-button
     >
   </div>
 </ng-template>
@@ -113,7 +121,7 @@
       backgroundColor="#4088FF"
     >
       <img src="/assets/images/icons/add.svg" />
-      Nuevo
+      {{ "COMMON.NEW" | translate }}
     </app-button>
   </div>
 </ng-template>

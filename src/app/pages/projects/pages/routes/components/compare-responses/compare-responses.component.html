@@ -68,10 +68,10 @@
     </div>
     <div *ngIf="originChanges" class="compare-responses__actions">
       <app-button (click)="keepOrigin()">
-        Mantener remoto
+        {{ "PAGES.ROUTES.REMOTE_HOLD" | translate }}
       </app-button>
       <app-button (click)="keepLocal()">
-        Mantener cambios en local
+        {{ "PAGES.ROUTES.MAINTAIN_LOCAL_CHANGES" | translate }}
       </app-button>
     </div>
   </div>

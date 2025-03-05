@@ -106,7 +106,7 @@ export class MembersComponent implements OnInit {
       this.getMemberList(1);
       this.appManager.setHeaderData({
         hideHeader: false,
-        breadcrumb: [{ label: 'Inicio', link: '/' },{ label: this.project.name, link: `/projects/${ this.project.id}` }, { label: 'Miembros'}],
+        breadcrumb: [{ label: this.translateService.instant('PAGES.HOME.TITLE'), link: '/' },{ label: this.project.name, link: `/projects/${ this.project.id}` }, { label: 'Miembros'}],
       });
     });
   }

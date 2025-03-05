@@ -27,10 +27,10 @@ export class CreateRouteComponent {
   title = this.translateService.instant(
     this.data?.isFolder
       ? this.data?.data
-        ? 'Editar carpeta'
+        ? 'PAGES.ROUTES.EDIT_FOLDER'
         : 'PAGES.ROUTES.CREATE_NEW_FOLDER'
       : this.data?.data
-      ? 'Editar ruta'
+      ? 'PAGES.ROUTES.EDIT_ROUTE'
       : 'PAGES.ROUTES.CREATE_NEW_ROUTE'
   );
 
@@ -49,7 +49,7 @@ export class CreateRouteComponent {
   handleSubmit() {
     this.routeForm.markAllAsTouched();
     if (!this.routeForm.valid) return;
-    
+
     this.dialogRef.close(this.routeForm.value);
   }
 }
