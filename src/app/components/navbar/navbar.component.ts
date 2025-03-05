@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   distinctUntilChanged,
   map,
@@ -10,12 +11,11 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { AppManagerService } from '../../services/app/app-manager.service';
-import { RealtimeService } from '../../services/realtime/realtime.service';
-import { InvitationsService } from '../../services/invitations/invitations.service';
 import { InvitationInterface } from '../../interfaces/invitation.interface';
+import { AppManagerService } from '../../services/app/app-manager.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { InvitationsService } from '../../services/invitations/invitations.service';
+import { RealtimeService } from '../../services/realtime/realtime.service';
 
 @Component({
   selector: 'app-navbar',
@@ -71,7 +71,7 @@ export class NavbarComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  languages = this.translateService.getLangs();
+  languages = ['en', 'es'];
 
   constructor(
     private appManager: AppManagerService,
