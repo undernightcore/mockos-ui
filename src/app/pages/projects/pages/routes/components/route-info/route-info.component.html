@@ -7,7 +7,7 @@
       color="white"
       borderColor="#4088FF"
       (click)="route && openCreateResponse(route.id)"
-      >Nueva respuesta</app-button
+      >{{ "ACTIONS.NEW_RESPONSE" | translate }}</app-button
     >
     <div *ngIf="selectedResponseIds$ | async as selectedIds">
       <app-button
@@ -19,7 +19,7 @@
         color="white"
         (click)="openDeleteSelectedResponses()"
       >
-        <span>Eliminar</span>
+        <span>{{ "ACTIONS.DELETE" | translate }}</span>
         <img alt="delete icon" src="assets/images/icons/bin.svg" />
       </app-button>
     </div>
@@ -56,14 +56,14 @@
 <ng-template #empty>
   <div class="route__empty">
     <img src="/assets/images/no-route.svg" alt="" />
-    <span>Esto está un poco vacío</span>
+    <span>{{ "PAGES.ROUTES.BIT_EMPTY" | translate }}</span>
   </div>
 </ng-template>
 
 <ng-template #unselected>
   <div class="route__empty">
     <img src="/assets/images/unselected.svg" alt="" />
-    <span>Aún no has seleccionado nada</span>
+    <span>{{ "PAGES.ROUTES.NOT_SELECTED_YET" | translate }}</span>
   </div>
 </ng-template>
 

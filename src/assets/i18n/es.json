@@ -6,10 +6,12 @@
     "PASSWORD": "Contraseña",
     "YOUR_NAME": "Tu nombre",
     "REPEAT_PASSWORD": "Repetir contraseña",
+    "CONFIRM_PASSWORD": "Confirmar contraseña",
     "LANGUAGES": "Idiomas",
     "NAME": "Nombre",
     "DESCRIPTION": "Descripción",
     "ENDPOINT": "Endpoint",
+    "ENDPOINTS": "Endpoints",
     "METHOD": "Método",
     "ENABLED": "Habilitado",
     "MEMBERS": "Miembros",
@@ -35,7 +37,32 @@
     "DUPLICATE": "Duplicar",
     "DELETE": "Eliminar",
     "ACTIVE": "Activo",
-    "ENABLE": "Activar"
+    "ENABLE": "Activar",
+    "UP_TO_DATE": "¡Estás al día!",
+    "NOT_PENDING_INVITATIONS": "No tienes invitaciones pendientes",
+    "REGISTER_NOW": "Regístrate ahora",
+    "HELLOW": "Hola",
+    "FILTER": "Filtro",
+    "FILTERS": "Filtros",
+    "SORTED": "Ordenado",
+    "BY_CREATION_DATE": "Por fecha de creación",
+    "ALPHABETIC": "Alfabético",
+    "RECENT": "Reciente",
+    "TYPE": "Tipo",
+    "ORIGNAL": "Original",
+    "BRANCHING": "Ramificación",
+    "SELECT": "Seleccionar",
+    "ALL": "Todo",
+    "DESELECTION": "Deselección",
+    "SELECTION": "Selección",
+    "NEW": "Nuevo",
+    "STATUS_CODE": "Código de estado",
+    "DEFAULT": "Por defecto",
+    "KEY": "Clave",
+    "VALUE": "Valor",
+    "BASE_PATH": "Ruta base",
+    "NEW_RESPONSE": "Nueva respuesta",
+    "SEARCH_ENDPOINT": "Buscar endpoint"
   },
   "PAGES": {
     "HOME": {
@@ -45,27 +72,33 @@
       "DESCRIPTION": "Mockos es una herramienta útil y práctica para desarrolladores que buscan probar sus aplicaciones con mocks de API personalizados, de forma colaborativa y sin necesidad de instalar nada en su ordenador.",
       "SECTIONS": {
         "CREATE": {
-          "TITLE": "Una forma <span>simple</span> pero <span>completa</span> de mockear <span>respuestas JSON y ficheros</span>",
+          "TITLE": "Una forma simple pero completa de mockear respuestas JSON y ficheros",
           "DESCRIPTION": "Permite editar JSON con un editor sencillo y a prueba de errores. También puedes cargar archivos de hasta 8 MB (configurable)"
         },
         "COMPARE": {
-          "TITLE": "Funcionalidad completamente <span>reactiva</span> y <span>colaborativa</span>, <span> no mas ficheros de configuración</span>",
+          "TITLE": "Funcionalidad completamente reactiva y colaborativa, no mas ficheros de configuración",
           "DESCRIPTION": "Ya no es necesario compartir y mantener archivos de configuración poco estéticos, mantente ágil incluso al mockear APIs"
         },
         "INVITE": {
-          "TITLE": "¡<span>Invita a tus amigos</span> a la fiesta! <span>Puede que no acepten...</span> ¡Pero <span>no pasa nada!</span>",
+          "TITLE": "¡Invita a tus amigos a la fiesta! Puede que no acepten... ¡Pero no pasa nada!",
           "DESCRIPTION": "Mockear puede ser complicado, ¡pero es mucho más fácil y divertido con amigos! ¡Aprovecha el sistema de amigos completamente equipado de Mockos!"
         },
         "BRANCH": {
-          "TITLE": "<span>¿No te apetece socializar?</span> ¡Pues tenemos algo para ti! Ya puedes <span>hacer ramas y trabajar por tu cuenta</span>",
+          "TITLE": "¿No te apetece socializar? ¡Pues tenemos algo para ti! Ya puedes hacer ramas y trabajar por tu cuenta",
           "DESCRIPTION": "¿Estás introduciendo cambios que podrían romper el código de alguien? Crea una rama del proyecto y mergea cuando estés listo."
         }
-      }
+      },
+      "HEADER_1": "Construye Mocks para tu API sin código ni archivos de configuración",
+      "HEADER_2": "Mockos es una herramienta útil y práctica para desarrolladores que buscan probar sus aplicaciones con mocks de API personalizados, de forma colaborativa y sin necesidad de instalar nada en su ordenador.",
+      "START_RIGHT_NOW_BTN": "Comienza ahora mismo",
+      "PRESS": "Pulsa",
+      "ACCESS_NOW": "para acceder ahora"
     },
     "AUTH": {
       "LOG_IN": "¡Inicia sesión!",
       "REGISTER": "¡Regístrese ahora!",
-      "VERIFY_ACCOUNT": "Verifica tu cuenta"
+      "VERIFY_ACCOUNT": "Verifica tu cuenta",
+      "NO_ACCOUNT_YET": "¿Todavía no tienes cuenta?"
     },
     "VERIFY": {
       "TITLE_SUCCESSFUL": "Su cuenta ha sido verificada con éxito. Por favor, inicia sesión usando el botón de abajo",
@@ -135,13 +168,22 @@
       "LIVE_MOCK_EDITED": "Live mock editado correctamente",
       "DELETE_RESPONSE": "Eliminar respuesta",
       "DELETE_RESPONSE_MESSAGE": "¿Estás seguro de que quieres eliminar esta respuesta?",
-      "DELETE_SELECTED_RESPONSES_MESSAGE": "¿Estás seguro de que quieres eliminar las respuestas seleccionadas?"
+      "DELETE_SELECTED_RESPONSES_MESSAGE": "¿Estás seguro de que quieres eliminar las respuestas seleccionadas?",
+      "REMOTE_HOLD": "Mantener remoto",
+      "MAINTAIN_LOCAL_CHANGES": "Mantener cambios en local",
+      "EDITOR_DESCRIPTION": "La respuesta está en modo archivo, puede devolver un archivo o un texto pero no ambos. Por favor, elimine el archivo si desea poder volver al modo texto.",
+      "EDIT_FOLDER": "Editar carpeta",
+      "EDIT_ROUTE": "Editar ruta",
+      "METHOD": "Método*",
+      "BIT_EMPTY": "Esto está un poco vacío",
+      "NOT_SELECTED_YET": "Aún no has seleccionado nada"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",
       "INVITE_USER": "Invitar usuario",
       "LEAVE_PROJECT_TITLE": "¿Quieres dejar el proyecto?",
-      "LEAVE_PROJECT_MESSAGE": "Si dejas el proyecto te tendrán que volver a invitar para poder modificar y utilizar los mocks"
+      "LEAVE_PROJECT_MESSAGE": "Si dejas el proyecto te tendrán que volver a invitar para poder modificar y utilizar los mocks",
+      "ADD_MEMBER": "Añadir miembro"
     },
     "INVITATIONS": {
       "GO_BACK": "Volver a la lista de proyectos",
@@ -174,6 +216,11 @@
       "ROLLBACK_TITLE": "¿Estás seguro de querer hacer rollback a la <span>{{version}}</span>?",
       "ROLLBACK_MESSAGE": "Esta actualización fue hecha por <span>{{author}}</span> el <span>{{date}}</span> a las <span>{{time}}</span>. Todas las versiones posteriores a esta serán eliminadas."
     },
+    "PROJECTS": {
+      "NO_AVAILABLE_BRANCHES": "No hay ramas disponibles",
+      "CREATE_NEW_PROJECT": "Aún no tienes ningún proyecto, es hora de crear uno",
+      "CREATE_PROJECR": "Crear proyecto"
+    },
     "NOT_FOUND": {
       "PAGE_NOT_FOUND": "Página no encontrada",
       "SORRY": "Lo sentimos mucho..."
@@ -203,9 +250,16 @@
     "SAVE": "Guardar",
     "MERGE_LATER": "Mergear luego",
     "COMPARE_CHANGES": "Comparar cambios",
-    "ROLLBACK": "Rollback"
+    "ROLLBACK": "Rollback",
+    "CREATE_NOW": "Crear ahora",
+    "ENTER": "Entrar",
+    "ERASE": "Borrar",
+    "DELETE_FILTE": "Borrar archivo",
+    "ADD": "Añadir"
   },
   "ERRORS": {
+    "ERROR": "Error",
+    "UNEXPECTED_ERROR": "Error inesperado",
     "REQUIRED": "¡Este campo no puede estar vacío!",
     "PATTERN": "¡Este campo no tiene el formato correcto!",
     "USER_NOT_EXIST": "El usuario no existe",

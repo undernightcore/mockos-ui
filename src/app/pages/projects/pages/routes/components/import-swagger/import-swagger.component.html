@@ -9,7 +9,7 @@
         [style.width.%]="100"
         [control]="responseForm.controls.basePath"
         placeholder="/example/path"
-        label="Base Path"
+        [label]="'COMMON.BASE_PATH' | translate"
       ></app-input>
       <div class="main-content__form__checkbox">
         <app-checkbox [formControl]="responseForm.controls.reset"></app-checkbox>

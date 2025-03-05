@@ -176,10 +176,10 @@ export class ProjectManagerService {
                   this.dialogService
                     .open(ConfirmModalComponent, {
                       data: {
-                        title: 'Error',
+                        title: this.translateService.instant('ERRORS.ERROR'),
                         message:
-                          error?.error?.errors?.[0] ?? 'Error inesperado',
-                        label: 'Aceptar',
+                          error?.error?.errors?.[0] ?? this.translateService.instant('ERRORS.UNEXPECTED_ERROR'),
+                        label: this.translateService.instant('ACTIONS.ACCEPT'),
                         type: 'destructive',
                       },
                     })

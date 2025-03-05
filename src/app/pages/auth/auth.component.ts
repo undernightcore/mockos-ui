@@ -118,7 +118,7 @@ export class AuthComponent {
               : 'PAGES.AUTH.VERIFY_ACCOUNT'
           ),
           message: message.message,
-          label: 'Aceptar',
+          label: this.translateService.instant('ACTIONS.ACCEPT'),
         },
         autoFocus: false,
       })
