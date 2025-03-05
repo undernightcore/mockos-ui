@@ -17,11 +17,11 @@
     <div class="actions__menu" cdkMenu>
       <div (click)="openCreateRouteModal(false).subscribe()">
         <img alt="edit icon" src="assets/images/icons/connect.svg" />
-        <span>Ruta</span>
+        <span>{{ "COMMON.ROUTE" | translate }}</span>
       </div>
       <div (click)="openCreateRouteModal(true).subscribe()">
         <img alt="edit icon" src="assets/images/icons/folder.svg" />
-        <span>Carpeta</span>
+        <span>{{ "COMMON.FOLDER" | translate }}</span>
       </div>
     </div>
   </ng-template>

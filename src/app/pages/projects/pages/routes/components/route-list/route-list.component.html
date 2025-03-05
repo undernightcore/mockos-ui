@@ -2,7 +2,7 @@
   <app-input
     [control]="searchForm"
     icon="search"
-    placeholder="Buscar endpoint"
+    [placeholder]="'COMMON.SEARCH_ENDPOINT' | translate"
   ></app-input>
   <div
     *ngIf="routes$ | async as routes"

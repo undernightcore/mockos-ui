@@ -26,8 +26,8 @@
                   *ngIf="!invitations.length"
                   class="navbar__inner__actions__notifications__list__empty"
                 >
-                  <span>¡Estás al día!</span>
-                  <span>No tienes invitaciones pendientes</span>
+                  <span>{{ 'COMMON.UP_TO_DATE' | translate }}</span>
+                  <span>{{ 'COMMON.NOT_PENDING_INVITATIONS' | translate }}</span>
                 </div>
                 <app-invitation-card
                   *ngFor="let invitation of invitations"
@@ -76,7 +76,7 @@
           <div cdkMenu>
             <div class="navbar__inner__actions__user__list">
               <div (click)="logOut()">
-                <span>Cerrar sesión</span>
+                <span>{{ 'ACTIONS.LOG_OUT' | translate }}</span>
               </div>
             </div>
           </div>

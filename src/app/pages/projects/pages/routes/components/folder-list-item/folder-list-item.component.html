@@ -1,4 +1,8 @@
-<div [cdkContextMenuTriggerFor]="menu" *ngIf="folder$ | async as folder" class="folder-list-item">
+<div
+  [cdkContextMenuTriggerFor]="menu"
+  *ngIf="folder$ | async as folder"
+  class="folder-list-item"
+>
   <div (click)="opened = !opened" class="folder-list-item__content">
     <img src="/assets/images/icons/folder.svg" />
     <span>{{ folder.name }}</span>
@@ -8,11 +12,11 @@
     <div class="folder-list-item__actions" cdkMenu>
       <div (click)="openEditFolderModal(folder.id, folder)">
         <img alt="edit icon" src="assets/images/icons/pencil.svg" />
-        <span>Editar</span>
+        <span>{{ "COMMON.EDIT" | translate }}</span>
       </div>
       <div (click)="openDeleteFolderModal(folder)">
-        <img  alt="delete icon" src="assets/images/icons/bin.svg" />
-        <span>Eliminar</span>
+        <img alt="delete icon" src="assets/images/icons/bin.svg" />
+        <span>{{ "ACTIONS.DELETE" | translate }}</span>
       </div>
     </div>
   </ng-template>

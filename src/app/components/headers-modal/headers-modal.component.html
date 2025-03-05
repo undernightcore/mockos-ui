@@ -8,12 +8,12 @@
     <div class="headers__creator">
       <ng-container [formGroup]="createHeaderForm">
         <app-input
-          label="Key"
+          [label]="'COMMON.KEY' | translate"
           [control]="createHeaderForm.controls.key"
           (enterTriggered)="createHeaderForm.valid && createHeader()"
         ></app-input>
         <app-input
-          label="Value"
+          [label]="'COMMON.VALUE' | translate"
           [control]="createHeaderForm.controls.value"
           (enterTriggered)="createHeaderForm.valid && createHeader()"
         ></app-input>

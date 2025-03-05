@@ -101,7 +101,6 @@ export class HeadersModalComponent implements OnInit {
             openToast(message, 'success');
           },
           error: (error) => {
-            console.log('HOLA', error);
             openToast(error.error.errors[0], 'error', 5000);
           },
         })

@@ -9,27 +9,31 @@
           [style.font-size.px]="registering.value ? 40 : ''"
           [style.line-height.px]="registering.value ? 40 : ''"
           class="auth__box__title"
-          >{{ registering.value ? "Regístrate ahora" : "Hola" }}</span
+          >{{
+            registering.value
+              ? ("COMMON.REGISTER_NOW" | translate)
+              : ("COMMON.HELLOW" | translate)
+          }}</span
         >
         <div class="auth__box__content">
           <div (keyup.enter)="handleSubmit()" class="auth__box__content__form">
             <app-input
               *ngIf="registering.value"
-              label="Nombre"
+              [label]="'COMMON.NAME' | translate"
               [control]="form.controls.name"
             ></app-input>
             <app-input
-              label="Email"
+              [label]="'COMMON.EMAIL' | translate"
               [control]="form.controls.email"
             ></app-input>
             <app-input
-              label="Contraseña"
+              [label]="'COMMON.PASSWORD' | translate"
               type="password"
               [control]="form.controls.password"
             ></app-input>
             <app-input
               *ngIf="registering.value"
-              label="Confirmar contraseña"
+              [label]="'COMMON.CONFIRM_PASSWORD' | translate"
               type="password"
               [control]="form.controls.repeatPassword"
             ></app-input>
@@ -38,19 +42,25 @@
             <app-button
               *ngIf="registering.value"
               [routerLink]="['/auth', 'login']"
-              >Cancelar</app-button
+              >{{ "ACTIONS.CANCEL" | translate }}</app-button
             >
             <app-button
               (click)="handleSubmit()"
               backgroundColor="#4088FF"
               borderColor="#4088FF"
               color="white"
-              >{{ registering.value ? "Registrarse" : "Entrar" }}</app-button
+              >{{
+                registering.value
+                  ? ("ACTIONS.REGISTER" | translate)
+                  : ("ACTIONS.ENTER" | translate)
+              }}</app-button
             >
           </div>
           <div *ngIf="!registering.value" class="auth__box__content__info">
-            <span>¿Todavía no tienes cuenta?</span>
-            <span [routerLink]="['/auth', 'register']">Crear ahora</span>
+            <span>{{ "PAGES.AUTH.NO_ACCOUNT_YET" | translate }}</span>
+            <span [routerLink]="['/auth', 'register']">{{
+              "PAGES.AUTH.NO_ACCOUNT_YET" | translate
+            }}</span>
           </div>
         </div>
       </div>

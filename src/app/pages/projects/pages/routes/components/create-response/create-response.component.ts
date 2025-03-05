@@ -33,9 +33,11 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   mode = EditorTypeEnum.JSON;
 
   responseForm = new FormGroup({
-    name: new FormControl(this.data.responseData?.name ?? 'Default', [
-      Validators.required,
-    ]),
+    name: new FormControl(
+      this.data.responseData?.name ??
+        this.translateService.instant('COMMON.DEFAULT'),
+      [Validators.required]
+    ),
     status: new FormControl(this.data.responseData?.status ?? 200, [
       Validators.required,
       Validators.min(100),
