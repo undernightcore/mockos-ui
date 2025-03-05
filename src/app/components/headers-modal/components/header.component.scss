@@ -9,10 +9,15 @@
   border-radius: 12px;
   background-color: #2d2b30;
 
-  * {
+  & > app-input {
+    align-self: flex-start;
+  }
+
+  & > * {
     width: 100%;
   }
-  img {
+
+  & > img {
     cursor: pointer;
     max-width: 18px;
   }

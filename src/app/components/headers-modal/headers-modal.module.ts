@@ -7,6 +7,8 @@ import { ButtonModule } from '../button/button.module';
 import {InputModule} from "../input/input.module";
 import {HeaderModule} from "./components/header.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
+import {InfiniteScrollModule} from "../../directives/infinite-scroll/infinite-scroll.module";
 
 @NgModule({
   declarations: [HeadersModalComponent],
@@ -18,6 +20,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     InputModule,
     HeaderModule,
     ReactiveFormsModule,
+    TranslateModule,
+    InfiniteScrollModule,
   ],
   exports: [HeadersModalComponent],
 })
