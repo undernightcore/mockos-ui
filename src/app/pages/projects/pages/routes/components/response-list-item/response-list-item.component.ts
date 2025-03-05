@@ -30,8 +30,7 @@ export class ResponseListItemComponent {
     {
       icon: 'header',
       action: this.config,
-      label: this.translateService.instant(`COMMON.HEADERS`),
-      disabled: true,
+      label: this.translateService.instant(`COMMON.HEADERS`)
     },
     {
       icon: 'duplicate',
