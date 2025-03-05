@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,8 @@ export class InputComponent {
   @Input() label = '';
   @Input() placeholder = '';
   @Input() type: 'text' | 'password' | 'number' = 'text';
-  
+  @Output() enterTriggered = new EventEmitter();
+
 
   protected readonly Validators = Validators;
 }

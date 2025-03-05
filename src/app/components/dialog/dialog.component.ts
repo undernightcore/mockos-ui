@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
@@ -9,4 +9,6 @@ export class DialogComponent {
   @Input() title = '';
   @Input() overflowContent: 'scroll' | 'auto' | 'hidden' | 'visible' =
     'visible';
+  @Input() closable = false;
+  @Output() closeTriggered = new EventEmitter();
 }
