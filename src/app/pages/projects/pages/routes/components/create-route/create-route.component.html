@@ -1,10 +1,13 @@
 <app-dialog [title]="title">
   <div class="dialog">
     <div class="dialog__form">
-      <app-input label="Nombre" [control]="routeForm.controls.name"></app-input>
+      <app-input
+        [label]="'COMMON.NAME' | translate"
+        [control]="routeForm.controls.name"
+      ></app-input>
       <ng-container *ngIf="!data?.isFolder">
         <app-input
-          label="Endpoint"
+          [label]="'COMMON.ENDPOINT' | translate"
           [control]="routeForm.controls.endpoint"
         ></app-input>
         <div class="dialog__form__status">
@@ -30,13 +33,15 @@
       </ng-container>
     </div>
     <div class="dialog__actions">
-      <app-button (click)="dialogRef.close()">Cancelar</app-button>
+      <app-button (click)="dialogRef.close()">{{
+        "ACTIONS.CANCEL" | translate
+      }}</app-button>
       <app-button
         (click)="handleSubmit()"
         backgroundColor="#4088FF"
         borderColor="#4088FF"
         color="white"
-        >Crear</app-button
+        >{{ "ACTIONS.CREATE" | translate }}</app-button
       >
     </div>
   </div>
