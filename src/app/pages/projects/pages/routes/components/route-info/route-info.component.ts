@@ -23,8 +23,8 @@ import { ChoiceModalComponent } from '../../../../../../components/choice-modal/
 import { ProjectManagerService } from '../../services/project.manager';
 import { CreateResponseComponent } from '../create-response/create-response.component';
 import { DuplicateResponseComponent } from '../duplicate-response/duplicate-response.component';
-import { EditHeadersResponseComponent } from '../edit-headers-response/edit-headers-response.component';
 import { LiveMockComponent } from '../live-mock/live-mock.component';
+import {HeadersModalComponent} from "../../../../../../components/headers-modal/headers-modal.component";
 
 @Component({
   selector: 'app-route-info',
@@ -152,10 +152,10 @@ export class RouteInfoComponent {
 
   openHeaders(responseId: number) {
     this.dialogService
-      .open(EditHeadersResponseComponent, {
+      .open(HeadersModalComponent, {
         closeOnNavigation: true,
-        height: '90%',
-        width: '70%',
+        width: '861px',
+        height: '500px',
         data: responseId,
         panelClass: 'mobile-fullscreen',
         autoFocus: false,

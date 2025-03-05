@@ -26,7 +26,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TokensComponent } from './components/tokens/tokens.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouteInfoComponent } from './components/route-info/route-info.component';
-import { EditHeadersResponseComponent } from './components/edit-headers-response/edit-headers-response.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DuplicateResponseComponent } from './components/duplicate-response/duplicate-response.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -49,6 +48,7 @@ import { MonacoEditorModule } from 'src/app/components/monaco/editor.module';
 import { ImportSwaggerComponent } from './components/import-swagger/import-swagger.component';
 import { LiveMockComponent } from './components/live-mock/live-mock.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import {HeadersModalModule} from "../../../../components/headers-modal/headers-modal.module";
 
 @NgModule({
   declarations: [
@@ -61,7 +61,6 @@ import { MatBadgeModule } from '@angular/material/badge';
     CompareResponsesComponent,
     TokensComponent,
     RouteInfoComponent,
-    EditHeadersResponseComponent,
     DuplicateResponseComponent,
     DeleteTokenComponent,
     CreateTokenComponent,
@@ -105,6 +104,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MonacoEditorModule,
     MatMenuModule,
     MatBadgeModule,
+    HeadersModalModule
   ],
 })
 export class RoutesModule {}
