@@ -19,6 +19,7 @@ export class HeadersModalComponent implements OnInit {
   responseId = inject(MAT_DIALOG_DATA) as number;
   #headersService = inject(HeadersService);
   #realtimeService = inject(RealtimeService);
+
   editingHeaderForm = new FormGroup({
     id: new FormControl<number | undefined>(undefined),
     key: new FormControl<string | undefined>(undefined, [Validators.required]),
@@ -69,11 +70,17 @@ export class HeadersModalComponent implements OnInit {
       .value as EditHeaderInterface;
     this.#headersService
       .editHeader(id, { key, value })
-      .subscribe(({ message }) => {
-        openToast(message, 'success');
-        this.#patchLocalHeader(id, { key, value });
-        this.cancelEditing();
-      });
+      .pipe(
+        tap({
+          next: ({ message }) => {
+            openToast(message, 'success');
+            this.#patchLocalHeader(id, { key, value });
+            this.cancelEditing();
+          },
+          error: (error) => openToast(error.error.errors[0] , 'error', 5000),
+        })
+      )
+      .subscribe();
   }
 
   deleteHeader(headerId: number) {
@@ -84,14 +91,22 @@ export class HeadersModalComponent implements OnInit {
 
   createHeader() {
     if (this.createHeaderForm.invalid) return;
-    console.log()
     const header = this.createHeaderForm.value as CreateHeaderInterface;
     this.#headersService
       .createHeader(this.responseId, header)
-      .subscribe(({ message }) => {
-        this.#clearCreationForm();
-        openToast(message, 'success');
-      });
+      .pipe(
+        tap({
+          next: ({ message }) => {
+            this.#clearCreationForm();
+            openToast(message, 'success');
+          },
+          error: (error) => {
+            console.log('HOLA', error);
+            openToast(error.error.errors[0], 'error', 5000);
+          },
+        })
+      )
+      .subscribe();
   }
 
   cancelEditing() {
@@ -111,7 +126,7 @@ export class HeadersModalComponent implements OnInit {
 
   #listenOnChanges() {
     this.realtimeSubscription = this.#realtimeService
-      .listenResponse(5358)
+      .listenResponse(this.responseId)
       .pipe(filter((event) => event === 'headers'))
       .subscribe(() => {
         this.getHeaders(
