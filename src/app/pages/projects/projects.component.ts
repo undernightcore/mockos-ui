@@ -4,8 +4,9 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { ProjectService } from '../../services/project/project.service';
-import { ForkedProjectInterface } from '../../interfaces/project.interface';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -23,13 +24,12 @@ import {
   tap,
 } from 'rxjs';
 import { ChoiceModalComponent } from '../../components/choice-modal/choice-modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { ForkedProjectInterface } from '../../interfaces/project.interface';
+import { AppManagerService } from '../../services/app/app-manager.service';
+import { ProjectService } from '../../services/project/project.service';
+import { RealtimeService } from '../../services/realtime/realtime.service';
 import { openToast } from '../../utils/toast.utils';
 import { ProjectModalComponent } from './components/project-modal/project-modal.component';
-import { AppManagerService } from '../../services/app/app-manager.service';
-import { FormControl, FormGroup } from '@angular/forms';
-import { RealtimeService } from '../../services/realtime/realtime.service';
 
 @Component({
   selector: 'app-projects',
@@ -207,21 +207,26 @@ export class ProjectsComponent implements AfterViewInit {
             this.projectService.createProject(data),
             this.projectService.editProject(project?.id as number, data)
           )
-        )
+        ),
+        tap({
+          error: (error) =>
+            error.error.errors[0] && openToast(error.error.errors[0], 'error'),
+          next: (response) => {
+            openToast(
+              this.translateService.instant(
+                !project
+                  ? 'PAGES.DASHBOARD.PROJECT_CREATED'
+                  : 'PAGES.DASHBOARD.PROJECT_EDITED',
+                {
+                  project: response.name,
+                }
+              ),
+              'success'
+            );
+          },
+        })
       )
-      .subscribe((response) => {
-        openToast(
-          this.translateService.instant(
-            !project
-              ? 'PAGES.DASHBOARD.PROJECT_CREATED'
-              : 'PAGES.DASHBOARD.PROJECT_EDITED',
-            {
-              project: response.name,
-            }
-          ),
-          'success'
-        );
-      });
+      .subscribe();
   }
 
   resetFilters() {

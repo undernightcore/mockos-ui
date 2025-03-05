@@ -11,8 +11,9 @@
     [type]="type"
     [placeholder]="placeholder"
     [style.padding-left.px]="icon ? 46 : 16"
+    (keydown.enter)="enterTriggered.emit()"
   >
-  <img *ngIf="icon" src="/assets/images/icons/{{icon}}.svg">
+  <img *ngIf="icon" alt="Custom icon" src="/assets/images/icons/{{icon}}.svg">
   <span *ngIf="control.touched && control.errors" class="input__error">
     {{ control.errors | error }}
   </span>
