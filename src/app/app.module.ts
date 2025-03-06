@@ -1,21 +1,23 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpClientModule,
 } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LangInterceptor } from './interceptors/lang.interceptor';
-import { NavbarModule } from './components/navbar/navbar.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { DragulaModule } from 'ng2-dragula';
 import { environment } from '../environments/environment';
-import {MonacoEditorModule} from "./components/monaco/editor.module";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MonacoEditorModule } from './components/monaco/editor.module';
+import { NavbarModule } from './components/navbar/navbar.module';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LangInterceptor } from './interceptors/lang.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -43,7 +45,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    MonacoEditorModule.forRoot()
+    MonacoEditorModule.forRoot({ defaultOptions: { automaticLayout: true } }),
+    DragulaModule.forRoot(),
+    MatDialogModule,
   ],
   providers: [
     {

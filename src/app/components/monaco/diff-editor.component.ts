@@ -18,7 +18,7 @@ declare var monaco: any;
 
     .editor-container {
       width: 100%;
-      height: 98%;
+      height: 100%;
     }
   `]
 })
@@ -99,12 +99,6 @@ export class DiffEditorComponent extends BaseEditor {
       this.modifiedChanged.emit(ed.getValue() || '');
     });
 
-    // refresh layout on resize event.
-    if (this._windowResizeSubscription) {
-      this._windowResizeSubscription.unsubscribe();
-    }
-    this._windowResizeSubscription = fromEvent(window, 'resize').subscribe(() => this._editor.layout());
     this.onInit.emit(this._editor);
   }
-
 }

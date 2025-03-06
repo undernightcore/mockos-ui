@@ -1,39 +1,30 @@
 <div
+  *ngIf="route"
+  [class.rounded]="rounded"
   [class.is-selected]="isSelected"
-  [class.is-dragging]="sortingMode && dragZone"
-  (cdkDragStarted)="draggingStart.emit()"
-  (cdkDragEnded)="draggingEnd.emit()"
-  cdkDragPreviewClass="height-fit"
-  cdkDrag
   class="route-list-item"
+  [cdkContextMenuTriggerFor]="menu"
 >
-  <div *ngIf="sortingMode && dragZone === 'up'" class="route-list-item__divider"></div>
   <div class="route-list-item__content">
-    <div>
-      <div>
-        <h4>{{ route.name }}</h4>
-        <div
-          [style.background-color]="
-          route.enabled ? 'green' : 'var(--disabled-color)'
-        "
-        ></div>
-      </div>
-      <p>{{ route.endpoint }}</p>
-      <app-http-chip [method]="route.method"></app-http-chip>
+    <div class="route-list-item__content__info">
+      <span>{{ route.name }}</span>
+      <span>{{ route.endpoint }}</span>
     </div>
+    <app-http-chip
+      [selected]="isSelected"
+      [method]="route.method"
+    ></app-http-chip>
   </div>
-  <div class="route-list-item__drop">
-    <div
-      (mouseenter)="draggingInEdge('up')"
-      (mouseleave)="draggingInEdge(undefined)"
-      class="route-list-item__drop__zone"
-    ></div>
-    <div
-      (mouseenter)="draggingInEdge('down')"
-      (mouseleave)="draggingInEdge(undefined)"
-      class="route-list-item__drop__zone"
-    ></div>
-  </div>
-  <div *ngIf="sortingMode && dragZone === 'down'" class="route-list-item__divider"></div>
-  <div class="route-list-item__placeholder" *cdkDragPlaceholder></div>
+  <ng-template #menu>
+    <div class="route-list-item__actions" cdkMenu>
+      <div (click)="openEditRouteModal(route.id, route)">
+        <img alt="edit icon" src="assets/images/icons/pencil.svg" />
+        <span>{{ "COMMON.EDIT" | translate }}</span>
+      </div>
+      <div (click)="openDeleteRouteModal(route)">
+        <img alt="delete icon" src="assets/images/icons/bin.svg" />
+        <span>{{ "ACTIONS.DELETE" | translate }}</span>
+      </div>
+    </div>
+  </ng-template>
 </div>

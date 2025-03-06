@@ -1,17 +1,22 @@
-:host {
-  & > h1 {
-    &::ng-deep {
-      & > span {
-        color: var(--main-color);
-      }
-    }
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &__description {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 300;
+    color: white !important;
   }
 
-  & > div {
-    &::ng-deep {
-      & > span {
-        color: var(--main-color);
-      }
+  &__actions {
+    display: flex;
+    gap: 12px;
+
+    & > app-button {
+      width: 100%;
     }
   }
 }

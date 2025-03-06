@@ -1,75 +1,74 @@
-<div [formGroup]="routeForm" *ngIf="routeForm" class="route-info">
-  <div class="route-info__info">
-    <div>
-      <mat-form-field *ngIf="isEditingTitle" appearance="fill">
-        <input formControlName="name" matInput />
-      </mat-form-field>
-      <h1 *ngIf="!isEditingTitle">{{ routeForm.value.name }}</h1>
-      <app-http-chip
-        [method]="routeForm.value.method"
-        [matMenuTriggerFor]="methodMenu"
-      ></app-http-chip>
-      <mat-menu #methodMenu="matMenu">
-        <button (click)="selectMethod('get')" mat-menu-item>get</button>
-        <button (click)="selectMethod('post')" mat-menu-item>post</button>
-        <button (click)="selectMethod('put')" mat-menu-item>put</button>
-        <button (click)="selectMethod('patch')" mat-menu-item>patch</button>
-        <button (click)="selectMethod('delete')" mat-menu-item>delete</button>
-      </mat-menu>
-      <mat-icon
-        *ngIf="!isMobile"
-        (click)="isEditingTitle ? updateRoute() : (isEditingTitle = true)"
-        >{{ isEditingTitle ? "save" : "edit" }}</mat-icon
+<div *ngLet="route$ | async as route" class="route">
+  <div class="route__actions">
+    <app-button
+      [disabled]="!route"
+      size="small"
+      backgroundColor="#4088FF"
+      color="white"
+      borderColor="#4088FF"
+      (click)="route && openCreateResponse(route.id)"
+      >{{ "COMMON.NEW_RESPONSE" | translate }}</app-button
+    >
+    <div *ngIf="selectedResponseIds$ | async as selectedIds">
+      <app-button
+        *ngIf="selectedIds.length"
+        [disabled]="!route"
+        size="small"
+        background="#D32F2F"
+        borderColor="#D32F2F"
+        color="white"
+        (click)="openDeleteSelectedResponses()"
       >
-      <mat-icon (click)="openDeleteModal(routeForm.value)">delete</mat-icon>
-    </div>
-    <mat-slide-toggle
-      (change)="updateRoute()"
-      formControlName="enabled"
-    ></mat-slide-toggle>
-  </div>
-  <div (click)="back.emit()" *ngIf="isMobile" class="route-info__back">
-    < {{ "PAGES.ROUTES.BACK_TO_LIST" | translate }}
-  </div>
-  <mat-form-field>
-    <input (blur)="updateRoute()" formControlName="endpoint" matInput />
-  </mat-form-field>
-  <div class="route-info__title">
-    <h2>{{ "PAGES.ROUTES.RESPONSES" | translate }}</h2>
-    <button (click)="openCreateResponseModal()" mat-button>
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div
-    *ngIf="responses && !isFetchingNewRouteResponses"
-    infiniteScroll
-    [maxItems]="maxResponses"
-    [currentItems]="responses.length"
-    [itemsPerPage]="20"
-    (newPageNeeded)="getResponses($event)"
-    class="route-info__responses"
-  >
-    <div class="route-info__responses__grid" *ngIf="responses.length">
-      <app-response-list-item
-        (edit)="openCreateResponseModal(response.id)"
-        (delete)="openDeleteResponseModal(response)"
-        (select)="selectResponse(response.id)"
-        (config)="openHeadersModal(response.id)"
-        (duplicate)="openDuplicateModal(response.id)"
-        [response]="response"
-        [loading]="fetchingResponseId === response.id"
-        *ngFor="let response of responses; trackBy: trackByResponse"
-      ></app-response-list-item>
-    </div>
-    <div class="route-info__responses__empty" *ngIf="!responses.length">
-      <img src="assets/images/undraw_drink_coffee_0asa.svg" />
-      <h3>{{ "PAGES.ROUTES.RESPONSES_NOT_FOUND" | translate }}</h3>
+        <span>{{ "ACTIONS.DELETE" | translate }}</span>
+        <img alt="delete icon" src="assets/images/icons/bin.svg" />
+      </app-button>
     </div>
   </div>
-  <div
-    *ngIf="!responses || isFetchingNewRouteResponses"
-    class="route-info__loading"
-  >
-    <mat-spinner [diameter]="40"></mat-spinner>
-  </div>
+  <ng-container *ngIf="routes$ | async as routes; else loading">
+    <ng-container *ngIf="routes.length; else empty">
+      <div
+        *ngIf="route$ | async as route; else unselected"
+        class="route__responses"
+      >
+        <ng-container *ngLet="responses$ | async as responses">
+          <div
+            *ngIf="!(loadingResponses$ | async); else loading"
+            class="route__responses__grid"
+          >
+            <app-response-list-item
+              *ngFor="let response of responses"
+              [response]="response"
+              (edit)="openCreateResponse(route.id, response.id)"
+              (processor)="openLiveMock(response)"
+              (enableResponse)="enableResponse(response.id)"
+              (delete)="openDeleteResponse(response.id)"
+              (config)="openHeaders(response.id)"
+              (duplicate)="openDuplicateResponse(response.id)"
+              (select)="selectItem($event)"
+            ></app-response-list-item>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
 </div>
+
+<ng-template #empty>
+  <div class="route__empty">
+    <img src="/assets/images/no-route.svg" alt="" />
+    <span>{{ "PAGES.ROUTES.BIT_EMPTY" | translate }}</span>
+  </div>
+</ng-template>
+
+<ng-template #unselected>
+  <div class="route__empty">
+    <img src="/assets/images/unselected.svg" alt="" />
+    <span>{{ "PAGES.ROUTES.NOT_SELECTED_YET" | translate }}</span>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="route__loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

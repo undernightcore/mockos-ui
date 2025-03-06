@@ -37,7 +37,6 @@ export abstract class BaseEditor implements AfterViewInit, OnDestroy {
   @Output() onInit = new EventEmitter<any>();
   protected _editor: any;
   protected _options: any;
-  protected _windowResizeSubscription!: Subscription;
   private _insideNg: boolean = false;
 
   constructor(@Inject(NGX_MONACO_EDITOR_CONFIG) protected config: NgxMonacoEditorConfig) {}
@@ -115,9 +114,6 @@ export abstract class BaseEditor implements AfterViewInit, OnDestroy {
   protected abstract initMonaco(options: any, insideNg: boolean): void;
 
   ngOnDestroy() {
-    if (this._windowResizeSubscription) {
-      this._windowResizeSubscription.unsubscribe();
-    }
     if (this._editor) {
       this._editor.dispose();
       this._editor = undefined;

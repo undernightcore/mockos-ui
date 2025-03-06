@@ -8,9 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarModule } from '../../components/navbar/navbar.module';
-import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '../../components/confirm-modal/confirm-modal.module';
+import { InputModule } from '../../components/input/input.module';
+import { ButtonModule } from '../../components/button/button.module';
 
 @NgModule({
   declarations: [AuthComponent],
@@ -22,9 +23,10 @@ import { ConfirmModalModule } from '../../components/confirm-modal/confirm-modal
     MatInputModule,
     MatButtonModule,
     NavbarModule,
-    MatDialogModule,
     TranslateModule,
     ConfirmModalModule,
+    InputModule,
+    ButtonModule,
   ],
 })
 export class AuthModule {}

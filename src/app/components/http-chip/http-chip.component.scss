@@ -1,26 +1,46 @@
 .badge {
-  padding: 2px 8px;
-  color: white;
-  border-radius: 25px;
+  padding: 6px 16px;
+  border-radius: 24px;
   width: fit-content;
+
+  & > span {
+    font-family: Roboto, "sans-serif";
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #1d1b20;
+  }
 }
 
 .get {
-  background-color: #009cde;
+  background-color: #4088ff;
+
+  & > span {
+    color: white;
+  }
 }
 
 .post {
-  background-color: #00b680;
+  background-color: #9a46ef;
 }
 
 .delete {
-  background-color: #da5d95;
+  background-color: #ff2b44;
 }
 
 .put {
-  background-color: #696fd7;
+  background-color: #41cdbc;
 }
 
 .patch {
-  background-color: #696fd7;
+  background-color: #eece2a;
+}
+
+.selected {
+  background-color: white;
+
+  & > span {
+    color: #1d1b20;
+  }
 }

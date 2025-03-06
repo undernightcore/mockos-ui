@@ -7,5 +7,6 @@ import { HttpMethods } from '../../interfaces/route.interface';
   styleUrls: ['./http-chip.component.scss'],
 })
 export class HttpChipComponent {
+  @Input() selected = false;
   @Input() method: HttpMethods = 'get';
 }

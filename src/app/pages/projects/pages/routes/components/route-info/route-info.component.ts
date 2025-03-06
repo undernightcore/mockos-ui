@@ -1,244 +1,197 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import {
-  HttpMethods,
-  RouteInterface,
-} from '../../../../../../interfaces/route.interface';
-import { FormControl, FormGroup } from '@angular/forms';
-import { finalize, iif, of, Subscription, tap } from 'rxjs';
-import { RealtimeService } from '../../../../../../services/realtime/realtime.service';
-import { RoutesService } from '../../../../../../services/routes/routes.service';
-import { CreateResponseComponent } from '../create-response/create-response.component';
-import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
-import { openToast } from '../../../../../../utils/toast.utils';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { ResponsesService } from '../../../../../../services/responses/responses.service';
-import { DeviceService } from '../../../../../../services/device/device.service';
-import { EditHeadersResponseComponent } from '../edit-headers-response/edit-headers-response.component';
-import { calculateAmountToFetch } from '../../../../../../utils/page.utils';
-import { SimpleResponseInterface } from '../../../../../../interfaces/response.interface';
+import {
+  BehaviorSubject,
+  defer,
+  delayWhen,
+  filter,
+  map,
+  of,
+  startWith,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
+import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
+import {
+  FolderInterface,
+  RouteInterface,
+} from 'src/app/interfaces/route.interface';
+import { ResponsesService } from 'src/app/services/responses/responses.service';
+import { ChoiceModalComponent } from '../../../../../../components/choice-modal/choice-modal.component';
+import { ProjectManagerService } from '../../services/project.manager';
+import { CreateResponseComponent } from '../create-response/create-response.component';
 import { DuplicateResponseComponent } from '../duplicate-response/duplicate-response.component';
+import { LiveMockComponent } from '../live-mock/live-mock.component';
+import {HeadersModalComponent} from "../../../../../../components/headers-modal/headers-modal.component";
 
 @Component({
   selector: 'app-route-info',
   templateUrl: './route-info.component.html',
   styleUrls: ['./route-info.component.scss'],
 })
-export class RouteInfoComponent implements OnInit, OnDestroy {
-  @Input() set route(value: RouteInterface | undefined) {
-    this.#reactToRouteChange(value);
-  }
+export class RouteInfoComponent {
+  routes$ = this.projectManager.routes$;
+  route$ = this.projectManager.route$;
 
-  @Output() updatedRoute = new EventEmitter<RouteInterface>();
-  @Output() back = new EventEmitter<void>();
+  responses$ = this.projectManager.responses$;
 
-  routeForm?: FormGroup;
-  responses?: SimpleResponseInterface[];
-  maxResponses = 0;
+  loadingResponses$ = this.projectManager.loadingResponses$.pipe(
+    startWith(false),
+    delayWhen((loading) => (loading ? timer(0) : timer(200)))
+  );
 
-  #isFetchingResponses = false;
-  isFetchingNewRouteResponses = false;
-  fetchingResponseId?: number;
-
-  isEditingTitle = false;
-
-  isMobile = false;
-
-  subscriptions = new Subscription();
+  selectedResponseIdsSubject = new BehaviorSubject<Set<number>>(new Set());
+  selectedResponseIds$ = this.selectedResponseIdsSubject
+    .asObservable()
+    .pipe(map((set) => Array.from(set)));
 
   constructor(
-    private routesService: RoutesService,
+    private projectManager: ProjectManagerService,
     private dialogService: MatDialog,
-    private translateService: TranslateService,
     private responsesService: ResponsesService,
-    private deviceService: DeviceService
+    private translateService: TranslateService
   ) {}
 
-  ngOnInit() {
-    this.#listenOnMediaQuery();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  getResponses(page: number, perPage = 20) {
-    if (this.routeForm === undefined || this.#isFetchingResponses) return;
-    this.responsesService
-      .getResponses(this.routeForm.value.id, page, perPage)
+  openCreateResponse(routeId: number, responseId?: number) {
+    defer(() =>
+      responseId !== undefined
+        ? this.responsesService.getResponse(responseId)
+        : of(undefined)
+    )
       .pipe(
-        tap({
-          subscribe: () => {
-            if (page === 1) this.isFetchingNewRouteResponses = true;
-            this.#isFetchingResponses = true;
-          },
-          finalize: () => {
-            if (page === 1) this.isFetchingNewRouteResponses = false;
-            this.#isFetchingResponses = false;
-          },
-        })
+        switchMap((responseData) =>
+          this.dialogService
+            .open(CreateResponseComponent, {
+              closeOnNavigation: true,
+              height: '90%',
+              width: '70%',
+              data: { routeId, responseData },
+              panelClass: 'mobile-fullscreen',
+              autoFocus: false,
+            })
+            .afterClosed()
+        )
       )
-      .subscribe((responses) => {
-        this.responses =
-          page === 1
-            ? responses.data
-            : [...(this.responses ?? []), ...responses.data];
-        this.maxResponses = responses.meta.total;
-      });
+      .subscribe();
   }
 
-  selectMethod(method: HttpMethods) {
-    this.routeForm?.controls['method'].setValue(method);
-    this.updateRoute();
+  openLiveMock(response: SimpleResponseInterface) {
+    this.dialogService
+      .open(LiveMockComponent, {
+        closeOnNavigation: true,
+        height: '90%',
+        width: '70%',
+        data: { responseId: response.id, processor: response.processor },
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe();
   }
 
-  selectResponse(responseId: number) {
-    this.responsesService
-      .enableResponse(responseId)
-      .subscribe(({ message }) => {
-        openToast(message, 'success');
-      });
-  }
-
-  updateRoute() {
-    if (!this.routeForm || this.routeForm.invalid) return;
-    this.updatedRoute.emit(this.routeForm.value);
-  }
-
-  openCreateResponseModal(responseId?: number) {
-    if (this.fetchingResponseId !== undefined) return;
-
-    this.#getResponse(responseId)
-      .pipe(
-        tap({
-          subscribe: () => (this.fetchingResponseId = responseId),
-          finalize: () => (this.fetchingResponseId = undefined),
-        })
-      )
-      .subscribe((responseData) => {
-        this.dialogService.open(CreateResponseComponent, {
-          closeOnNavigation: true,
-          height: '90%',
-          width: '70%',
-          data: { routeId: this.routeForm?.value.id, responseData },
-          panelClass: 'mobile-fullscreen',
-          autoFocus: false,
-        });
-      });
-  }
-
-  openDeleteModal(route: RouteInterface) {
+  openDeleteResponse(responseId: number) {
     this.dialogService
       .open(ChoiceModalComponent, {
-        closeOnNavigation: true,
         data: {
-          title: this.translateService.instant('PAGES.ROUTES.DELETE_TITLE', {
-            element: route.name,
-          }),
-          message: this.translateService.instant('PAGES.ROUTES.DELETE_MESSAGE'),
+          title: this.translateService.instant(`PAGES.ROUTES.DELETE_RESPONSE`),
+          message: this.translateService.instant(
+            `PAGES.ROUTES.DELETE_RESPONSE_MESSAGE`
+          ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
         },
         autoFocus: false,
       })
       .afterClosed()
-      .subscribe((accepted) => {
-        if (!accepted) return;
-        this.routesService.deleteRoute(route.id).subscribe((result) => {
-          openToast(result.message, 'success');
-        });
-      });
+      .pipe(
+        filter((confirmed) => confirmed),
+        switchMap(() => this.responsesService.deleteResponse(responseId))
+      )
+      .subscribe();
   }
 
-  openDeleteResponseModal(response: SimpleResponseInterface) {
+  openDeleteSelectedResponses() {
+    if (this.selectedResponseIdsSubject.value.size === 0) return;
+
     this.dialogService
       .open(ChoiceModalComponent, {
-        closeOnNavigation: true,
         data: {
-          title: this.translateService.instant('PAGES.ROUTES.DELETE_TITLE', {
-            element: response.name,
-          }),
-          message: this.translateService.instant('PAGES.ROUTES.DELETE_MESSAGE'),
+          title: this.translateService.instant(`PAGES.ROUTES.DELETE_RESPONSE`),
+          message: this.translateService.instant(
+            `PAGES.ROUTES.DELETE_SELECTED_RESPONSES_MESSAGE`
+          ),
+          type: 'destructive',
+          confirmLabel: this.translateService.instant('ACTIONS.DELETE'),
         },
         autoFocus: false,
       })
       .afterClosed()
-      .subscribe((accepted) => {
-        if (!accepted) return;
-        this.responsesService
-          .deleteResponse(response.id)
-          .subscribe((result) => {
-            openToast(result.message, 'success');
-          });
+      .pipe(
+        filter((confirmed) => confirmed),
+        switchMap(() =>
+          this.route$.pipe(
+            filter(
+              (route): route is RouteInterface | FolderInterface =>
+                route !== undefined
+            ),
+            take(1)
+          )
+        ),
+        switchMap(({ id }) =>
+          this.responsesService.deleteResponses(id, [
+            ...this.selectedResponseIdsSubject.value,
+          ])
+        )
+      )
+      .subscribe(() => {
+        this.selectedResponseIdsSubject.next(new Set());
       });
   }
 
-  openHeadersModal(responseId: number) {
-    this.dialogService.open(EditHeadersResponseComponent, {
-      panelClass: 'mobile-fullscreen',
-      height: '60%',
-      width: '60%',
-      data: responseId,
-      autoFocus: false,
+  openHeaders(responseId: number) {
+    this.dialogService
+      .open(HeadersModalComponent, {
+        closeOnNavigation: true,
+        width: '861px',
+        height: '500px',
+        data: responseId,
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => confirmed))
+      .subscribe();
+  }
+
+  openDuplicateResponse(responseId: number) {
+    this.dialogService
+      .open(DuplicateResponseComponent, {
+        closeOnNavigation: true,
+        data: responseId,
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => confirmed))
+      .subscribe();
+  }
+
+  enableResponse(responseId: number) {
+    this.responsesService.enableResponse(responseId).subscribe({
+      next: (value) => {},
+      error: (error) => {},
     });
   }
 
-  openDuplicateModal(responseId: number) {
-    this.dialogService.open(DuplicateResponseComponent, {
-      autoFocus: false,
-      data: responseId,
-    });
-  }
-
-  #listenOnMediaQuery() {
-    this.subscriptions.add(
-      this.deviceService.isMobile.subscribe(
-        (isMobile) => (this.isMobile = isMobile)
-      )
-    );
-  }
-
-  #getResponse(responseId?: number) {
-    return iif(
-      () => responseId !== undefined,
-      this.responsesService.getResponse(responseId as number),
-      of(undefined)
-    );
-  }
-
-  #reactToRouteChange(value?: RouteInterface) {
-    const hasSelectedSameRoute =
-      value?.id === this.routeForm?.value.id && this.responses?.length;
-    this.#setDataToForm(value);
-    this.getResponses(
-      1,
-      hasSelectedSameRoute
-        ? calculateAmountToFetch(this.responses?.length ?? 0, 20)
-        : undefined
-    );
-    this.isEditingTitle = false;
-  }
-
-  #setDataToForm(value?: RouteInterface) {
-    this.routeForm = value
-      ? new FormGroup({
-          id: new FormControl(value.id),
-          name: new FormControl(value.name),
-          method: new FormControl(value.method),
-          endpoint: new FormControl(value.endpoint),
-          enabled: new FormControl(value.enabled),
-          created_at: new FormControl(value.created_at),
-          updated_at: new FormControl(value.updated_at),
-        })
-      : undefined;
-  }
-
-  trackByResponse(index: number, response: SimpleResponseInterface) {
-    return `${index}-${response.id}`;
+  selectItem(responseId: number) {
+    const currentSet = new Set(this.selectedResponseIdsSubject.value);
+    if (currentSet.has(responseId)) {
+      currentSet.delete(responseId);
+    } else {
+      currentSet.add(responseId);
+    }
+    this.selectedResponseIdsSubject.next(currentSet);
   }
 }

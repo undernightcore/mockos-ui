@@ -1,35 +1,26 @@
-<h1 mat-dialog-title>
-  {{
-    (data.project
-      ? "PAGES.DASHBOARD.EDIT_PROJECT"
-      : "PAGES.DASHBOARD.CREATE_PROJECT"
-    ) | translate
-  }}
-</h1>
-<div mat-dialog-content>
-  <div class="message" *ngIf="data.message">{{ data.message }}</div>
-  <form [formGroup]="projectForm">
-    <mat-form-field>
-      <input
-        [placeholder]="'COMMON.NAME' | translate"
-        matInput
-        formControlName="name"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        [placeholder]="'COMMON.DESCRIPTION' | translate"
-        matInput
-        formControlName="description"
-      />
-    </mat-form-field>
-  </form>
-</div>
-<div mat-dialog-actions>
-  <button (click)="dialogRef.close()" mat-button>
-    {{ "ACTIONS.CANCEL" | translate }}
-  </button>
-  <button (click)="handleSave()" mat-button>
-    {{ "ACTIONS.ACCEPT" | translate }}
-  </button>
-</div>
+<app-dialog [title]="(data.project ? 'PAGES.DASHBOARD.EDIT_PROJECT' : 'PAGES.DASHBOARD.CREATE_PROJECT') | translate">
+  <div class="project">
+    <div class="project__form">
+      <app-input
+        [control]="projectForm.controls.name"
+        [label]="'COMMON.NAME' | translate"
+      ></app-input>
+      <app-input
+        [control]="projectForm.controls.description"
+        [label]="'COMMON.DESCRIPTION' | translate"
+      ></app-input>
+    </div>
+    <div class="project__actions">
+      <app-button (click)="dialogRef.close()">
+        {{ "ACTIONS.CANCEL" | translate }}
+      </app-button>
+      <app-button
+        (click)="handleSave()"
+        borderColor="#4088FF"
+        backgroundColor="#4088FF"
+        color="white"
+        >{{ "ACTIONS.ACCEPT" | translate }}</app-button
+      >
+    </div>
+  </div>
+</app-dialog>

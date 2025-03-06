@@ -1,20 +1,18 @@
 <div class="members">
-  <div *ngIf="project" class="members__header">
-    <h2>
-      <span>{{ project.name }}</span>
-      {{ "COMMON.MEMBERS" | translate | lowercase }}
-    </h2>
-    <span [routerLink]="['/projects', projectId]">{{
-      "PAGES.MEMBERS.GO_BACK" | translate
-    }}</span>
-    <div class="members__header__actions">
-      <button (click)="openInviteModal()" mat-button>
-        <mat-icon>add</mat-icon>
-      </button>
-      <button (click)="openLeaveModal()" mat-button>
-        <mat-icon>logout</mat-icon>
-      </button>
-    </div>
+  <div class="members__header">
+    <app-button
+    size="small"
+    backgroundColor="#4088FF"
+    color="white"
+    borderColor="#4088FF"
+    (click)="openInviteModal()"
+    >
+    <img src="/assets/images/icons/add.svg">
+    {{ 'PAGES.MEMBERS.ADD_MEMBER' | translate}}</app-button
+  >
+  <button (click)="openLeaveModal()" mat-button>
+    <img src="/assets/images/icons/logout.svg">
+  </button>
   </div>
   <div
     *ngIf="members"

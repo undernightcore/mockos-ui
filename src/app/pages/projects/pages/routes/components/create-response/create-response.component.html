@@ -1,89 +1,134 @@
-<h1 mat-dialog-title>
-  {{
-    (isEditing ? "PAGES.ROUTES.EDIT_RESPONSE" : "PAGES.ROUTES.CREATE_RESPONSE")
+<app-dialog
+  [title]="
+    (isEditing ? 'PAGES.ROUTES.EDIT_RESPONSE' : 'PAGES.ROUTES.CREATE_RESPONSE')
       | translate
-  }}
-</h1>
-<div class="main-content" mat-dialog-content>
-  <div class="main-content__form">
-    <form [formGroup]="responseForm">
-      <mat-form-field>
-        <input formControlName="name" matInput placeholder="Name" />
-      </mat-form-field>
-      <mat-form-field>
-        <input
-          formControlName="status"
-          type="number"
-          matInput
-          placeholder="Status code"
-        />
-      </mat-form-field>
-      <div>
-        <mat-slide-toggle formControlName="enabled">{{
-          "COMMON.ENABLED" | translate
-        }}</mat-slide-toggle>
-      </div>
-    </form>
-    <div *ngIf="newChanges" class="main-content__form__warning">
+  "
+>
+  <div class="main-content">
+    <div class="main-content__form">
+      <app-input
+        [style.width.%]="100"
+        [control]="responseForm.controls.name"
+        [placeholder]="'COMMON.NAME' | translate"
+        [label]="'COMMON.NAME' | translate"
+      ></app-input>
+
+      <app-input
+        [control]="responseForm.controls.status"
+        type="number"
+        [placeholder]="'COMMON.STATUS_CODE' | translate"
+        [label]="'COMMON.STATUS_CODE' | translate"
+      ></app-input>
+
+      <app-button
+        [style.width.px]="200"
+        (click)="responseForm.controls.enabled.setValue(false)"
+        color="#1D1B20"
+        backgroundColor="white"
+        borderColor="white"
+        *ngIf="responseForm.controls.enabled.value"
+        >{{ "COMMON.ACTIVE" | translate }}</app-button
+      >
+      <app-button
+        [style.width.px]="200"
+        (click)="responseForm.controls.enabled.setValue(true)"
+        *ngIf="!responseForm.controls.enabled.value"
+        >{{ "COMMON.ENABLE" | translate }}</app-button
+      >
+    </div>
+
+    <div *ngIf="newChanges" class="main-content__warning">
       <span>{{ "PAGES.ROUTES.NEW_CHANGES" | translate }}</span>
-      <button (click)="compareChanges()" mat-button>
+      <app-button
+        backgroundColor="#4088FF"
+        borderColor="#4088FF"
+        color="white"
+        size="small"
+        (click)="compareChanges()"
+      >
         {{ "ACTIONS.COMPARE_AND_SAVE" | translate }}
-      </button>
+      </app-button>
     </div>
+
+    <div *ngIf="warningInvalidJson && !fileMode" class="main-content__warning">
+      <span>{{ "PAGES.ROUTES.INVALID_JSON" | translate }}</span>
+    </div>
+
     <div
-      *ngIf="warningInvalidJson && selectedTab === 0"
-      class="main-content__form__warning"
+      *ngIf="this.responseForm.controls.body.invalid && !fileMode"
+      class="main-content__warning"
     >
-      {{ "PAGES.ROUTES.INVALID_JSON" | translate }}
+      <span>{{ "PAGES.ROUTES.EMPTY_JSON" | translate }}</span>
     </div>
-    <div
-      *ngIf="this.responseForm.controls.body.invalid && selectedTab === 0"
-      class="main-content__form__alert"
-    >
-      {{ "PAGES.ROUTES.EMPTY_JSON" | translate }}
+
+    <div class="main-content__editor">
+      <ng-container *ngIf="fileMode">
+        <div class="main-content__editor__locked"></div>
+        <div class="main-content__editor__locked-content">
+          <img src="/assets/images/icons/download-off.svg" />
+          <span>{{ "PAGES.ROUTES.EDITOR_DESCRIPTION" | translate }}</span>
+        </div>
+      </ng-container>
+      <ngx-monaco-editor
+        *ngIf="!fileMode"
+        [formControl]="responseForm.controls.body"
+        [options]="{ theme: 'vs-dark', language: mode }"
+      ></ngx-monaco-editor>
     </div>
-  </div>
-  <mat-tab-group
-    [(selectedIndex)]="selectedTab"
-    (selectedIndexChange)="handleTabChange()"
-  >
-    <mat-tab [label]="'COMMON.TEXT' | translate">
-      <div class="main-content__editor" #editor></div>
-    </mat-tab>
-    <mat-tab [label]="'COMMON.FILE' | translate">
-      <input
-        (change)="selectedFile = fileInput.files?.item(0) ?? undefined"
-        #fileInput
-        [style.display]="'none'"
-        type="file"
-      />
-      <div (click)="fileInput.click()" class="main-content__upload">
-        <mat-icon>upload</mat-icon>
-        <h4>
-          {{
-            selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
-              | translate
-          }}
-        </h4>
+    <div class="main-content__file">
+      <div (click)="fileInput.click()" class="main-content__file__box">
+        <input
+          (change)="
+            fileInput.files?.item(0) &&
+              (selectedFile = fileInput.files?.item(0) ?? undefined)
+          "
+          #fileInput
+          [style.display]="'none'"
+          type="file"
+        />
+        <img
+          src="/assets/images/icons/{{
+            selectedFile?.name || fileInBack ? 'document' : 'download'
+          }}.svg"
+        />
+        <span>{{
+          selectedFile?.name ?? fileInBack ?? "PAGES.ROUTES.CLICK_TO_UPLOAD"
+            | translate
+        }}</span>
       </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
-<div class="actions" mat-dialog-actions>
-  <div>
-    <button [disabled]="saving" (click)="dialogRef.close()" mat-button>
-      {{ "ACTIONS.CANCEL" | translate }}
-    </button>
-    <button [disabled]="saving" (click)="handleSave()" mat-button>
-      {{ (isEditing ? "ACTIONS.UPDATE" : "ACTIONS.CREATE") | translate }}
-    </button>
+      <app-button
+        borderColor="#FF2B44"
+        backgroundColor="#FF2B44"
+        color="white"
+        *ngIf="fileMode"
+        (click)="clearFileMode()"
+        >{{ "ACTIONS.DELETE_FILE" | translate }}</app-button
+      >
+    </div>
+    <div class="main-content__actions">
+      <div>
+        <app-button
+          [disabled]="warningInvalidJson"
+          *ngIf="!fileMode"
+          (click)="prettifyJson()"
+        >
+          {{ "ACTIONS.PRETTIFY_JSON" | translate }}
+        </app-button>
+      </div>
+      <div>
+        <app-button [disabled]="saving" (click)="dialogRef.close()">
+          {{ "ACTIONS.CANCEL" | translate }}
+        </app-button>
+        <app-button
+          borderColor="#4088FF"
+          backgroundColor="#4088FF"
+          color="white"
+          [disabled]="saving"
+          (click)="handleSave()"
+        >
+          {{ (isEditing ? "ACTIONS.UPDATE" : "ACTIONS.CREATE") | translate }}
+        </app-button>
+      </div>
+    </div>
   </div>
-  <button
-    [disabled]="warningInvalidJson"
-    *ngIf="this.selectedTab === 0"
-    mat-button
-    (click)="prettifyJson()"
-  >
-    {{ "ACTIONS.PRETTIFY_JSON" | translate }}
-  </button>
-</div>
+</app-dialog>

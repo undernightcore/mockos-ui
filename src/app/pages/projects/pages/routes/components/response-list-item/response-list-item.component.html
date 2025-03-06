@@ -1,22 +1,71 @@
 <div
   *ngIf="response"
-  class="response-card"
-  [ngClass]="response.enabled ? 'enabled' : 'disabled'"
-  (click)="edit.emit()"
+  class="response"
+  [class.selected]="response.enabled"
+  (click)="onComponentClick($event)"
 >
-  <img *ngIf="!loading" src="assets/icons/drop.svg" />
-  <mat-spinner *ngIf="loading"></mat-spinner>
+  <div class="response__actions">
+    <app-checkbox
+      [highContrast]="response.enabled"
+      (click)="onSelectedClick($event)"
+    ></app-checkbox>
 
-  <div class="response-card__info">
-    <h4>{{ response.name }}</h4>
-    <span>{{ response.status }}</span>
+    <div class="response__actions__icons" (click)="$event.stopPropagation()">
+      <div
+        class="response__actions__icons__badge"
+        [class.response__actions__icons__badge--invisible]="
+          !response.processor.enabled
+        "
+        *ngIf="response.processor"
+        matBadge="1"
+        matBadgeSize="small"
+      >
+        <img
+          src="/assets/images/icons/processor.svg"
+          alt=""
+          (click)="$event.stopPropagation(); processor.emit()"
+        />
+      </div>
+
+      <img
+        #responseActions="cdkMenuTriggerFor"
+        [cdkMenuTriggerFor]="menu"
+        src="/assets/images/icons/vertical-dots.svg"
+        alt=""
+        (click)="$event.stopPropagation()"
+      />
+    </div>
+
+    <ng-template #menu>
+      <div cdkMenu>
+        <div class="response__actions__menu">
+          <app-button
+            *ngIf="!response.enabled"
+            size="small"
+            backgroundColor="#4088FF"
+            borderColor="unset"
+            color="#fff"
+            (click)="enableResponse.emit()"
+            >Activar</app-button
+          >
+          <div
+            *ngFor="let button of buttons; trackBy: trackByButton"
+            class="response__actions__menu__item"
+            [class.response__actions__menu__item--disabled]="button.disabled"
+            (click)="responseMenuClick($event, button)"
+          >
+            <img
+              [src]="'/assets/images/icons/' + button.icon + '.svg'"
+              [alt]="button.label"
+            />
+            <span>{{ button.label }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
-  <div class="response-card__actions">
-    <mat-icon *ngIf="!response.enabled" (click)="openSelectModal($event)">
-      swap_horiz
-    </mat-icon>
-    <mat-icon (click)="openDuplicateModal($event)">content_copy</mat-icon>
-    <mat-icon (click)="openConfigModal($event)">code</mat-icon>
-    <mat-icon (click)="openDeleteModal($event)">delete</mat-icon>
+  <div class="response__info">
+    <span>{{ response.status }}</span>
+    <span>{{ response.name }}</span>
   </div>
 </div>
