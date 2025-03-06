@@ -27,7 +27,7 @@
         font-size: 16px;
         letter-spacing: 0.25px;
         margin-left: 8px;
-        color: #F5EFF7;
+        color: #f5eff7;
       }
     }
   }
@@ -49,7 +49,7 @@
       font-weight: 400;
       font-size: 16px;
       letter-spacing: 0.25px;
-      color: #F5EFF7;
+      color: #f5eff7;
     }
   }
 
@@ -143,7 +143,7 @@
 
   &__actions {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 
     & > div {
       display: flex;

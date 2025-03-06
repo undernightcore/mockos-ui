@@ -16,23 +16,27 @@
           }}</span
         >
         <div class="auth__box__content">
-          <div (keyup.enter)="handleSubmit()" class="auth__box__content__form">
+          <div class="auth__box__content__form">
             <app-input
+              (enterTriggered)="handleSubmit()"
               *ngIf="registering.value"
               [label]="'COMMON.NAME' | translate"
               [control]="form.controls.name"
             ></app-input>
             <app-input
+              (enterTriggered)="handleSubmit()"
               [label]="'COMMON.EMAIL' | translate"
               [control]="form.controls.email"
             ></app-input>
             <app-input
+              (enterTriggered)="handleSubmit()"
               [label]="'COMMON.PASSWORD' | translate"
               type="password"
               [control]="form.controls.password"
             ></app-input>
             <app-input
               *ngIf="registering.value"
+              (enterTriggered)="handleSubmit()"
               [label]="'COMMON.CONFIRM_PASSWORD' | translate"
               type="password"
               [control]="form.controls.repeatPassword"
