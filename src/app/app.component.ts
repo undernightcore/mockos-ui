@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppManagerService } from './services/app/app-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,15 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   constructor(private translateService: TranslateService) {
-    translateService.setDefaultLang('en');
-    translateService.use(translateService.getBrowserLang() ?? 'en');
-    localStorage.setItem('lang', this.translateService.currentLang);
+    this.#checkLanguage();
+  }
+
+  #checkLanguage() {
+    this.translateService.setDefaultLang('en');
+    this.translateService.use(
+      localStorage.getItem('lang') ??
+        this.translateService.getBrowserLang() ??
+        'en'
+    );
   }
 }

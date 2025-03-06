@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ResponsesService } from '../../../../../../services/responses/responses.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -23,12 +16,6 @@ import {
   isValidJson,
   prettifyJson,
 } from '../../../../../../utils/string.utils';
-import { Ace, edit } from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-gruvbox';
-import 'ace-builds/src-noconflict/theme-kr_theme';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/mode-html';
-import 'ace-builds/src-noconflict/ext-searchbox';
 import { EditorTypeEnum } from '../../../../../../interfaces/response-type.interface';
 
 @Component({
@@ -37,20 +24,20 @@ import { EditorTypeEnum } from '../../../../../../interfaces/response-type.inter
   styleUrls: ['./create-response.component.scss'],
 })
 export class CreateResponseComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('editor') editorElement!: ElementRef;
-  editor?: Ace.Editor;
   responseSubscription?: Subscription;
   newChanges = false;
 
-  selectedTab = this.fileInBack ? 1 : 0;
   selectedFile = this.data.selectedFile;
 
   saving = false;
+  mode = EditorTypeEnum.JSON;
 
   responseForm = new FormGroup({
-    name: new FormControl(this.data.responseData?.name ?? 'Default', [
-      Validators.required,
-    ]),
+    name: new FormControl(
+      this.data.responseData?.name ??
+        this.translateService.instant('COMMON.DEFAULT'),
+      [Validators.required]
+    ),
     status: new FormControl(this.data.responseData?.status ?? 200, [
       Validators.required,
       Validators.min(100),
@@ -74,14 +61,12 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   get fileMode() {
-    return (
-      this.selectedTab === 1 && Boolean(this.selectedFile || this.fileInBack)
-    );
+    return Boolean(this.selectedFile || this.fileInBack);
   }
 
   get warningInvalidJson() {
     return (
-      this.editor?.getOption('mode') === EditorTypeEnum.JSON &&
+      this.mode === EditorTypeEnum.JSON &&
       !isValidJson(this.responseForm.controls.body.value || '{}')
     );
   }
@@ -96,16 +81,6 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit() {
-    this.editor = edit(this.editorElement.nativeElement, {
-      mode: this.data.responseData?.editorType ?? EditorTypeEnum.JSON,
-      theme: 'ace/theme/gruvbox',
-    });
-    this.editor.on('change', () => {
-      this.responseForm.controls.body.setValue(
-        this.editor?.getValue() as string
-      );
-    });
-    this.editor.session.setValue(this.responseForm.controls.body.value ?? '');
     this.#listenToChanges();
   }
 
@@ -114,7 +89,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   handleSave() {
-    if (this.responseForm.invalid && this.selectedTab === 0) return;
+    if (this.responseForm.invalid && !this.fileMode) return;
     const body = this.#prepareSaveBody();
     this.saving = true;
     iif(
@@ -122,12 +97,12 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
       this.responsesService.editResponse(
         this.data.responseData?.id as number,
         body,
-        this.selectedTab === 1
+        this.fileMode
       ),
       this.responsesService.createResponse(
         this.data.routeId,
         body,
-        this.selectedTab === 1
+        this.fileMode
       )
     )
       .pipe(finalize(() => (this.saving = false)))
@@ -137,14 +112,13 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
           this.dialogRef.close();
         },
         error: (error) => {
+          if (error.error.errors[0]) {
+            openToast(error.error.errors[0], 'error');
+          }
           if (error.status !== 404) return;
           this.#changeToCreateUnexpectedly();
         },
       });
-  }
-
-  handleTabChange() {
-    this.selectedFile = undefined;
   }
 
   compareChanges() {
@@ -170,11 +144,19 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  clearFileMode() {
+    this.selectedFile = undefined;
+    this.data.selectedFile = undefined;
+
+    if (this.data.responseData) {
+      this.data.responseData.is_file = false;
+      this.data.responseData.body =
+        this.responseForm.controls.body.value ?? '{}';
+    }
+  }
+
   prettifyJson() {
     this.responseForm.controls.body.setValue(
-      prettifyJson(this.responseForm.value.body as string)
-    );
-    this.editor?.session.setValue(
       prettifyJson(this.responseForm.value.body as string)
     );
   }
@@ -205,7 +187,7 @@ export class CreateResponseComponent implements AfterViewInit, OnDestroy {
   }
 
   #prepareSaveBody() {
-    return this.selectedTab === 1
+    return this.fileMode
       ? new CreateResponseWithFileModel(
           new CreateResponseModel(
             this.responseForm.value as CreateResponseInterface

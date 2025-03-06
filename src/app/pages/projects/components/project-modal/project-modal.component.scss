@@ -1,8 +1,20 @@
-.message {
-  margin-bottom: 16px;
-}
-
-form {
+.project {
   display: flex;
   flex-direction: column;
+  gap: 40px;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 20px;
+
+    & > app-button {
+      width: 100%;
+    }
+  }
 }

@@ -1,29 +1,57 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ForkedProjectInterface } from '../../../../interfaces/project.interface';
+import { fromEvent, take } from 'rxjs';
+import { CdkMenuTrigger } from '@angular/cdk/menu';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-project-card',
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.scss'],
 })
-export class ProjectCardComponent {
+export class ProjectCardComponent implements OnInit {
   @Input() project?: ForkedProjectInterface;
+  @Input() set isSelected(value: boolean) {
+    this.selectedForm.setValue(value, { emitEvent: false });
+  }
+
   @Output() edit = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
-  @Output() contract = new EventEmitter<void>();
+  @Output() selected = new EventEmitter<boolean>();
 
-  openEditModal(click: MouseEvent) {
-    click.stopPropagation();
+  selectedForm = new FormControl(false, { nonNullable: true });
+
+  ngOnInit() {
+    this.selectedForm.valueChanges.subscribe((value) =>
+      this.selected.emit(value)
+    );
+  }
+
+  @ViewChild(CdkMenuTrigger) trigger?: CdkMenuTrigger;
+  listenOnScroll() {
+    fromEvent(window, 'scroll', { once: true, capture: true })
+      .pipe(take(1))
+      .subscribe(() => {
+        this.trigger?.close();
+      });
+  }
+
+  openEditModal() {
+    this.trigger?.close();
     this.edit.emit();
   }
 
-  openDeleteModal(click: MouseEvent) {
-    click.stopPropagation();
+  openDeleteModal() {
+    this.trigger?.close();
     this.delete.emit();
-  }
-
-  openContractPage(click: MouseEvent) {
-    click.stopPropagation();
-    this.contract.emit()
   }
 }

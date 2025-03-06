@@ -27,14 +27,6 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
   },
   {
-    path: 'invitations',
-    loadChildren: () =>
-      import('./pages/invitations/invitations.module').then(
-        (m) => m.InvitationsModule
-      ),
-    canActivateChild: [AuthGuard],
-  },
-  {
     path: 'user',
     loadChildren: () =>
       import('./pages/user/user.module').then((m) => m.UserModule),

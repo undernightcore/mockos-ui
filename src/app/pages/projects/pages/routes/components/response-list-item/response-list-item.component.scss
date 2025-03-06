@@ -1,55 +1,140 @@
-.response-card {
-  padding: 20px;
-  border-radius: 25px;
+.response {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 153px;
+  width: 100%;
+  background-color: #1d1b20;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-sizing: border-box;
   cursor: pointer;
 
-  & > img {
-    width: 50px;
-  }
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-  & > mat-spinner {
-    width: 50px !important;
-    height: 44px !important;
+    &__icons {
+      display: flex;
+      align-items: center;
+      flex-shrink: 1;
+      gap: 16px;
 
-    &::ng-deep {
-      & > svg {
-        width: 100% !important;
-        height: 100% !important;
+      &__badge {
+        display: flex;
+        align-items: center;
+
+        & span {
+          content: none;
+          height: 6px;
+          width: 6px;
+          right: -3px !important;
+          top: 0;
+          background-color: #41cdbc !important;
+          color: #41cdbc !important;
+        }
+
+        &--invisible span {
+          display: none;
+        }
       }
+    }
+
+    & > img {
+      cursor: pointer;
     }
   }
 
   &__info {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    & > h4 {
-      margin: 0;
-    }
+    gap: 8px;
 
     & > span {
-      color: var(--main-color);
+      font-family: Roboto, sans-serif;
+
+      &:first-child {
+        font-weight: 400;
+        font-size: 20px;
+        letter-spacing: 0.1px;
+        color: #4088ff;
+      }
+
+      &:last-child {
+        font-weight: 900;
+        font-size: 32px;
+        line-height: 36px;
+        letter-spacing: 0.1px;
+        color: white;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
   }
 
-  &__actions {
+  &__actions__menu {
+    max-width: 280px;
+    width: 155px;
+    background-color: #2d2b30;
+    border-radius: 12px;
+    padding: 16px 0 8px 0;
     display: flex;
-    gap: 8px;
-    width: fit-content;
+    flex-direction: column;
 
-    & > mat-icon {
+    & app-button {
+      padding: 0 16px 8px 16px;
+    }
+
+    ::ng-deep {
+      & button {
+        border: none;
+        height: 40px;
+      }
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      font-family: Roboto;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0.5px;
+      color: #cac4d0;
       cursor: pointer;
+      padding: 0 16px;
+
+      &--disabled {
+        pointer-events: none;
+        color: #4f4b54;
+
+        & img {
+          opacity: 0.3;
+        }
+      }
+
+      &:hover {
+        background-color: #1d1b20;
+      }
+
+      & span {
+        margin-left: 16px;
+      }
     }
   }
 }
 
-.enabled {
-  border: 4px var(--main-color) solid;
-}
+.selected {
+  background-color: #4088ff;
 
-.disabled {
-  border: 4px var(--disabled-color) solid;
+  & > .response__info {
+    & > span {
+      &:first-child {
+        color: white;
+      }
+    }
+  }
 }

@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PaginatedResponseInterface } from '../../interfaces/paginated-response.interface';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
+import { CreateResponseInterface } from '../../interfaces/create-response.interface';
+import { EditProcessorInterface } from '../../interfaces/edit-processor.interface';
+import { MessageInterface } from '../../interfaces/message.interface';
+import { ProcessorInterface } from '../../interfaces/processor.interface';
 import {
   ResponseInterface,
   SimpleResponseInterface,
 } from '../../interfaces/response.interface';
-import { CreateResponseInterface } from '../../interfaces/create-response.interface';
-import { MessageInterface } from '../../interfaces/message.interface';
-import { map } from 'rxjs';
 import { ResponseModel } from '../../models/response.model';
 import { EnvService } from '../env/env.service';
 
@@ -18,11 +19,12 @@ export class ResponsesService {
   constructor(private httpClient: HttpClient, private envService: EnvService) {}
 
   getResponses(routeId: number, page = 1, perPage = 10) {
-    return this.httpClient.get<
-      PaginatedResponseInterface<SimpleResponseInterface>
-    >(`${this.envService.getEnv('apiUrl')}/routes/${routeId}/responses`, {
-      params: { page, perPage },
-    });
+    return this.httpClient.get<Array<SimpleResponseInterface>>(
+      `${this.envService.getEnv('apiUrl')}/routes/${routeId}/responses`,
+      {
+        params: { page, perPage },
+      }
+    );
   }
 
   getResponse(responseId: number) {
@@ -70,10 +72,32 @@ export class ResponsesService {
     );
   }
 
+  deleteResponses(routeId: number, responseIds: number[]) {
+    return this.httpClient.delete(
+      `${this.envService.getEnv('apiUrl')}/routes/${routeId}/responses`,
+      {
+        body: { ids: responseIds },
+      }
+    );
+  }
+
   duplicateResponse(responseId: number, name: string) {
     return this.httpClient.post<MessageInterface>(
       `${this.envService.getEnv('apiUrl')}/responses/${responseId}/duplicate`,
       { name }
+    );
+  }
+
+  getProcessor(responseId: number) {
+    return this.httpClient.get<ProcessorInterface>(
+      `${this.envService.getEnv('apiUrl')}/responses/${responseId}/processor`
+    );
+  }
+
+  editProcessor(responseId: number, data: EditProcessorInterface) {
+    return this.httpClient.post<void>(
+      `${this.envService.getEnv('apiUrl')}/responses/${responseId}/processor`,
+      data
     );
   }
 }

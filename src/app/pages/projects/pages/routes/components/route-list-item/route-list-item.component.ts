@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouteInterface } from '../../../../../../interfaces/route.interface';
+import { ProjectManagerService } from '../../services/project.manager';
+import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
 
 @Component({
   selector: 'app-route-list-item',
@@ -7,21 +9,19 @@ import { RouteInterface } from '../../../../../../interfaces/route.interface';
   styleUrls: ['./route-list-item.component.scss'],
 })
 export class RouteListItemComponent {
-  @Input() route!: RouteInterface;
+  @Input() route?: RouteInterface;
+  @Input() rounded = true;
   @Input() isSelected = false;
   @Input() sortingMode = false;
-  @Input() showBackButton = false;
+  @Input() disablePlaceholder = false;
 
-  dragZone?: 'up' | 'down';
+  constructor(private projectManager: ProjectManagerService) {}
 
-  @Output() draggingStart = new EventEmitter();
-  @Output() draggingEnd = new EventEmitter();
+  openEditRouteModal(id: number, data: CreateRouteInterface) {
+    this.projectManager.openEditRouteModal(id, false, data).subscribe();
+  }
 
-  @Output() dragging = new EventEmitter<'up' | 'down' | undefined>();
-
-  draggingInEdge(position?: 'up' | 'down') {
-    this.dragZone = position;
-    if (!this.sortingMode) return;
-    this.dragging.emit(position)
+  openDeleteRouteModal(route: RouteInterface) {
+    this.projectManager.openDeleteRouteModal(route).subscribe()
   }
 }

@@ -9,6 +9,7 @@ import { CreateRouteInterface } from '../../interfaces/create-route.interface';
 import { MessageInterface } from '../../interfaces/message.interface';
 import { EnvService } from '../env/env.service';
 import { CreateFolderInterface } from '../../interfaces/create-folder.interface';
+import { ProcessorInterface } from '../../interfaces/processor.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -42,23 +43,10 @@ export class RoutesService {
     );
   }
 
-  getRoutes(
-    projectId: number,
-    folderId?: number,
-    search?: string,
-    page = 1,
-    perPage = 50
-  ) {
-    return this.httpClient.get<
-      PaginatedResponseInterface<RouteInterface | FolderInterface>
-    >(`${this.envService.getEnv('apiUrl')}/projects/${projectId}/routes`, {
-      params: {
-        ...(search ? { search } : {}),
-        ...(folderId ? { folderId } : {}),
-        page,
-        perPage,
-      },
-    });
+  getRoutes(projectId: number) {
+    return this.httpClient.get<Array<RouteInterface | FolderInterface>>(
+      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/routes`
+    );
   }
 
   createRoute(projectId: number, data: CreateRouteInterface) {
@@ -77,17 +65,21 @@ export class RoutesService {
     );
   }
 
-  sortRoute(projectId: number, originRouteId: number, destRouteId: number) {
+  sortAndMoveRoute(
+    projectId: number,
+    what: number,
+    before?: number,
+    into?: number
+  ) {
     return this.httpClient.post<MessageInterface>(
-      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/sort`,
-      { origin: originRouteId, destination: destRouteId }
+      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/move`,
+      { what, before: before ?? null, into: into ?? null }
     );
   }
 
-  moveRoute(projectId: number, origin: number, destination: number | null) {
-    return this.httpClient.post<MessageInterface>(
-      `${this.envService.getEnv('apiUrl')}/projects/${projectId}/move`,
-      { origin, destination }
+  getProcessors(routeId: number) {
+    return this.httpClient.get<Array<ProcessorInterface>>(
+      `${this.envService.getEnv('apiUrl')}/routes/${routeId}/processors`
     );
   }
 }

@@ -8,7 +8,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ChoiceModalComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      title: string;
+      message: string;
+      type?: 'destructive';
+      confirmLabel?: string;
+      cancelLabel?: string;
+    },
     public dialogRef: MatDialogRef<ChoiceModalComponent>
   ) {}
 }

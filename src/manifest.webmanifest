@@ -1,8 +1,8 @@
 {
   "name": "Mockos",
   "short_name": "Mockos",
-  "theme_color": "#00bfa6",
-  "background_color": "#ffffff",
+  "theme_color": "#1d1b20",
+  "background_color": "#131218",
   "orientation": "portrait",
   "display": "standalone",
   "scope": "./",

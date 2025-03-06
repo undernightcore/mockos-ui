@@ -1,12 +1,19 @@
-<h1 mat-dialog-title>{{ "PAGES.ROUTES.DELETE_TOKEN" | translate }}</h1>
-<div mat-dialog-content>
-  {{ "PAGES.ROUTES.DELETE_TOKEN_DESCRIPTION" | translate }}
-</div>
-<div mat-dialog-actions>
-  <button (click)="goToTokensModal()" mat-button>
-    {{ "ACTIONS.CANCEL" | translate }}
-  </button>
-  <button (click)="deleteToken()" mat-button>
-    {{ "ACTIONS.ACCEPT" | translate }}
-  </button>
-</div>
+<app-dialog [title]="'PAGES.ROUTES.DELETE_TOKEN' | translate">
+  <div class="token">
+    <div class="token__description">
+      {{ "PAGES.ROUTES.DELETE_TOKEN_DESCRIPTION" | translate }}
+    </div>
+    <div class="token__actions">
+      <app-button (click)="goToTokensModal()">
+        {{ "ACTIONS.CANCEL" | translate }}
+      </app-button>
+      <app-button
+        (click)="deleteToken()"
+        [borderColor]="'#FF2B44'"
+        [backgroundColor]="'#FF2B44'"
+        color="white"
+        >{{ "ACTIONS.ACCEPT" | translate }}</app-button
+      >
+    </div>
+  </div>
+</app-dialog>

@@ -5,6 +5,7 @@ export interface RouteInterface {
   endpoint: string;
   enabled: boolean;
   is_folder: false;
+  parent_folder_id?: number;
   created_at: string;
   updated_at: string;
 }

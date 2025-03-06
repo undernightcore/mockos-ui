@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { InvitationCardModule } from '../invitation-card/invitation-card.module';
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -18,6 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
     TranslateModule,
     MatMenuModule,
     MatIconModule,
+    MatBadgeModule,
+    CdkMenuModule,
+    InvitationCardModule,
   ],
   exports: [NavbarComponent],
 })
