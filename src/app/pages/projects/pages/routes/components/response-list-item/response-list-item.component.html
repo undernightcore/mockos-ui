@@ -14,7 +14,7 @@
       <div
         class="response__actions__icons__badge"
         [class.response__actions__icons__badge--invisible]="
-          !response.processor?.enabled
+          !response.processor.enabled
         "
         *ngIf="response.processor"
         matBadge="1"
@@ -46,7 +46,7 @@
             borderColor="unset"
             color="#fff"
             (click)="enableResponse.emit()"
-          >Activar</app-button
+            >Activar</app-button
           >
           <div
             *ngFor="let button of buttons; trackBy: trackByButton"
