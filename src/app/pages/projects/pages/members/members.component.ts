@@ -1,16 +1,23 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ProjectService } from '../../../../services/project/project.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, EMPTY, filter, finalize, switchMap, take, tap } from 'rxjs';
-import { ProjectInterface } from '../../../../interfaces/project.interface';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { InviteModalComponent } from './components/invite-modal/invite-modal.component';
-import { openToast } from '../../../../utils/toast.utils';
-import { MemberInterface } from '../../../../interfaces/member.interface';
-import { ChoiceModalComponent } from '../../../../components/choice-modal/choice-modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  finalize,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AppManagerService } from 'src/app/services/app/app-manager.service';
-import { ProjectManagerService } from '../routes/services/project.manager';
+import { ChoiceModalComponent } from '../../../../components/choice-modal/choice-modal.component';
+import { MemberInterface } from '../../../../interfaces/member.interface';
+import { ProjectInterface } from '../../../../interfaces/project.interface';
+import { ProjectService } from '../../../../services/project/project.service';
+import { openToast } from '../../../../utils/toast.utils';
+import { InviteModalComponent } from './components/invite-modal/invite-modal.component';
 
 @Component({
   selector: 'app-members',
@@ -18,8 +25,6 @@ import { ProjectManagerService } from '../routes/services/project.manager';
   styleUrls: ['./members.component.scss'],
 })
 export class MembersComponent implements OnInit {
-    @ViewChild('actions') private actions?: TemplateRef<HTMLDivElement>;
-
   projectId?: number;
   project?: ProjectInterface;
   members?: MemberInterface[];
@@ -32,14 +37,13 @@ export class MembersComponent implements OnInit {
     private dialogService: MatDialog,
     private router: Router,
     private translateService: TranslateService,
-    private appManager:  AppManagerService
+    private appManager: AppManagerService
   ) {}
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.projectId = params['id'] ? Number(params['id']) : undefined;
       this.#getProject();
-
     });
   }
 
@@ -63,7 +67,10 @@ export class MembersComponent implements OnInit {
               this.#getProject();
             }),
             catchError(() => {
-              openToast(this.translateService.instant('ERRORS.USER_NOT_EXIST'), 'error');
+              openToast(
+                this.translateService.instant('ERRORS.USER_NOT_EXIST'),
+                'error'
+              );
               this.openInviteModal(newEmail);
               return EMPTY;
             })
@@ -72,7 +79,6 @@ export class MembersComponent implements OnInit {
       )
       .subscribe();
   }
-
 
   openLeaveModal() {
     if (!this.projectId) return;
@@ -106,7 +112,14 @@ export class MembersComponent implements OnInit {
       this.getMemberList(1);
       this.appManager.setHeaderData({
         hideHeader: false,
-        breadcrumb: [{ label: this.translateService.instant('PAGES.HOME.TITLE'), link: '/' },{ label: this.project.name, link: `/projects/${ this.project.id}` }, { label: 'Miembros'}],
+        breadcrumb: [
+          {
+            label: this.translateService.instant('PAGES.HOME.TITLE'),
+            link: '/',
+          },
+          { label: this.project.name, link: `/projects/${this.project.id}` },
+          { label: 'Miembros' },
+        ],
       });
     });
   }

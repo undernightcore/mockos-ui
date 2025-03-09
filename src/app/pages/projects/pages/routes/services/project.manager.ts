@@ -23,6 +23,7 @@ import { ChoiceModalComponent } from 'src/app/components/choice-modal/choice-mod
 import { ConfirmModalComponent } from 'src/app/components/confirm-modal/confirm-modal.component';
 import { CreateFolderInterface } from 'src/app/interfaces/create-folder.interface';
 import { CreateRouteInterface } from 'src/app/interfaces/create-route.interface';
+import { MessageInterface } from 'src/app/interfaces/message.interface';
 import { ProjectInterface } from 'src/app/interfaces/project.interface';
 import {
   FolderInterface,
@@ -33,7 +34,9 @@ import { ProjectService } from 'src/app/services/project/project.service';
 import { RealtimeService } from 'src/app/services/realtime/realtime.service';
 import { ResponsesService } from 'src/app/services/responses/responses.service';
 import { RoutesService } from 'src/app/services/routes/routes.service';
+import { openToast } from 'src/app/utils/toast.utils';
 import { CreateRouteComponent } from '../components/create-route/create-route.component';
+import { ForkProjectComponent } from '../components/fork-project/fork-project.component';
 import { ImportSwaggerComponent } from '../components/import-swagger/import-swagger.component';
 import { TokensComponent } from '../components/tokens/tokens.component';
 import { mapRoutesToFolders } from '../mappers/routes-to-folders.mapper';
@@ -178,7 +181,10 @@ export class ProjectManagerService {
                       data: {
                         title: this.translateService.instant('ERRORS.ERROR'),
                         message:
-                          error?.error?.errors?.[0] ?? this.translateService.instant('ERRORS.UNEXPECTED_ERROR'),
+                          error?.error?.errors?.[0] ??
+                          this.translateService.instant(
+                            'ERRORS.UNEXPECTED_ERROR'
+                          ),
                         label: this.translateService.instant('ACTIONS.ACCEPT'),
                         type: 'destructive',
                       },
@@ -300,10 +306,41 @@ export class ProjectManagerService {
     );
   }
 
+  openForkModal(name?: string): Observable<MessageInterface> {
+    return this.project$.pipe(
+      take(1),
+      switchMap((project) =>
+        this.dialogService
+          .open(ForkProjectComponent)
+          .afterClosed()
+          .pipe(
+            switchMap((projectName) =>
+              this.projectsService
+                .forkProject(project.id, {
+                  name: projectName,
+                  description: null,
+                })
+                .pipe(
+                  tap(({ message }) => openToast(message, 'success')),
+                  catchError((error) => {
+                    if (error.error.errors[0])
+                      openToast(error.error.errors[0], 'error');
+                    return this.openForkModal(projectName);
+                  })
+                )
+            )
+          )
+      )
+    );
+  }
+
   #setHeader(project: ProjectInterface) {
     this.appManager.setHeaderData({
       hideHeader: false,
-      breadcrumb: [{ label: this.translateService.instant('PAGES.HOME.TITLE'), link: '/' }, { label: project.name }],
+      breadcrumb: [
+        { label: this.translateService.instant('PAGES.HOME.TITLE'), link: '/' },
+        { label: project.name },
+      ],
     });
   }
 }

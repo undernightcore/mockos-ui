@@ -1,0 +1,14 @@
+.fork {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+
+    & > app-button {
+      width: 100%;
+    }
+  }
+}

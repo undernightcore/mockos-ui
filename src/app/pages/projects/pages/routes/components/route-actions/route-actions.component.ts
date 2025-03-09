@@ -41,6 +41,10 @@ export class RouteActionsComponent {
     return this.projectManager.openTokensModal();
   }
 
+  openForkModal() {
+    return this.projectManager.openForkModal();
+  }
+
   openDeleteRouteModal(item: RouteInterface | FolderInterface) {
     return this.projectManager.openDeleteRouteModal(item);
   }

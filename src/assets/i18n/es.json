@@ -138,6 +138,7 @@
       "LOCAL_CHANGES": "Cambios en local",
       "REMOTE_CHANGES": "Cambios en remoto",
       "COMPARING_RESPONSES": "Comparando respuestas",
+      "FORKING_TITLE": "Crear rama de proyecto",
       "FORKING_PROJECT": "Estás haciendo una rama del proyecto. Serás el único miembro, pero funciona como cualquier otro projecto normal.",
       "FORKED_FROM": "Rama de",
       "CLICK_TO_UPLOAD": "Haz click para subir un archivo",

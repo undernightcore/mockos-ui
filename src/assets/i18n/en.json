@@ -138,6 +138,7 @@
       "LOCAL_CHANGES": "Local changes",
       "REMOTE_CHANGES": "Remote changes",
       "COMPARING_RESPONSES": "Comparing responses",
+      "FORKING_TITLE": "Fork project",
       "FORKING_PROJECT": "You are forking the project. You will be the only member, but it works like any other normal project.",
       "FORKED_FROM": "Forked from",
       "CLICK_TO_UPLOAD": "Click to upload a file",
