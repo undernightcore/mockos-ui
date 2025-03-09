@@ -1,6 +1,15 @@
 FROM node:lts as build
 WORKDIR /usr/local/app
-COPY ./ /usr/local/app/
+
+COPY ./src /usr/local/app/src
+COPY ./package.json /usr/local/app
+COPY ./package-lock.json /usr/local/app
+COPY ./tsconfig.json /usr/local/app
+COPY ./tsconfig.app.json /usr/local/app
+COPY ./tsconfig.spec.json /usr/local/app
+COPY ./angular.json /usr/local/app
+COPY ./ngsw-config.json /usr/local/app
+
 RUN npm install
 RUN npm run build
 
