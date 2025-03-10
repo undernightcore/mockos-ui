@@ -311,9 +311,10 @@ export class ProjectManagerService {
       take(1),
       switchMap((project) =>
         this.dialogService
-          .open(ForkProjectComponent)
+          .open(ForkProjectComponent, { width: '500px' })
           .afterClosed()
           .pipe(
+            filter((projectName) => Boolean(projectName)),
             switchMap((projectName) =>
               this.projectsService
                 .forkProject(project.id, {
