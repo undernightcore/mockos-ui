@@ -1,5 +1,5 @@
 <div
-  *ngIf="response"
+  *ngIf="response$ | async as response"
   class="response"
   [class.selected]="response.enabled"
   (click)="onComponentClick($event)"
@@ -49,7 +49,7 @@
             >Activar</app-button
           >
           <div
-            *ngFor="let button of buttons; trackBy: trackByButton"
+            *ngFor="let button of buttons$ | async; trackBy: trackByButton"
             class="response__actions__menu__item"
             [class.response__actions__menu__item--disabled]="button.disabled"
             (click)="responseMenuClick($event, button)"

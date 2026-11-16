@@ -1,0 +1,28 @@
+<app-dialog
+  [closable]="true"
+  [title]="'PAGES.ROUTES.TERMINAL_TITLE' | translate"
+  (closeTriggered)="dialogRef.close()"
+  overflowContent="auto"
+>
+  <div class="main-content">
+    <div class="main-content__logs" *ngIf="hasLogs$ | async; else empty">
+      <div
+        class="main-content__log"
+        [class.main-content__log--error]="log.type === logTypes.ERROR"
+        *ngFor="let log of logs$ | async; trackBy: trackByLog"
+      >
+        <span class="main-content__log-title">
+          {{ log.type === logTypes.ERROR ? "ERROR" : "LOG" }}
+        </span>
+        {{ log.time }}:
+        {{ log.message }}
+      </div>
+    </div>
+    <ng-template #empty>
+      <div class="main-content__empty">
+        <img src="/assets/images/icons/update.svg" alt="no logs icon" />
+        <span>Esperando a recibir logs...</span>
+      </div>
+    </ng-template>
+  </div>
+</app-dialog>
