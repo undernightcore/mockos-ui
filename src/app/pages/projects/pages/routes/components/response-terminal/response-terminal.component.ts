@@ -12,7 +12,7 @@ import {
   RealtimeLog,
   RealtimeLogType,
 } from '../../../../../../interfaces/realtime-type.interface';
-import { DateTime } from 'luxon';
+import { sortLogs } from '../../../../../../utils/logs.utils';
 
 @Component({
   selector: 'app-response-terminal',
@@ -27,16 +27,11 @@ export class ResponseTerminalComponent {
   readonly logs$ = this.realtimeService
     .listenResponseLogs(this.data.responseId)
     .pipe(
-      map((response) => response.logs),
-      scan((acc, current) => [...acc, ...current], [] as RealtimeLog[]),
-      map((logs) =>
-        [...logs].sort(
-          (a, b) =>
-            DateTime.fromISO(b.time).toJSDate().getTime() -
-            DateTime.fromISO(a.time).toJSDate().getTime()
-        )
+      map((response) =>
+        response.logs.map((log) => ({ ...log, traceId: response.id }))
       ),
-      tap((logs) => console.log(logs)),
+      scan((acc, current) => [...acc, ...current], [] as RealtimeLog[]),
+      map((logs) => [...logs].sort(sortLogs)),
       shareReplay({ bufferSize: 1, refCount: true })
     );
 

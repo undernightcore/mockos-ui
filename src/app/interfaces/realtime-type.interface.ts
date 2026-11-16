@@ -6,6 +6,7 @@ export enum RealtimeLogType {
 }
 
 export type RealtimeTerminalLog = {
+  id: number;
   logs: RealtimeLog[];
   time: string;
   url: string;
@@ -14,6 +15,7 @@ export type RealtimeTerminalLog = {
 };
 
 export type RealtimeLog = {
+  traceId: number;
   message: string;
   time: string;
   type: RealtimeLogType;
