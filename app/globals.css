@@ -1,9 +1,19 @@
+@import "tailwindcss";
+@source "./";
+
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --background-color: #111317;
+  --primary-color: #e2e2e8;
+}
+
 html,
 body {
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
   margin: 0;
+  background-color: var(--background-color);
 }
