@@ -1,12 +1,14 @@
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-export default async function AuthLayout({
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const t = await getTranslations();
+  const t = useTranslations();
 
   return (
     <div className="grid h-full w-full grid-cols-2">
@@ -24,7 +26,9 @@ export default async function AuthLayout({
           <p className="text-(--primary-color) text-lg">{t("AUTH.SUBTITLE")}</p>
         </div>
       </div>
-      <div className="flex">{children}</div>
+      <div className="flex flex-col justify-center items-center">
+        <div className="flex w-[24rem]">{children}</div>
+      </div>
     </div>
   );
 }

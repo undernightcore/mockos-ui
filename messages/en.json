@@ -2,5 +2,14 @@
   "AUTH": {
     "TITLE": "Build Faster. Mock\nSmarter.",
     "SUBTITLE": "Join the next generation of API development tools.\nStreamline your workflow with high-fidelity mock\nenvironments and robust documentation."
+  },
+  "LOGIN": {
+    "TITLE": "Welcome back",
+    "SUBTITLE": "Please enter your details to sign in.",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "FORGOT_PASSWORD": "Forgot password?"
   }
 }
