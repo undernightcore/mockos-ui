@@ -1,0 +1,83 @@
+.main {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 32px;
+  background: #f4f5f8;
+  color: #171923;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+  width: min(100%, 560px);
+  padding: 40px;
+  border: 1px solid #e2e4eb;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(24 32 56 / 8%);
+}
+
+.eyebrow {
+  color: #5365c5;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 16px 0 12px;
+  font-size: clamp(28px, 5vw, 40px);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.description {
+  margin: 0;
+  color: #5d6272;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.description code {
+  border-radius: 5px;
+  background: #f0f1f7;
+  padding: 2px 5px;
+  color: #303c8c;
+  font-size: 0.9em;
+}
+
+.button {
+  margin-top: 28px;
+  border: 0;
+  border-radius: 10px;
+  background: #5365c5;
+  padding: 12px 18px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  background: #4052b1;
+}
+
+.button:focus-visible {
+  outline: 3px solid #aab4f2;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 28px;
+  }
+}
