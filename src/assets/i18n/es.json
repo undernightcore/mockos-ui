@@ -179,7 +179,9 @@
       "BUILD_PROMPT": "Promptear",
       "PROMPT_EXAMPLE": "Un ejemplo podría ser: Paginar utilizando los query params «page» y «pageSize».",
       "PROMPT": "Prompt",
-      "PROMPT_COPIED": "Prompt copiado"
+      "PROMPT_COPIED": "Prompt copiado",
+      "TERMINAL": "Terminal",
+      "TERMINAL_TITLE": "Terminal Live Mock"
     },
     "MEMBERS": {
       "GO_BACK": "Volver al proyecto",

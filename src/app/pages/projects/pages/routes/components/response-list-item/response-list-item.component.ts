@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SimpleResponseInterface } from 'src/app/interfaces/response.interface';
 import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-option.interface';
+import { map, Observable, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-response-list-item',
@@ -10,7 +11,12 @@ import { ResponseMenuOptionInterface } from '../../interfaces/response-menu-opti
   styleUrls: ['./response-list-item.component.scss'],
 })
 export class ResponseListItemComponent {
-  @Input() response?: SimpleResponseInterface;
+  readonly response$ = new ReplaySubject<SimpleResponseInterface>(1);
+
+  @Input() set response(val: SimpleResponseInterface) {
+    this.response$.next(val);
+  }
+
   @Input() loading = false;
 
   @Output() processor = new EventEmitter<void>();
@@ -20,34 +26,46 @@ export class ResponseListItemComponent {
   @Output() edit = new EventEmitter<void>();
   @Output() duplicate = new EventEmitter<void>();
   @Output() enableResponse = new EventEmitter<void>();
+  @Output() terminal = new EventEmitter<void>();
 
-  buttons: ResponseMenuOptionInterface[] = [
-    {
-      icon: 'pencil',
-      action: this.edit,
-      label: this.translateService.instant(`COMMON.EDIT`),
-    },
-    {
-      icon: 'header',
-      action: this.config,
-      label: this.translateService.instant(`COMMON.HEADERS`)
-    },
-    {
-      icon: 'duplicate',
-      action: this.duplicate,
-      label: this.translateService.instant(`COMMON.DUPLICATE`),
-    },
-    {
-      icon: 'processor',
-      action: this.processor,
-      label: this.translateService.instant(`PAGES.ROUTES.LIVE_MOCK`),
-    },
-    {
-      icon: 'bin',
-      action: this.delete,
-      label: this.translateService.instant(`COMMON.DELETE`),
-    },
-  ];
+  buttons$: Observable<ResponseMenuOptionInterface[]> = this.response$.pipe(
+    map((response) => [
+      {
+        icon: 'pencil',
+        action: this.edit,
+        label: this.translateService.instant(`COMMON.EDIT`),
+      },
+      {
+        icon: 'header',
+        action: this.config,
+        label: this.translateService.instant(`COMMON.HEADERS`),
+      },
+      {
+        icon: 'duplicate',
+        action: this.duplicate,
+        label: this.translateService.instant(`COMMON.DUPLICATE`),
+      },
+      {
+        icon: 'processor',
+        action: this.processor,
+        label: this.translateService.instant(`PAGES.ROUTES.LIVE_MOCK`),
+      },
+      {
+        icon: 'bin',
+        action: this.delete,
+        label: this.translateService.instant(`COMMON.DELETE`),
+      },
+      ...(response.enabled && response.processor && response.processor?.enabled
+        ? [
+            {
+              icon: 'terminal',
+              action: this.terminal,
+              label: this.translateService.instant(`PAGES.ROUTES.TERMINAL`),
+            },
+          ]
+        : []),
+    ])
+  );
 
   constructor(private translateService: TranslateService) {}
 

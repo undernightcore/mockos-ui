@@ -24,7 +24,8 @@ import { ProjectManagerService } from '../../services/project.manager';
 import { CreateResponseComponent } from '../create-response/create-response.component';
 import { DuplicateResponseComponent } from '../duplicate-response/duplicate-response.component';
 import { LiveMockComponent } from '../live-mock/live-mock.component';
-import {HeadersModalComponent} from "../../../../../../components/headers-modal/headers-modal.component";
+import { HeadersModalComponent } from '../../../../../../components/headers-modal/headers-modal.component';
+import { ResponseTerminalComponent } from '../response-terminal/response-terminal.component';
 
 @Component({
   selector: 'app-route-info',
@@ -84,6 +85,20 @@ export class RouteInfoComponent {
         height: '90%',
         width: '70%',
         data: { responseId: response.id, processor: response.processor },
+        panelClass: 'mobile-fullscreen',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe();
+  }
+
+  openResponseTerminal(responseId: number) {
+    this.dialogService
+      .open(ResponseTerminalComponent, {
+        closeOnNavigation: true,
+        height: '90%',
+        width: '70%',
+        data: { responseId: responseId },
         panelClass: 'mobile-fullscreen',
         autoFocus: false,
       })
