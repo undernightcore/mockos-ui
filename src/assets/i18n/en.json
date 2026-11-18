@@ -179,7 +179,9 @@
       "BUILD_PROMPT": "Build prompt",
       "PROMPT_EXAMPLE": "An example could be: Paginate using «page» and «pageSize» query params.",
       "PROMPT": "Prompt",
-      "PROMPT_COPIED": "Prompt copied successfully"
+      "PROMPT_COPIED": "Prompt copied successfully",
+      "TERMINAL": "Terminal",
+      "TERMINAL_TITLE": "Terminal Live Mock"
     },
     "MEMBERS": {
       "GO_BACK": "Go back to the project",
