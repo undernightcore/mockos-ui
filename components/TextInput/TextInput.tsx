@@ -1,10 +1,16 @@
 "use client";
 
+import type { InputHTMLAttributes, Ref } from "react";
+
 type TextInputProps = {
   title: string;
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
   name?: string;
+  type?: "text" | "email" | "password";
+  inputProps?: InputHTMLAttributes<HTMLInputElement> & {
+    ref?: Ref<HTMLInputElement>;
+  };
   placeholder?: string;
   helperText?: string;
   error?: string;
@@ -17,6 +23,8 @@ export default function TextInput({
   value,
   onChange,
   name,
+  type = "text",
+  inputProps,
   placeholder,
   helperText,
   error,
@@ -42,11 +50,12 @@ export default function TextInput({
       <input
         id={inputId}
         name={name}
-        type="text"
+        type={type}
         value={value}
         placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-sm border border-(--text-input-border) bg-(--text-input-background) px-4 py-2 text-(--primary-color) outline-none focus:ring-2 focus:ring-(--text-input-focus)"
+        onChange={(event) => onChange?.(event.target.value)}
+        className={`w-full rounded-sm border ${error ? "border-(--error-color)" : "border-(--text-input-border)"} bg-(--text-input-background) px-4 py-2 text-(--primary-color) outline-none focus:ring-2 focus:ring-(--text-input-focus)`}
+        {...inputProps}
       />
       {helperText && (
         <span className="text-sm text-(--muted-color)">{helperText}</span>

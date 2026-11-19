@@ -1,22 +1,39 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import Button from "@/components/Button";
 import Divider from "@/components/Divider";
 import TextInput from "@/components/TextInput";
 
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
+
 export default function Login() {
   const t = useTranslations();
 
-  //TODO: Change this to a form
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const loginSchema = z.object({
+    email: z.string().trim().min(1, t("COMMON.REQUIRED")),
+    password: z.string().trim().min(1, t("COMMON.REQUIRED")),
+  });
 
-  function login() {
-    //TODO: add logic
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    mode: "onBlur",
+  });
+
+  function login(_values: LoginFormValues) {
+    // TODO: add logic
   }
 
   function loginOAuth() {
@@ -34,23 +51,31 @@ export default function Login() {
         </p>
       </div>
 
-      <div className="w-full flex flex-col gap-4">
+      <form
+        className="flex w-full flex-col gap-4"
+        onSubmit={handleSubmit(login)}
+        noValidate
+      >
         <TextInput
           title={t("LOGIN.EMAIL")}
           placeholder={t("LOGIN.EMAIL_PLACEHOLDER")}
-          value={email}
-          onChange={setEmail}
+          name="email"
+          type="email"
+          inputProps={register("email")}
+          error={errors.email?.message}
           link={t("LOGIN.FORGOT_PASSWORD")}
         />
 
         <TextInput
           title={t("LOGIN.PASSWORD")}
           placeholder={t("LOGIN.PASSWORD_PLACEHOLDER")}
-          value={password}
-          onChange={setPassword}
+          name="password"
+          type="password"
+          inputProps={register("password")}
+          error={errors.password?.message}
         />
 
-        <Button onClick={login}>
+        <Button type="submit">
           {t("LOGIN.SIGN_IN")}
           <Image
             className="h-3 w-3"
@@ -60,7 +85,7 @@ export default function Login() {
             height={12}
           />
         </Button>
-      </div>
+      </form>
 
       <div className="w-full flex gap-2 items-center pt-10 pb-10">
         <Divider />
