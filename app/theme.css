@@ -1,25 +1,26 @@
 :root {
   --background-color: #111317;
   --primary-color: #e2e2e8;
-  --secondary-color: #1e2024;
+  --secondary-color: #8083ff;
   --border-color: #333539;
   --muted-color: #6b7280;
   --error-color: #ef4444;
+  --link-color: #c0c1ff;
 
   --button-primary-background: #8083ff;
   --button-primary-foreground: #0d0096;
   --button-primary-hover: #7074f0;
   --button-focus: var(--button-primary-background);
-  --button-secondary-background: var(--secondary-color);
+  --button-secondary-background: #1e2024;
   --button-secondary-foreground: var(--primary-color);
   --button-secondary-border: var(--border-color);
   --button-secondary-hover: #292b30;
   --button-ghost-foreground: var(--primary-color);
 
-  --text-input-background: var(--secondary-color);
+  --text-input-background: #1e2024;
   --text-input-border: var(--border-color);
   --text-input-focus: #464554;
-  --text-input-link: #c0c1ff;
+  --text-input-link: var(--link-color);
 
   --divider-color: #333539;
 

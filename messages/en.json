@@ -12,6 +12,9 @@
     "PASSWORD_PLACEHOLDER": "Enter your password",
     "FORGOT_PASSWORD": "Forgot password?",
     "SIGN_IN": "Sign in",
-    "CONTINUE_WITH": "or continue with"
+    "CONTINUE_WITH": "or continue with",
+    "SIGN_IN_OAUTH": "Sign in with Google",
+    "ACCOUNT_QUESTION": "Don't have an account?",
+    "SIGN_UP": "Sign up"
   }
 }

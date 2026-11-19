@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import Button from "@/components/Button";
@@ -15,6 +16,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   function login() {
+    //TODO: add logic
+  }
+
+  function loginOAuth() {
     //TODO: add logic
   }
 
@@ -57,12 +62,33 @@ export default function Login() {
         </Button>
       </div>
 
-      <div className="w-full flex gap-2 items-center pt-10">
+      <div className="w-full flex gap-2 items-center pt-10 pb-10">
         <Divider />
         <span className="text-[0.875rem] text-(--primary-color) whitespace-nowrap">
           {t("LOGIN.CONTINUE_WITH")}
         </span>
         <Divider />
+      </div>
+
+      <Button variant="secondary" onClick={loginOAuth}>
+        <Image
+          className="h-5 w-5"
+          src="/google.svg"
+          alt="arrow right"
+          width={20}
+          height={20}
+        />
+        {t("LOGIN.SIGN_IN_OAUTH")}
+      </Button>
+
+      <div className="w-full flex gap-2 text-[0.875rem] text-(--primary-color) pt-10 justify-center items-center">
+        <span>{t("LOGIN.ACCOUNT_QUESTION")}</span>
+        <Link
+          className="text-(--link-color) hover:underline"
+          href="/auth/register"
+        >
+          {t("LOGIN.SIGN_UP")}
+        </Link>
       </div>
     </div>
   );
