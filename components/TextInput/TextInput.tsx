@@ -45,7 +45,7 @@ export default function TextInput({
           >
             {link}
           </button>
-        )} 
+        )}
       </div>
       <input
         id={inputId}
@@ -58,7 +58,7 @@ export default function TextInput({
         {...inputProps}
       />
       {helperText && (
-        <span className="text-sm text-(--muted-color)">{helperText}</span>
+        <span className="text-sm text-(--text-input-helper)">{helperText}</span>
       )}
       {error && <span className="text-sm text-(--error-color)">{error}</span>}
     </label>
