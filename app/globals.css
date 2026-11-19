@@ -1,9 +1,15 @@
+@import "tailwindcss";
+@import "./theme.css";
+@source "./";
+
 * {
   box-sizing: border-box;
 }
 
 html,
 body {
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
   margin: 0;
+  background-color: var(--background-color);
 }
