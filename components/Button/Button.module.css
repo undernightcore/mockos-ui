@@ -1,0 +1,38 @@
+.button {
+  border-radius: 4px;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--button-focus);
+  outline-offset: 2px;
+}
+
+.primary {
+  border-color: transparent;
+  background-color: var(--button-primary-background);
+  color: var(--button-primary-foreground);
+}
+
+.primary:hover {
+  background-color: var(--button-primary-hover);
+}
+
+.secondary {
+  border: 1px solid var(--button-secondary-border);
+  background-color: var(--button-secondary-background);
+  color: var(--button-secondary-foreground);
+}
+
+.secondary:hover {
+  background-color: var(--button-secondary-hover);
+}
+
+.ghost {
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--button-ghost-foreground);
+}
+
+.ghost:hover {
+  background-color: var(--button-secondary-hover);
+}

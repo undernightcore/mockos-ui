@@ -10,6 +10,8 @@
     "PASSWORD": "Password",
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD_PLACEHOLDER": "Enter your password",
-    "FORGOT_PASSWORD": "Forgot password?"
+    "FORGOT_PASSWORD": "Forgot password?",
+    "SIGN_IN": "Sign in",
+    "CONTINUE_WITH": "or continue with"
   }
 }

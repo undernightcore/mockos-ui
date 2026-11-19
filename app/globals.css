@@ -1,13 +1,9 @@
 @import "tailwindcss";
+@import "./theme.css";
 @source "./";
 
 * {
   box-sizing: border-box;
-}
-
-:root {
-  --background-color: #111317;
-  --primary-color: #e2e2e8;
 }
 
 html,

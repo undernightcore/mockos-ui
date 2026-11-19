@@ -3,22 +3,22 @@
   min-height: 100vh;
   place-items: center;
   padding: 32px;
-  background: #f4f5f8;
-  color: #171923;
+  background: var(--home-background);
+  color: var(--home-foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .card {
   width: min(100%, 560px);
   padding: 40px;
-  border: 1px solid #e2e4eb;
+  border: 1px solid var(--home-border);
   border-radius: 20px;
-  background: #fff;
-  box-shadow: 0 18px 50px rgb(24 32 56 / 8%);
+  background: var(--home-surface);
+  box-shadow: 0 18px 50px var(--home-shadow);
 }
 
 .eyebrow {
-  color: #5365c5;
+  color: var(--home-accent);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -34,16 +34,16 @@
 
 .description {
   margin: 0;
-  color: #5d6272;
+  color: var(--home-muted);
   font-size: 16px;
   line-height: 1.6;
 }
 
 .description code {
   border-radius: 5px;
-  background: #f0f1f7;
+  background: var(--home-code-background);
   padding: 2px 5px;
-  color: #303c8c;
+  color: var(--home-code-foreground);
   font-size: 0.9em;
 }
 
@@ -51,9 +51,9 @@
   margin-top: 28px;
   border: 0;
   border-radius: 10px;
-  background: #5365c5;
+  background: var(--home-accent);
   padding: 12px 18px;
-  color: #fff;
+  color: var(--home-surface);
   cursor: pointer;
   font: inherit;
   font-weight: 700;
@@ -64,11 +64,11 @@
 
 .button:hover {
   transform: translateY(-1px);
-  background: #4052b1;
+  background: var(--home-accent-hover);
 }
 
 .button:focus-visible {
-  outline: 3px solid #aab4f2;
+  outline: 3px solid var(--home-focus);
   outline-offset: 3px;
 }
 

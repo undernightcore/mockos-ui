@@ -29,15 +29,15 @@ export default function TextInput({
     <label className="flex w-full flex-col gap-2" htmlFor={inputId}>
       <div className="flex justify-between">
         <span className="text-(--primary-color) text-[0.875rem]">{title}</span>
-        {link && (
+       {link && (
           <button
             type="button"
-            className="cursor-pointer border-0 bg-transparent p-0 text-[0.875rem] text-[#C0C1FF] hover:underline"
+            className="cursor-pointer border-0 bg-transparent p-0 text-[0.875rem] text-(--text-input-link) hover:underline"
             onClick={onLinkClick}
           >
             {link}
           </button>
-        )}
+        )} 
       </div>
       <input
         id={inputId}
@@ -46,12 +46,12 @@ export default function TextInput({
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-sm border border-[#333539] bg-[#1E2024] px-4 py-2 text-(--primary-color) outline-none focus:ring-2 focus:ring-[#464554]"
+        className="w-full rounded-sm border border-(--text-input-border) bg-(--text-input-background) px-4 py-2 text-(--primary-color) outline-none focus:ring-2 focus:ring-(--text-input-focus)"
       />
       {helperText && (
-        <span className="text-sm text-gray-500">{helperText}</span>
+        <span className="text-sm text-(--muted-color)">{helperText}</span>
       )}
-      {error && <span className="text-sm text-red-500">{error}</span>}
+      {error && <span className="text-sm text-(--error-color)">{error}</span>}
     </label>
   );
 }
